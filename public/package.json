@@ -1,5 +1,5 @@
 {
-  "name": "public",
+  "name": "tp-public",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,6 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^3.3.1"
+    "@astrojs/tailwind": "^5.0.2",
+    "astro": "^3.3.1",
+    "tailwindcss": "^3.3.3"
   }
 }
