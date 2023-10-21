@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro'
 import Card from '../components/Card.astro'
 import fetchApi from '../lib/strapi'
-import type Post from '../interfaces/post'
+import type Post from '../interfaces/Post'
 
 const posts = await fetchApi<Post[]>({
   endpoint: 'posts',
@@ -17,8 +17,8 @@ const posts = await fetchApi<Post[]>({
         posts.map((post) => (
           <Card
             title={post.attributes.title}
-            body={post.attributes.content}
-            href="#"
+            body={post.attributes.slug}
+            href={`/blog/${post.attributes.slug}`}
           />
         ))
       }
