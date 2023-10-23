@@ -1,16 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro'
-import fetchApi from '../../lib/strapi'
+// import fetchApi from '../../lib/strapi'
 import type Post from '../../interfaces/Post'
 
 export async function getStaticPaths() {
-  const posts = await fetchApi<Post[]>({
-    endpoint: 'posts',
-    wrappedByKey: 'data',
-  })
+  const posts = await fetch('http://directus:8055/items/post')
+    .then((res) => res.json())
+    .then((res) => res.data as Post[])
 
   return posts.map((post) => ({
-    params: { slug: post.attributes.slug },
+    params: { slug: post.slug },
     props: post,
   }))
 }
@@ -19,9 +18,9 @@ type Props = Post
 const post = Astro.props
 ---
 
-<Layout title={post.attributes.title}>
+<Layout title={post.title}>
   <article>
-    <h1>{post.attributes.title}</h1>
-    <p>{post.attributes.content}</p>
+    <h1>{post.title}</h1>
+    <p>{post.content}</p>
   </article>
 </Layout>

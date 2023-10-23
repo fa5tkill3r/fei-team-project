@@ -1,6 +1,6 @@
 export default interface Post {
   id: number
-  attributes: {
+  // attributes: {
     title: string
     // description: string;
     content: string
@@ -8,5 +8,5 @@ export default interface Post {
     // createdAt: string;
     // updatedAt: string;
     // publishedAt: string;
-  }
+  // }
 }
