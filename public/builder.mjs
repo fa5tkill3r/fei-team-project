@@ -59,10 +59,9 @@ const server = createServer((req, res) => {
   // const url = new URL(req.url)
 })
 
+await build({ logLevel: 'warn' })
+
 server.listen(port, () => {
   console.log('http://localhost:3000')
 })
 
-// await build({
-//   root: './'
-// })

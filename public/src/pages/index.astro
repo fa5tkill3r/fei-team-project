@@ -1,21 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import Card from '../components/Card.astro'
-// import fetchApi from '../lib/strapi'
 import type Post from '../interfaces/Post'
 
-// const posts = await fetchApi<Post[]>({
-//   endpoint: 'posts',
-//   wrappedByKey: 'data',
-// })
-
-const posts = await fetch('http://directus:8055/items/post')
+const posts = await fetch(`${import.meta.env.API_URL}/items/posts`)
   .then((res) => res.json())
   .then((res) => res.data as Post[])
 ---
 
-<Layout title="Welcome to Astro.">
-  <main class="p-4">
+<Layout title="CSIRT">
+  <main class="max-w-4xl m-auto px-2">
+    <h1 class="text-2xl font-semibold mb-4">Posts</h1>
     <div>
       {
         posts.map((post) => (
