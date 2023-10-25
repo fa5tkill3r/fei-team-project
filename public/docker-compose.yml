@@ -14,12 +14,14 @@ services:
       ADMIN_PASSWORD: 'd1r3ctu5'
       DB_CLIENT: 'sqlite3'
       DB_FILENAME: '/directus/database/data.db'
-      WEBSOCKETS_ENABLED: true
+      WEBSOCKETS_ENABLED: 'true'
   builder:
     build:
       context: ./
     volumes:
       - ./dist:/app/dist
+    depends_on:
+      - directus
   nginx:
     image: nginx:latest
     ports:
