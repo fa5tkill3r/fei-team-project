@@ -1,0 +1,6 @@
+.dockerignore
+/vendor
+/node_modules
+/tests
+/phpunit.xml
+/.env
