@@ -1,3 +1,15 @@
 {
-	"news": "Novinky"
+	"news": "Novinky",
+  "nav": {
+    "items": {
+      "activity": "Aktivity",
+      "academicactivity": "Akademická činnost",
+      "aboutus": "O nás",
+      "vulnerability": "Zranitelnosť"
+    },
+    "buttons": {
+      "reportincident": "Nahlásiť incident",
+      "reportvulnerability": "Nahlásiť zranitelnosť"
+    }
+  }
 }
