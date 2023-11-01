@@ -1,25 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import Card from '../components/Card.astro'
-import type Post from '../interfaces/Post'
+import { getPostsByLanguage } from '../lib/data'
+import { astroI18n, t } from 'astro-i18n'
 
-const posts = await fetch(`${import.meta.env.API_URL}/items/posts`)
-  .then((res) => res.json())
-  .then((res) => res.data as Post[])
+const posts = await getPostsByLanguage(astroI18n.locale)
 ---
 
 <Layout title="CSIRT">
   <main class="max-w-4xl m-auto px-2">
-    <h1 class="text-2xl font-semibold mb-4">Posts</h1>
+    <h1 class="text-2xl font-semibold mb-4">{t('news')}</h1>
     <div>
       {
-        posts.map((post) => (
-          <Card
-            title={post.title}
-            body={post.slug}
-            href={`/blog/${post.slug}`}
-          />
-        ))
+        posts.flatMap((post) =>
+          post.translations.map((translation) => (
+            <Card
+              title={translation.title}
+              body={post.slug}
+              href={`/news/${post.slug}`}
+            />
+          )),
+        )
       }
     </div>
   </main>

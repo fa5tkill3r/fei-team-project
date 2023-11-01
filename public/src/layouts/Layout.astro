@@ -1,7 +1,25 @@
 ---
+import { astroI18n, l } from 'astro-i18n'
+
 interface Props {
   title: string
 }
+
+const params: Record<string, string> = {}
+for (const [key, value] of Object.entries(Astro.params)) {
+  if (value === undefined) continue
+  params[key] = String(value)
+}
+
+const links = astroI18n.locales
+  .filter((locale) => locale !== astroI18n.locale)
+  .map((locale) => ({
+    locale,
+    href: l(Astro.url.pathname, params, {
+      targetLocale: locale,
+    }),
+    label: locale.toUpperCase(),
+  }))
 
 const { title } = Astro.props
 ---
@@ -19,7 +37,18 @@ const { title } = Astro.props
   <body>
     <div class="max-w-4xl m-auto">
       <nav class="navbar">
-        <a class="text-xl" href="/">CSIRT</a>
+        <div class="flex-1">
+          <a class="text-xl" href={l('/')}>CSIRT</a>
+        </div>
+        <div class="flex-none">
+          {
+            links.map((link) => (
+              <a class="btn" href={link.href}>
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
       </nav>
     </div>
 

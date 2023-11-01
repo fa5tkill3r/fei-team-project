@@ -7,11 +7,17 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "i18n:extract": "astro-i18n extract",
+    "i18n:generate:pages": "astro-i18n generate:pages --purge",
+    "i18n:generate:types": "astro-i18n generate:types",
+    "i18n:sync": "npm run i18n:generate:pages && npm run i18n:generate:types"
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.0.2",
+    "@directus/sdk": "^13.0.1",
     "astro": "^3.3.1",
+    "astro-i18n": "^2.1.18",
     "marked": "^9.1.2",
     "tailwindcss": "^3.3.3"
   },

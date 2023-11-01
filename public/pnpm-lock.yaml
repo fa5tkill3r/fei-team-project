@@ -8,9 +8,15 @@ dependencies:
   '@astrojs/tailwind':
     specifier: ^5.0.2
     version: 5.0.2(astro@3.3.1)(tailwindcss@3.3.3)
+  '@directus/sdk':
+    specifier: ^13.0.1
+    version: 13.0.1
   astro:
     specifier: ^3.3.1
     version: 3.3.1
+  astro-i18n:
+    specifier: ^2.1.18
+    version: 2.1.18(esbuild@0.19.5)
   marked:
     specifier: ^9.1.2
     version: 9.1.2
@@ -334,6 +340,11 @@ packages:
       '@babel/helper-string-parser': 7.22.5
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+    dev: false
+
+  /@directus/sdk@13.0.1:
+    resolution: {integrity: sha512-zKus2H2AC6NkYwYH1OTfTePHrCt4HxWC41JvQYiAT8j227bmE1adMQ/aAPqLwTIDeaDpR+BDJNNOFfq+3btVSg==}
+    engines: {node: '>=18.0.0'}
     dev: false
 
   /@esbuild/android-arm64@0.18.20:
@@ -935,6 +946,15 @@ packages:
 
   /array-iterate@2.0.1:
     resolution: {integrity: sha512-I1jXZMjAgCMmxT4qxXfPXa6SthSoE8h6gkSI9BGGNv8mP8G/v0blc+qFnZu6K42vTOiuME596QaLO0TP3Lk0xg==}
+    dev: false
+
+  /astro-i18n@2.1.18(esbuild@0.19.5):
+    resolution: {integrity: sha512-yuJnoZoPOhP62p4qBIPYqUuBX0qdQoaoxK7E96aQp2epQWhYQzwDbgOkf5qBTbxZlRvguVc0s3P+68wGQSTYXg==}
+    hasBin: true
+    peerDependencies:
+      esbuild: 0.x
+    dependencies:
+      esbuild: 0.19.5
     dev: false
 
   /astro@3.3.1:
