@@ -4,10 +4,13 @@ import Card from '../components/Card.astro'
 import { getPostsByLanguage } from '../lib/data'
 import { astroI18n, t } from 'astro-i18n'
 
+import Header from '../components/Header.astro';
+
 const posts = await getPostsByLanguage(astroI18n.locale)
 ---
 
 <Layout title="CSIRT">
+  <Header />
   <main class="max-w-4xl m-auto px-2">
     <h1 class="text-2xl font-semibold mb-4">{t('news')}</h1>
     <div>

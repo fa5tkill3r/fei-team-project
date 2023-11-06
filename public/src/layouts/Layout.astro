@@ -1,25 +1,9 @@
 ---
-import { astroI18n, l, t } from 'astro-i18n'
+import '../styles/global.css'
 
 interface Props {
   title: string
 }
-
-const params: Record<string, string> = {}
-for (const [key, value] of Object.entries(Astro.params)) {
-  if (value === undefined) continue
-  params[key] = String(value)
-}
-
-const links = astroI18n.locales
-  .filter((locale) => locale !== astroI18n.locale)
-  .map((locale) => ({
-    locale,
-    href: l(Astro.url.pathname, params, {
-      targetLocale: locale,
-    }),
-    label: locale.toUpperCase(),
-  }))
 
 const { title } = Astro.props
 ---
@@ -33,50 +17,11 @@ const { title } = Astro.props
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="max-w-4xl m-auto">
-
-      <div class="navbar bg-base-100">
-        <div class="navbar-start">
-          <div class="dropdown">
-            <label tabindex="0" class="btn btn-ghost lg:hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-            </label>
-            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-              <li><a>{t('nav.items.activity')}</a></li>
-              <li><a>{t('nav.items.academicactivity')}</a></li>
-              <li><a>{t('nav.items.aboutus')}</a></li>
-              <li><a>{t('nav.items.vulnerability')}</a></li>
-              <a class="btn mt-1" href="">{t('nav.buttons.reportincident')}</a>
-              <a class="btn mt-1" href="">{t('nav.buttons.reportvulnerability')}</a>
-            </ul>
-          </div>
-          <a class="text-xl" href={l('/')}>CSIRT</a>
-        </div>
-        <div class="navbar-center hidden lg:flex">
-          <ul class="menu menu-horizontal px-1">
-            <li><a>{t('nav.items.activity')}</a></li>
-            <li><a>{t('nav.items.academicactivity')}</a></li>
-            <li><a>{t('nav.items.aboutus')}</a></li>
-            <li><a>{t('nav.items.vulnerability')}</a></li>
-          </ul>
-          <a class="btn ml-1" href="">{t('nav.buttons.reportincident')}</a>
-          <a class="btn ml-1" href="">{t('nav.buttons.reportvulnerability')}</a>
-        </div>
-        <div class="navbar-end">
-          {
-            links.map((link) => (
-              <a class="btn" href={link.href}>
-                {link.label}
-              </a>
-            ))
-          }
-        </div>
-      </div>
-
-    </div>
-
     <slot />
   </body>
 </html>
