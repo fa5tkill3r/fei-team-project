@@ -39,7 +39,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function teams()
     {
-        return $this->belongsToMany(Team::class, 'user_team', 'user_id', 'team_id')->withPivot('role');
+        return $this->belongsToMany(Team::class, 'user_team', 'user_id', 'team_id', 'role_id');
     }
 
     public function tasks()

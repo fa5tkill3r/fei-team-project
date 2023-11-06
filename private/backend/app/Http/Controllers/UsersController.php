@@ -13,6 +13,12 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
 {
+    public function index()
+    {
+        return response()->json([
+            'users' => User::all(),
+        ]);
+    }
     public function register(Request $request)
     {
         $user = User::create($request->all());

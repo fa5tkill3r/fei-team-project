@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::group([
     Route::group([
         'middleware' => ['auth'],
     ], function () {
+        Route::get('/', UsersController::class . '@index');
         Route::post("/refresh", UsersController::class ."@refresh");
         Route::post("/logout", UsersController::class ."@logout");
         Route::post("/logout-from-all", UsersController::class ."@logoutFromAll");
@@ -57,4 +59,12 @@ Route::group([
     Route::delete("/{teamId}/{taskId}", TaskController::class ."@destroy");
     Route::post("/{teamId}/{taskId}/assign-user", TaskController::class ."@assignUser");
     Route::post("/{teamId}/{taskId}/unassign-user", TaskController::class ."@unassignUser");
+});
+
+Route::group([
+    'prefix' => 'roles',
+], function(){
+    Route::get("/", RoleController::class ."@index");
+    Route::post("/", RoleController::class ."@store");
+    //ask how to manage deletion and creation of roles
 });

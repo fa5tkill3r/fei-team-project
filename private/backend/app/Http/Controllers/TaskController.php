@@ -30,6 +30,12 @@ class TaskController extends Controller
     public function store(Request $request, $teamId) {
         $team = $this->user->teams()->findOrFail($teamId);
         
+        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+
+        if($role->task_create == 0) {
+            return response()->json(['error' => 'Dont have permissions to create task'], 403);
+        }
+        
         $task = $team->tasks()->create($request->all());
         $task->users()->attach($this->user);
 
@@ -43,6 +49,13 @@ class TaskController extends Controller
 
     public function update(Request $request, $teamId, $taskId) {
         $team = $this->user->teams()->findOrFail($teamId);
+        
+        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+
+        if($role->task_access == 0) {
+            return response()->json(['error' => 'Dont have permissions to create task'], 403);
+        }
+
         $task = $team->tasks()->findOrFail($taskId);
         $task->update($request->all());
 
@@ -51,6 +64,13 @@ class TaskController extends Controller
 
     public function destroy($teamId, $taskId) {
         $team = $this->user->teams()->findOrFail($teamId);
+
+        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+
+        if($role->task_delete == 0) {
+            return response()->json(['error' => 'Dont have permissions to create task'], 403);
+        }
+
         $task = $team->tasks()->findOrFail($taskId);
         $task->delete();
 
@@ -60,8 +80,10 @@ class TaskController extends Controller
     public function assignUser(Request $request, $teamId, $taskId) {
         $team = $this->user->teams()->findOrFail($teamId);
 
-        if(!in_array($team->users()->findOrFail($this->user->id)->pivot->role, ['Leader', 'Administrative'])) {
-            return response()->json(['error' => 'Dont have permissions to assign user'], 403);
+        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+
+        if($role->task_access == 0) {
+            return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
         $task = $team->tasks()->findOrFail($taskId);
@@ -75,8 +97,10 @@ class TaskController extends Controller
     public function unassignUser(Request $request, $teamId, $taskId) {
         $team = $this->user->teams()->findOrFail($teamId);
 
-        if(!in_array($team->users()->findOrFail($this->user->id)->pivot->role, ['Leader', 'Administrative'])) {
-            return response()->json(['error' => 'Dont have permissions to unassign user'], 403);
+        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+
+        if($role->task_access == 0) {
+            return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
         $task = $team->tasks()->findOrFail($taskId);

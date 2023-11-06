@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('team_id');
-            $table->string('role'); 
+            $table->unsignedBigInteger('role_id');
             $table->timestamps();
         });
     }
