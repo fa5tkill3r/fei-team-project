@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Final_examController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -68,3 +69,5 @@ Route::group([
     Route::post("/", RoleController::class ."@store");
     //ask how to manage deletion and creation of roles
 });
+
+Route::resource('final_exam', Final_examController::class);
