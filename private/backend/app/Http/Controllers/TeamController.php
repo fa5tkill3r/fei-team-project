@@ -39,11 +39,11 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail($id);
         $updater = $team->users()->findOrFail($this->user->id);
-        
-        dd($updater->pivot->role->name);
 
-        if(!in_array($updater->pivot->role, ['Leader', 'Administrative'])) {
-            return response()->json(['error' => 'Dont have permissions to edit team'], 403);
+        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+
+        if($role->team_info == 0) {
+            return response()->json(['error' => 'Dont have permissions to add user'], 403);
         }
         
         $team->update($request->all());

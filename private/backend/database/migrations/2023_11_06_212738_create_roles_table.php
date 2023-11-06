@@ -25,6 +25,8 @@ return new class extends Migration
             $table->boolean('role_access')->default(false);
             $table->boolean('role_add')->default(false);
             $table->boolean('role_delete')->default(false);
+
+            $table->boolean('team_info')->default(false);
             
             $table->timestamps();
         });
@@ -40,6 +42,7 @@ return new class extends Migration
             'role_access' => true,
             'role_add' => true,
             'role_delete' => true,
+            'team_info' => true,
         ]);
     }
 

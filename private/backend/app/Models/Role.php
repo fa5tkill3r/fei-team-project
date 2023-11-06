@@ -20,6 +20,7 @@ class Role extends Model
         'role_access',
         'role_add',
         'role_delete',
+        'team_info',
     ];
    protected $casts = [
         'task_access' => 'boolean',
@@ -30,6 +31,7 @@ class Role extends Model
         'role_access' => 'boolean',
         'role_add' => 'boolean',
         'role_delete' => 'boolean',
+        'team_info' => 'boolean',
     ];
 
     public function users()
