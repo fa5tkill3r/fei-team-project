@@ -31,7 +31,7 @@ export default {
         }
       }
     ],
-    styled: false,
+    // styled: false,
     darkTheme: 'cirtdark'
   },
   plugins: [

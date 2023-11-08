@@ -18,9 +18,9 @@ const links = astroI18n.locales
   }))
 ---
 
-<div class="max-w-4xl m-auto">
+<div class="max-w-6xl m-auto">
 
-  <div class="navbar bg-base-100">
+  <div class="navbar">
     <div class="navbar-start">
       <div class="dropdown">
         <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -35,7 +35,10 @@ const links = astroI18n.locales
           <a class="btn mt-1" href="">{t('nav.buttons.reportvulnerability')}</a>
         </ul>
       </div>
-      <a class="text-xl" href={l('/')}>CSIRT</a>
+      <div class="relative">
+        <div class="w-9 h-9 bg-secondary rounded translate-x-[-50%] translate-y-[-50%] rotate-45 top-1/2 left-1/4 absolute"></div>
+        <a class="text-xl font-bold tracking-wider text-primary relative" href={l('/')}>CSIRT</a>
+      </div>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
@@ -44,13 +47,13 @@ const links = astroI18n.locales
         <li><a>{t('nav.items.aboutus')}</a></li>
         <li><a>{t('nav.items.vulnerability')}</a></li>
       </ul>
-      <a class="btn ml-1" href="">{t('nav.buttons.reportincident')}</a>
-      <a class="btn ml-1" href="">{t('nav.buttons.reportvulnerability')}</a>
+      <a class="btn rounded-full ml-2" href="">{t('nav.buttons.reportincident')}</a>
+      <a class="btn btn-primary rounded-full ml-2" href="">{t('nav.buttons.reportvulnerability')}</a>
     </div>
     <div class="navbar-end">
       {
         links.map((link) => (
-          <a class="btn" href={link.href}>
+          <a class="btn rounded-full" href={link.href}>
             {link.label}
           </a>
         ))
