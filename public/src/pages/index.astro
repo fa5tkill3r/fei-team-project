@@ -1,10 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import Card from '../components/Card.astro'
 import { getPostsByLanguage } from '../lib/data'
 import { astroI18n, t } from 'astro-i18n'
 
 import Header from '../components/Header.astro';
+import Post from '../components/Post.astro';
+import Card from '../components/Card.astro';
 
 const posts = await getPostsByLanguage(astroI18n.locale)
 ---
@@ -12,12 +13,41 @@ const posts = await getPostsByLanguage(astroI18n.locale)
 <Layout title="CSIRT">
   <Header />
   <main class="max-w-4xl m-auto px-2">
+
+    <div>
+      <h2 class="text-primary">Komplexna <span class="text-secondary">Kyberneticka Bezpecnost.</span></h2>
+      <p>Nasim cielom je poskytovat komplexne riesenia a ochranu v kybernetickom priestore.</p>
+
+      <div class="grid grid-cols-3 gap-8 mt-12">
+        <Card
+          title='Ochrana univerzitnej siete'
+          description='Zabezpecujeme monitorovanie fakultnej siete a bezpecne kyberneticke prostredie'
+          moreText='O nas'
+          moreHref='#'
+        />
+        <Card
+          title='Informacie a vystrahy'
+          description='Zabezpecujeme monitorovanie fakultnej siete a bezpecne kyberneticke prostredie'
+          moreText='Bezpecnostne varovania'
+          moreHref='#'
+        />
+        <Card
+          title='Zdielame vedomosti'
+          description='Zabezpecujeme monitorovanie fakultnej siete a bezpecne kyberneticke prostredie'
+          moreText='Zistite viac o nasej vyuke'
+          moreHref='#'
+        />
+      </div>
+    </div>
+
+
+
     <h1 class="text-2xl font-semibold mb-4">{t('news')}</h1>
     <div>
       {
         posts.flatMap((post) =>
           post.translations.map((translation) => (
-            <Card
+            <Post
               title={translation.title}
               body={post.slug}
               href={`/news/${post.slug}`}

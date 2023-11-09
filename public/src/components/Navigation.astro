@@ -47,13 +47,13 @@ const links = astroI18n.locales
         <li><a>{t('nav.items.aboutus')}</a></li>
         <li><a>{t('nav.items.vulnerability')}</a></li>
       </ul>
-      <a class="btn rounded-full ml-2" href="">{t('nav.buttons.reportincident')}</a>
-      <a class="btn btn-primary rounded-full ml-2" href="">{t('nav.buttons.reportvulnerability')}</a>
+      <a class="btn btn-sm rounded-full ml-2" href="">{t('nav.buttons.reportincident')}</a>
+      <a class="btn btn-sm btn-primary rounded-full ml-2" href="">{t('nav.buttons.reportvulnerability')}</a>
     </div>
     <div class="navbar-end">
       {
         links.map((link) => (
-          <a class="btn rounded-full" href={link.href}>
+          <a class="btn btn-sm rounded-full" href={link.href}>
             {link.label}
           </a>
         ))

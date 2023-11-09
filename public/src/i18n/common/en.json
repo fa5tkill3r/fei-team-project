@@ -11,5 +11,9 @@
       "reportincident": "Report incident",
       "reportvulnerability": "Report vulnerability"
     }
+  },
+  "header": {
+    "description": "Security incident resolution center",
+    "button": "Join us now"
   }
 }

@@ -11,5 +11,9 @@
       "reportincident": "Nahlásiť incident",
       "reportvulnerability": "Nahlásiť zranitelnosť"
     }
+  },
+  "header": {
+    "description": "Centrum pre riešenie bezpečnostných incidentov",
+    "button": "Pridajte sa k nám"
   }
 }

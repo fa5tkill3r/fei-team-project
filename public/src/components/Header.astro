@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets"
+import { t } from 'astro-i18n'
 import Navigation from "./Navigation.astro"
 import headerImage from "../assets/header-image.svg"
 ---
@@ -10,10 +11,16 @@ import headerImage from "../assets/header-image.svg"
   </div>
   <div class="bg-accent h-[32rem] rounded-b-[100%]">
     <div class="container mx-auto px-4 flex">
-      <div class="container">
-        <div class="text-primary font-black">
-          <span class="text-secondary">Computer</span> Security Incidents<br/>
-          Response Team
+      <div class="container flex justify-center">
+        <div class="flex flex-col items-start justify-evenly max-h-72 mt-14">
+          <h1 class="text-primary font-black text-4xl">
+            <span class="text-secondary">Computer</span> Security Incidents<br/>
+            Response Team
+          </h1>
+
+          <div>{t('header.description')}</div>
+
+          <a class="btn btn-secondary rounded-full">{t('header.button')}</a>
         </div>
       </div>
       <div class="container">
