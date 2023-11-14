@@ -1,0 +1,64 @@
+---
+import { astroI18n, l, t } from 'astro-i18n'
+
+const params: Record<string, string> = {}
+for (const [key, value] of Object.entries(Astro.params)) {
+  if (value === undefined) continue
+  params[key] = String(value)
+}
+
+const links = astroI18n.locales
+  .filter((locale) => locale !== astroI18n.locale)
+  .map((locale) => ({
+    locale,
+    href: l(Astro.url.pathname, params, {
+      targetLocale: locale,
+    }),
+    label: locale.toUpperCase(),
+  }))
+---
+
+<div class="max-w-6xl m-auto">
+
+  <div class="navbar">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost lg:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+        </label>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a>{t('nav.items.activity')}</a></li>
+          <li><a>{t('nav.items.academicactivity')}</a></li>
+          <li><a>{t('nav.items.aboutus')}</a></li>
+          <li><a>{t('nav.items.vulnerability')}</a></li>
+          <a class="btn mt-1" href="">{t('nav.buttons.reportincident')}</a>
+          <a class="btn mt-1" href="">{t('nav.buttons.reportvulnerability')}</a>
+        </ul>
+      </div>
+      <div class="relative">
+        <div class="w-9 h-9 bg-secondary rounded translate-x-[-50%] translate-y-[-50%] rotate-45 top-1/2 left-1/4 absolute"></div>
+        <a class="text-xl font-bold tracking-wider text-primary relative" href={l('/')}>CSIRT</a>
+      </div>
+    </div>
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1">
+        <li><a>{t('nav.items.activity')}</a></li>
+        <li><a>{t('nav.items.academicactivity')}</a></li>
+        <li><a>{t('nav.items.aboutus')}</a></li>
+        <li><a>{t('nav.items.vulnerability')}</a></li>
+      </ul>
+      <a class="btn btn-sm rounded-full ml-2" href="">{t('nav.buttons.reportincident')}</a>
+      <a class="btn btn-sm btn-primary rounded-full ml-2" href="">{t('nav.buttons.reportvulnerability')}</a>
+    </div>
+    <div class="navbar-end">
+      {
+        links.map((link) => (
+          <a class="btn btn-sm rounded-full" href={link.href}>
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+</div>

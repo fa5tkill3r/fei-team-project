@@ -1,0 +1,19 @@
+{
+	"news": "News",
+  "nav": {
+    "items": {
+      "activity": "Activity",
+      "academicactivity": "Academic activity",
+      "aboutus": "About us",
+      "vulnerability": "Vulnerability"
+    },
+    "buttons": {
+      "reportincident": "Report incident",
+      "reportvulnerability": "Report vulnerability"
+    }
+  },
+  "header": {
+    "description": "Security incident resolution center",
+    "button": "Join us now"
+  }
+}

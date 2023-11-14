@@ -63,6 +63,3 @@ server.listen(port, () => {
   console.log('http://localhost:3000')
 })
 
-// await build({
-//   root: './'
-// })
