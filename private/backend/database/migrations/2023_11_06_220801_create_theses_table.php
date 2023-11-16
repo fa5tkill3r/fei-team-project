@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('final_exams', function (Blueprint $table) {
+        Schema::create('theses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('description');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->longText('assignment');
             $table->string('leader');
             $table->string('students_name')->nullable();
-            $table->string('exam_path')->nullable();
+            $table->string('path')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('final_exams');
+        Schema::dropIfExists('theses');
     }
 };

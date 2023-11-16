@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Final_examController;
+use App\Http\Controllers\ThesisController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,8 +20,6 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-
-
 Route::group([
     'prefix' => 'users',
 ], function () {
@@ -32,9 +30,9 @@ Route::group([
         'middleware' => ['auth'],
     ], function () {
         Route::get('/', UsersController::class . '@index');
-        Route::post("/refresh", UsersController::class ."@refresh");
-        Route::post("/logout", UsersController::class ."@logout");
-        Route::post("/logout-from-all", UsersController::class ."@logoutFromAll");
+        Route::post("/refresh", UsersController::class . "@refresh");
+        Route::post("/logout", UsersController::class . "@logout");
+        Route::post("/logout-from-all", UsersController::class . "@logoutFromAll");
     });
 });
 
@@ -52,22 +50,22 @@ Route::group([
 Route::group([
     'prefix' => 'tasks',
     'middleware' => ['auth'],
-], function (){
-    Route::get("/", TaskController::class ."@index");
-    Route::post("/{teamId}", TaskController::class ."@store");
-    Route::get("/{teamId}/{taskId}", TaskController::class ."@show");
-    Route::put("/{teamId}/{taskId}", TaskController::class ."@update");
-    Route::delete("/{teamId}/{taskId}", TaskController::class ."@destroy");
-    Route::post("/{teamId}/{taskId}/assign-user", TaskController::class ."@assignUser");
-    Route::post("/{teamId}/{taskId}/unassign-user", TaskController::class ."@unassignUser");
+], function () {
+    Route::get("/", TaskController::class . "@index");
+    Route::post("/{teamId}", TaskController::class . "@store");
+    Route::get("/{teamId}/{taskId}", TaskController::class . "@show");
+    Route::put("/{teamId}/{taskId}", TaskController::class . "@update");
+    Route::delete("/{teamId}/{taskId}", TaskController::class . "@destroy");
+    Route::post("/{teamId}/{taskId}/assign-user", TaskController::class . "@assignUser");
+    Route::post("/{teamId}/{taskId}/unassign-user", TaskController::class . "@unassignUser");
 });
 
 Route::group([
     'prefix' => 'roles',
-], function(){
-    Route::get("/", RoleController::class ."@index");
-    Route::post("/", RoleController::class ."@store");
+], function () {
+    Route::get("/", RoleController::class . "@index");
+    Route::post("/", RoleController::class . "@store");
     //ask how to manage deletion and creation of roles
 });
 
-Route::resource('final_exam', Final_examController::class);
+Route::resource('thesis', ThesisController::class);
