@@ -1,29 +1,24 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
-WORKDIR /var/www/html
+WORKDIR /var/www/private
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN apt-get update && apt-get install -y \
        curl \
-       libpng-dev \
        libonig-dev \
        libxml2-dev \
+       libpq-dev \
+       zlib1g-dev \
        zip \
        unzip \
-       nginx \
-       supervisor \
-       default-mysql-client
+       postgresql-client
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY composer.json composer.lock ./
 
@@ -43,10 +38,4 @@ COPY entry.sh .
 
 RUN chmod +x ./entry.sh
 
-RUN php artisan key:generate
-
-RUN php artisan jwt:secret
-
-EXPOSE 80
-
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["./entry.sh"]

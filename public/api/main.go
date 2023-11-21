@@ -22,21 +22,26 @@ var allowedApiPaths = map[string]bool{
 	"/api/incident": true,
 }
 
-var apiUrl = os.Getenv("API_URL")
+var apiUrl = os.Getenv("PROXY_API_URL")
+
+func build() {
+	cmd := exec.Command("pnpm", "build")
+	cmd.Dir = "./"
+	cmd.Stderr = os.Stderr
+	stdout, err := cmd.Output()
+
+	if err != nil {
+		fmt.Print(string(stdout))
+		panic(err)
+	}
+
+	fmt.Print(string(stdout))
+}
 
 func builderRouter() http.Handler {
 	r := gin.New()
 	r.GET("/build", func(c *gin.Context) {
-		cmd := exec.Command("pnpm", "build")
-		cmd.Dir = "../"
-		cmd.Stderr = os.Stderr
-		stdout, err := cmd.Output()
-
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Print(string(stdout))
+		build()
 		c.Status(204)
 	})
 
@@ -95,6 +100,8 @@ func main() {
 	g.Go(func() error {
 		return builderServer.ListenAndServe()
 	})
+
+	go build()
 
 	if err := g.Wait(); err != nil {
 		log.Fatal(err)

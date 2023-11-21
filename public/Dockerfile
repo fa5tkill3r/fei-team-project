@@ -5,10 +5,15 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
-FROM base AS build
+FROM base AS deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
+FROM golang:1.21-bookworm AS builder
+WORKDIR /app
+COPY ./api/* /app
+RUN go build
+
 FROM base
-COPY --from=build /app/node_modules /app/node_modules
-EXPOSE 3000
-CMD [ "node", "builder.mjs" ]
+COPY --from=deps /app/node_modules /app/node_modules
+COPY --from=builder /app /app
+CMD [ "./public-api" ]

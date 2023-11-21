@@ -1,0 +1,87 @@
+# TODO: move passwords to .env file or docker secrets
+
+version: '3'
+services:
+  public-directus:
+    image: directus/directus:10.8.1
+    ports:
+      - 8055:8055
+    volumes:
+      - ./public/directus/database:/directus/database
+      - ./public/directus/uploads:/directus/uploads
+    # TODO: change these
+    environment:
+      KEY: 'replace-with-random-value'
+      SECRET: 'replace-with-random-value'
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'd1r3ctu5'
+      DB_CLIENT: 'sqlite3'
+      DB_FILENAME: '/directus/database/data.db'
+      WEBSOCKETS_ENABLED: 'true'
+    # TODO: fix, takes too long for some reason
+    healthcheck:
+      test: "node -e \"const http = require('http'); const options = { hostname: 'localhost', port: 8055, path: '/server/health', method: 'GET', timeout: 1000 }; const req = http.request(options, (res) => { if (res.statusCode === 200) { process.exit(0); } else { process.exit(1); } }); req.on('error', () => process.exit(1)); req.end();\""
+      interval: 2m
+      timeout: 1s
+      retries: 5
+      start_period: 30s
+      start_interval: 1s
+  public-api:
+    build:
+      context: ./public
+    volumes:
+      - ./public/dist:/app/dist
+    depends_on:
+      public-directus:
+        condition: service_healthy
+    environment:
+      # CMS url
+      API_URL: 'http://public-directus:8055'
+      # private backend url
+      PROXY_API_URL: 'http://nginx:8080'
+
+  private-db:
+    image: postgres:16
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: 'tp'
+      POSTGRES_PASSWORD: 'tp'
+      POSTGRES_DB: 'tp'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 50s
+  private-backend:
+    build:
+      context: ./private/backend
+    depends_on:
+      private-db:
+        condition: service_healthy
+    environment:
+      DB_HOST: private-db
+      DB_PORT: 5432
+      DB_CONNECTION: pgsql
+      DB_DATABASE: tp
+      DB_USERNAME: tp
+      DB_PASSWORD: tp
+  # TODO: setup frontend build container
+  # private-frontend:
+  #   restart: no
+  #   build:
+  #     context: ./private/frontend
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8080:8080
+      - 8090:8090
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./public/dist:/var/www/public:ro
+      - ./private/backend/public:/var/www/private/public:ro
+    depends_on:
+      - public-api
+      - private-backend
