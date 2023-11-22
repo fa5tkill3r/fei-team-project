@@ -40,7 +40,7 @@ func build() {
 
 func builderRouter() http.Handler {
 	r := gin.New()
-	r.GET("/build", func(c *gin.Context) {
+	r.POST("/build", func(c *gin.Context) {
 		build()
 		c.Status(204)
 	})
