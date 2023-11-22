@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Final_examController;
+use App\Http\Controllers\IncidentsController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,18 @@ Route::group([
 });
 
 Route::group([
+    'prefix' => 'incidents',
+    'middleware' => ['auth'],
+], function(){
+    Route::get("/", IncidentsController::class ."@index");
+    Route::get("/{id}", IncidentsController::class ."@show");
+    Route::put("/{id}", IncidentsController::class ."@update");
+    Route::delete("/{id}", IncidentsController::class ."@destroy");
+    Route::get('type/{type}', IncidentsController::class ."@getIncidentsByType");
+});
+Route::get("/{id}/images", IncidentsController::class ."@getImages");
+
+Route::group([
     'prefix' => 'roles',
 ], function(){
     Route::get("/", RoleController::class ."@index");
@@ -71,3 +84,5 @@ Route::group([
 });
 
 Route::resource('final_exam', Final_examController::class);
+
+Route::post('/incidents', IncidentsController::class . '@store');
