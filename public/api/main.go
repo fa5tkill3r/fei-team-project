@@ -19,7 +19,7 @@ var (
 )
 
 var allowedApiPaths = map[string]bool{
-	"/api/incident": true,
+	"/api/incidents": true,
 }
 
 var apiUrl = os.Getenv("PROXY_API_URL")
@@ -34,8 +34,6 @@ func build() {
 		fmt.Print(string(stdout))
 		panic(err)
 	}
-
-	fmt.Print(string(stdout))
 }
 
 func builderRouter() http.Handler {
