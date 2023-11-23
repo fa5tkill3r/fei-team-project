@@ -50,10 +50,11 @@
 <form on:submit|preventDefault={reportIncident}>
   <div>
     <div class="form-control w-full max-w-xs">
-      <label class="label">
+      <label class="label" for="name">
         <span class="label-text">Name</span>
       </label>
       <input
+        id="name"
         type="text"
         placeholder="Type here"
         class="input input-bordered w-full max-w-xs"
@@ -62,10 +63,11 @@
     </div>
 
     <div class="form-control w-full max-w-xs">
-      <label class="label">
+      <label class="label" for="surname">
         <span class="label-text">Surname</span>
       </label>
       <input
+        id="surname"
         type="text"
         placeholder="Type here"
         class="input input-bordered w-full max-w-xs"
@@ -74,10 +76,11 @@
     </div>
 
     <div class="form-control w-full max-w-xs">
-      <label class="label">
+      <label class="label" for="email">
         <span class="label-text">E-Mail</span>
       </label>
       <input
+        id="email"
         type="text"
         placeholder="Type here"
         class="input input-bordered w-full max-w-xs"
@@ -86,10 +89,11 @@
     </div>
 
     <div class="form-control w-full max-w-xs">
-      <label class="label">
+      <label class="label" for="title">
         <span class="label-text">Title</span>
       </label>
       <input
+        id="title"
         type="text"
         placeholder="Type here"
         class="input input-bordered w-full max-w-xs"
@@ -98,10 +102,11 @@
     </div>
 
     <div class="form-control w-full max-w-xs">
-      <label class="label">
+      <label class="label" for="description">
         <span class="label-text">Description</span>
       </label>
       <textarea
+        id="description"
         class="textarea textarea-bordered h-24"
         placeholder="Description"
         bind:value={form.description}
@@ -109,10 +114,11 @@
     </div>
 
     <div class="form-control w-full max-w-xs">
-      <label class="label">
+      <label class="label" for="images">
         <span class="label-text">Images</span>
       </label>
       <input
+        id="images"
         type="file"
         class="file-input file-input-bordered w-full max-w-xs"
         multiple
