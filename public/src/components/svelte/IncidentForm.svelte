@@ -31,7 +31,7 @@
       }
     }
 
-    fetch('http://localhost:8090/api/incidents', {
+    fetch('/api/incidents', {
       method: 'POST',
       body: data,
     })

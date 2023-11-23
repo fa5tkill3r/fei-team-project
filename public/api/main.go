@@ -32,7 +32,6 @@ func build() {
 
 	if err != nil {
 		fmt.Print(string(stdout))
-		panic(err)
 	}
 }
 
@@ -48,7 +47,7 @@ func builderRouter() http.Handler {
 
 func apiRouter() http.Handler {
 	r := gin.New()
-	r.GET("/*proxyPath", func(c *gin.Context) {
+	r.Any("/*proxyPath", func(c *gin.Context) {
 		path := c.Param("proxyPath")
 
 		if _, ok := allowedApiPaths[path]; !ok {
