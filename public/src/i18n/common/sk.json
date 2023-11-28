@@ -1,5 +1,5 @@
 {
-	"news": "Novinky",
+  "news": "Novinky",
   "nav": {
     "items": {
       "activity": "Aktivity",
@@ -15,5 +15,15 @@
   "header": {
     "description": "Centrum pre riešenie bezpečnostných incidentov",
     "button": "Pridajte sa k nám"
+  },
+  "content": {
+    "cybersecurity": {
+      "title": "Komplexná Kybernetická Bezpečnosť",
+      "description": "Naším cieľom je poskytovať komplexné riešenia a ochranu v kybernetickom priestore."
+    },
+    "aboutcsirt": {
+      "title": "Čo je",
+      "description": "CSIRT (Computer Security Incident Response Team) je tím bezpečnostných IT pracovníkov, ktorý koordinuje reakcie na bezpečnostné incidenty, poskytuje podporu administrátorom siete na fakulte a vzdeláva verejnosť v oblasti kybernetickej bezpečnosti."
+    }
   }
 }
