@@ -7,7 +7,7 @@ export default {
   daisyui: {
     themes: [
       {
-        'cirtligth': {
+        'csirtligth': {
           'primary': '#2f327d',
           'secondary': '#e63946',
           'accent': '#c7cbe1',
@@ -18,12 +18,12 @@ export default {
           'warning': '#f3b558',
           'error': '#e77381',
         },
-        'cirtdark': {
-          'primary': '#2f327d',
-          'secondary': '#e63946',
-          'accent': '#c7cbe1',
+        'csirtdark': {
+          'primary': '#767BF8',
+          'secondary': '#B02833',
+          'accent': '#63698B',
           'neutral': '#141b29',
-          'base-100': '#25314b',
+          'base-100': '#262626',
           'info': '#4769f0',
           'success': '#12a178',
           'warning': '#f3b558',
@@ -32,7 +32,7 @@ export default {
       }
     ],
     // styled: false,
-    darkTheme: 'cirtdark'
+    darkTheme: 'csirtdark'
   },
   plugins: [
     require('@tailwindcss/typography'),
