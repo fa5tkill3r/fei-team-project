@@ -2,10 +2,14 @@
 import Layout from '../layouts/Layout.astro'
 import { getPostsByLanguage } from '../lib/data'
 import { astroI18n, t } from 'astro-i18n'
+import { Image } from 'astro:assets'
+import forPublicImage from "../assets/group_22.png"
+import forStudentsImage from "../assets/group_23.png"
 
-import Header from '../components/Header.astro';
-import Post from '../components/Post.astro';
-import Card from '../components/Card.astro';
+import Header from '../components/Header.astro'
+import Post from '../components/Post.astro'
+import Card from '../components/Card.astro'
+import Footer from '../components/Footer.astro'
 
 const posts = await getPostsByLanguage(astroI18n.locale)
 ---
@@ -13,10 +17,13 @@ const posts = await getPostsByLanguage(astroI18n.locale)
 <Layout title="CSIRT">
   <Header />
 
-  <main class="max-w-4xl m-auto px-2">
-    <div>
-      <h2 class="text-primary">Komplexna <span class="text-secondary">Kyberneticka Bezpecnost.</span></h2>
-      <p>Nasim cielom je poskytovat komplexne riesenia a ochranu v kybernetickom priestore.</p>
+    <section class="mt-14" aria-labelledby="cyber-security-title">
+      <h2 class="text-primary font-bold text-2xl text-center" id="cyber-security-title">
+        {`${t('content.cybersecurity.title').split(' ')[0]} `} <span class="text-secondary">{t('content.cybersecurity.title').split(' ').slice(1).join(' ')}</span>
+      </h2>
+      <p class="text-center max-w-xl mx-auto mt-7">
+        {t('content.cybersecurity.description')}
+      </p>
 
       <div class="grid grid-cols-3 gap-8 mt-12">
         <Card
@@ -38,7 +45,20 @@ const posts = await getPostsByLanguage(astroI18n.locale)
           moreHref='#'
         />
       </div>
-    </div>
+    </section>
+
+    <section class="mt-14" aria-labelledby="what-is-csirt-title">
+      <h2 class="text-primary font-bold text-2xl text-center" id="what-is-csirt-title">
+        {`${t('content.aboutcsirt.title')} `} <span class="text-secondary">CSIRT?</span>
+      </h2>
+      <p class="max-w-2xl mx-auto text-justify mt-4">
+        {t('content.aboutcsirt.description')}
+      </p>
+      <div class="flex justify-evenly mt-12">
+        <Image src={forPublicImage} alt="for public image" width="350" />
+        <Image src={forStudentsImage} alt="for students image" width="350" />
+      </div>
+    </section>
 
 
 
@@ -57,4 +77,5 @@ const posts = await getPostsByLanguage(astroI18n.locale)
       }
     </div>
   </main>
+  <Footer />
 </Layout>
