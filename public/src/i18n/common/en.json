@@ -4,8 +4,8 @@
     "items": {
       "activity": "Activity",
       "academicactivity": "Academic activity",
-      "aboutus": "About us",
-      "vulnerability": "Vulnerability"
+      "about": "About us",
+      "vulnerabilities": "Vulnerabilities"
     },
     "buttons": {
       "reportincident": "Report incident",
