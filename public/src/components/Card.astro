@@ -3,15 +3,22 @@ interface Props {
   title: string
   description: string
   moreText: string
-  moreHref: string
+  moreHref: string,
+  color?: string
 }
 
-const { moreText, moreHref, title, description } = Astro.props
+const { moreText, moreHref, title, description, color } = Astro.props
 ---
 
-<!-- TODO: add icon on top -->
-<div class="p-6 rounded-md shadow-lg transition ease-in-out delay-200 hover:-translate-y-1 hover:scale-110 duration-300">
-  <h3 class="text-primary text-lg font-semibold text-center h-16">{title}</h3>
-  <p class="text-sm text-justify">{description}</p>
+<div class="p-6 rounded-md shadow-lg relative transition ease-in-out delay-200 hover:-translate-y-1 hover:scale-110 duration-300">
+  <h3 class="text-primary text-lg font-semibold text-center h-16 mt-10">{title}</h3>
+  <p class="text-sm text-justify mb-2">{description}</p>
   <a class="text-secondary text-sm font-bold underline" href={moreHref}>{moreText}</a>
+  <div class:list={[
+    "w-14 h-14 rounded-full absolute top-0 left-1/2 translate-x-[-50%] translate-y-[-50%]",
+    color || "bg-primary"
+  ]}>
+    <!-- TODO: add icons (remove temporary placeholder) -->
+    <div class="w-8 h-8 rounded-full bg-white absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]"></div>
+  </div>
 </div>

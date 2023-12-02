@@ -4,8 +4,8 @@
     "items": {
       "activity": "Aktivity",
       "academicactivity": "Akademická činnost",
-      "aboutus": "O nás",
-      "vulnerability": "Zranitelnosť"
+      "about": "O nás",
+      "vulnerabilities": "Zranitelnosti"
     },
     "buttons": {
       "reportincident": "Nahlásiť incident",

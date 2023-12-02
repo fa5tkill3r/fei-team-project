@@ -1,6 +1,12 @@
 ---
 import { astroI18n, l, t } from 'astro-i18n'
 
+interface Props {
+  bgColor?: string
+}
+
+const { bgColor } = Astro.props
+
 const params: Record<string, string> = {}
 for (const [key, value] of Object.entries(Astro.params)) {
   if (value === undefined) continue
@@ -18,8 +24,8 @@ const links = astroI18n.locales
   }))
 ---
 
-<div class="max-w-6xl m-auto">
-  <div class="navbar">
+<nav class:list={[bgColor]}>
+  <div class="navbar max-w-6xl m-auto">
     <div class="navbar-start">
       <div class="dropdown">
         <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -40,14 +46,16 @@ const links = astroI18n.locales
           tabindex="0"
           class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li><a>{t('nav.items.activity')}</a></li>
-          <li><a>{t('nav.items.academicactivity')}</a></li>
-          <li><a>{t('nav.items.aboutus')}</a></li>
-          <li><a>{t('nav.items.vulnerability')}</a></li>
+          <li><a href={l('/activity')}>{t('nav.items.activity')}</a></li>
+          <li><a href={l('/academics')}>{t('nav.items.academicactivity')}</a></li>
+          <li><a href={l('/about')}>{t('nav.items.about')}</a></li>
+          <li><a href={l('/vulnerabilities')}>{t('nav.items.vulnerabilities')}</a></li>
           <a class="btn mt-1" href={l('/incident')}>
             {t('nav.buttons.reportincident')}
           </a>
-          <a class="btn mt-1" href="">{t('nav.buttons.reportvulnerability')}</a>
+          <a class="btn mt-1" href={l('/vulnerability')}>
+            {t('nav.buttons.reportvulnerability')}
+          </a>
         </ul>
       </div>
       <div class="relative">
@@ -65,15 +73,15 @@ const links = astroI18n.locales
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
-        <li><a>{t('nav.items.activity')}</a></li>
-        <li><a>{t('nav.items.academicactivity')}</a></li>
-        <li><a>{t('nav.items.aboutus')}</a></li>
-        <li><a>{t('nav.items.vulnerability')}</a></li>
+        <li><a href={l('/activity')}>{t('nav.items.activity')}</a></li>
+        <li><a href={l('/academics')}>{t('nav.items.academicactivity')}</a></li>
+        <li><a href={l('/about')}>{t('nav.items.about')}</a></li>
+        <li><a href={l('/vulnerabilities')}>{t('nav.items.vulnerabilities')}</a></li>
       </ul>
       <a class="btn btn-sm rounded-full ml-2" href={l('/incident')}>
         {t('nav.buttons.reportincident')}
       </a>
-      <a class="btn btn-sm btn-primary rounded-full ml-2" href="">
+      <a class="btn btn-sm btn-primary rounded-full ml-2" href={l('/vulnerability')}>
         {t('nav.buttons.reportvulnerability')}
       </a>
     </div>
@@ -87,4 +95,4 @@ const links = astroI18n.locales
       }
     </div>
   </div>
-</div>
+</nav>

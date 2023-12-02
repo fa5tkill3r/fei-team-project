@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { getPostsByLanguage } from '../lib/data'
-import { astroI18n, t } from 'astro-i18n'
+import { astroI18n, t, l } from 'astro-i18n'
 import { Image } from 'astro:assets'
 import forPublicImage from "../assets/group_22.png"
 import forStudentsImage from "../assets/group_23.png"
@@ -16,7 +16,7 @@ const posts = await getPostsByLanguage(astroI18n.locale)
 
 <Layout title="CSIRT">
   <Header />
-
+  <main class="max-w-4xl mx-auto px-2">
     <section class="mt-14" aria-labelledby="cyber-security-title">
       <h2 class="text-primary font-bold text-2xl text-center" id="cyber-security-title">
         {`${t('content.cybersecurity.title').split(' ')[0]} `} <span class="text-secondary">{t('content.cybersecurity.title').split(' ').slice(1).join(' ')}</span>
@@ -25,24 +25,26 @@ const posts = await getPostsByLanguage(astroI18n.locale)
         {t('content.cybersecurity.description')}
       </p>
 
-      <div class="grid grid-cols-3 gap-8 mt-12">
+      <div class="grid grid-cols-3 gap-8 mt-16">
         <Card
           title='Ochrana univerzitnej siete'
-          description='Zabezpecujeme monitorovanie fakultnej siete a bezpecne kyberneticke prostredie'
-          moreText='O nas'
-          moreHref='#'
+          description='Zabezpečujeme monitorovanie fakultnej siete a bezpečné kybernetické prostredie.'
+          moreText='O nás'
+          moreHref={l('/about')}
         />
         <Card
-          title='Informacie a vystrahy'
-          description='Zabezpecujeme monitorovanie fakultnej siete a bezpecne kyberneticke prostredie'
-          moreText='Bezpecnostne varovania'
-          moreHref='#'
+          title='Informácie a výstrahy'
+          description='Rozširujeme povedomie o aktuálnych bezpečnostných výstrahách.'
+          moreText='Bezpečnostné varovania'
+          moreHref='#',
+          color='bg-secondary'
         />
         <Card
-          title='Zdielame vedomosti'
-          description='Zabezpecujeme monitorovanie fakultnej siete a bezpecne kyberneticke prostredie'
-          moreText='Zistite viac o nasej vyuke'
-          moreHref='#'
+          title='Zdieľame vedomosti'
+          description='Členovia nášho tímu vyučujú nekoľko predmetov na FEI STU a na SPŠE Zochova.'
+          moreText='Zistite viac o našej výuke'
+          moreHref='#',
+          color='bg-accent'
         />
       </div>
     </section>
@@ -60,22 +62,24 @@ const posts = await getPostsByLanguage(astroI18n.locale)
       </div>
     </section>
 
+    <section class="mt-14" aria-labelledby="csirt-news">
+      <h2 class="text-primary font-bold text-2xl text-center" id="csirt-news">{t('news')}</h2>
 
+      <div>
+        {
+          posts.flatMap((post) =>
+            post.translations.map((translation) => (
+              <Post
+                title={translation.title}
+                body={post.slug}
+                href={`/news/${post.slug}`}
+              />
+            )),
+          )
+        }
+      </div>
 
-    <h1 class="text-2xl font-semibold mb-4">{t('news')}</h1>
-    <div>
-      {
-        posts.flatMap((post) =>
-          post.translations.map((translation) => (
-            <Post
-              title={translation.title}
-              body={post.slug}
-              href={`/news/${post.slug}`}
-            />
-          )),
-        )
-      }
-    </div>
+    </section>
   </main>
   <Footer />
 </Layout>
