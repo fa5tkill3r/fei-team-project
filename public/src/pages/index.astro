@@ -62,23 +62,22 @@ const posts = await getPostsByLanguage(astroI18n.locale)
       </div>
     </section>
 
-    <section class="mt-14" aria-labelledby="csirt-news">
+    <section class="mt-14 mb-20" aria-labelledby="csirt-news">
       <h2 class="text-primary font-bold text-2xl text-center" id="csirt-news">{t('news')}</h2>
 
-      <div>
+      <div class="grid grid-cols-2 gap-4 my-6">
         {
           posts.flatMap((post) =>
             post.translations.map((translation) => (
               <Post
                 title={translation.title}
-                body={post.slug}
+                body={translation.content}
                 href={`/news/${post.slug}`}
               />
             )),
           )
         }
       </div>
-
     </section>
   </main>
   <Footer />

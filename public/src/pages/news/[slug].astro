@@ -6,6 +6,7 @@ import { getPostsByLanguage } from '../../lib/data'
 import type Post from '../../interfaces/Post'
 import type Translation from '../../interfaces/Translation'
 import Navigation from '../../components/Navigation.astro'
+import Footer from '../../components/Footer.astro'
 
 export const getStaticPaths = createGetStaticPaths(async () => {
   const posts = await getPostsByLanguage(astroI18n.locale)
@@ -30,9 +31,15 @@ const p = Astro.props
 ---
 
 <Layout title={p.translation.title}>
-  <Navigation />
-  <article class="max-w-4xl m-auto px-2">
-    <h1 class="text-3xl mb-3">{p.translation.title}</h1>
-    <article class="prose" set:html={parse(p.translation.content)} />
-  </article>
+  <header>
+    <Navigation />
+  </header>
+
+  <main class="max-w-4xl mx-auto px-2">
+    <article class="max-w-4xl m-auto px-2">
+      <h1 class="text-3xl mb-3">{p.translation.title}</h1>
+      <article class="prose" set:html={parse(p.translation.content)} />
+    </article>
+  </main>
+  <Footer />
 </Layout>
