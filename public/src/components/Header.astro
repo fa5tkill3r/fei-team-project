@@ -7,21 +7,23 @@ import headerImage from "../assets/header-image.svg"
 
 <header>
   <Navigation bgColor="bg-accent" />
-  <div class="bg-accent h-[32rem] rounded-b-[100%]">
+  <div class="bg-accent">
     <div class="container mx-auto px-4 flex">
       <div class="container flex justify-center">
-        <div class="flex flex-col items-start justify-evenly max-h-72 mt-14">
+        <div class="flex flex-col items-start mt-14">
           <h1 class="text-primary font-black text-4xl">
             <span class="text-secondary">Computer</span> Security Incidents<br/>
             Response Team
           </h1>
 
-          <div>{t('header.description')}</div>
+          <div class="mt-8">{t('header.description')}</div>
 
-          <button class="btn btn-secondary rounded-full" onclick="(function(){alert('Feature is coming soon...')})()" type="button">{t('header.button')}</button>
+          <button class="btn btn-secondary rounded-full mt-24 mb-8" onclick="(function(){alert('Feature is coming soon...')})()" type="button">
+            {t('header.button')}
+          </button>
         </div>
       </div>
-      <div class="container">
+      <div class="container mb-8">
         <Image class="mx-auto mt-12" src={headerImage} alt="header image" width="350" />
       </div>
     </div>

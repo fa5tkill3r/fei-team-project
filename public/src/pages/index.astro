@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro'
 import { getPostsByLanguage } from '../lib/data'
 import { astroI18n, t, l } from 'astro-i18n'
 import { Image } from 'astro:assets'
-import forPublicImage from "../assets/group_22.png"
-import forStudentsImage from "../assets/group_23.png"
+import forPublicImage from '../assets/group_22.png'
+import forStudentsImage from '../assets/group_23.png'
 
 import Header from '../components/Header.astro'
 import Post from '../components/Post.astro'
@@ -16,68 +16,105 @@ const posts = await getPostsByLanguage(astroI18n.locale)
 
 <Layout title="CSIRT">
   <Header />
+
   <main class="max-w-4xl mx-auto px-2">
     <section class="mt-14" aria-labelledby="cyber-security-title">
-      <h2 class="text-primary font-bold text-2xl text-center" id="cyber-security-title">
-        {`${t('content.cybersecurity.title').split(' ')[0]} `} <span class="text-secondary">{t('content.cybersecurity.title').split(' ').slice(1).join(' ')}</span>
+      <h2
+        class="text-primary font-bold text-2xl text-center"
+        id="cyber-security-title"
+      >
+        {`${t('content.cybersecurity.title').split(' ')[0]} `}
+        <span class="text-secondary"
+          >{
+            t('content.cybersecurity.title').split(' ').slice(1).join(' ')
+          }</span
+        >
       </h2>
       <p class="text-center max-w-xl mx-auto mt-7">
         {t('content.cybersecurity.description')}
       </p>
 
-      <div class="grid grid-cols-3 gap-8 mt-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
         <Card
-          title='Ochrana univerzitnej siete'
-          description='Zabezpečujeme monitorovanie fakultnej siete a bezpečné kybernetické prostredie.'
-          moreText='O nás'
+          title="Ochrana univerzitnej siete"
+          description="Zabezpečujeme monitorovanie fakultnej siete a bezpečné kybernetické prostredie."
+          moreText="O nás"
           moreHref={l('/about')}
         />
         <Card
-          title='Informácie a výstrahy'
-          description='Rozširujeme povedomie o aktuálnych bezpečnostných výstrahách.'
-          moreText='Bezpečnostné varovania'
-          moreHref='#',
-          color='bg-secondary'
+          title="Informácie a výstrahy"
+          description="Rozširujeme povedomie o aktuálnych bezpečnostných výstrahách."
+          moreText="Bezpečnostné varovania"
+          moreHref="#"
+          color="bg-secondary"
         />
         <Card
-          title='Zdieľame vedomosti'
-          description='Členovia nášho tímu vyučujú nekoľko predmetov na FEI STU a na SPŠE Zochova.'
-          moreText='Zistite viac o našej výuke'
-          moreHref='#',
-          color='bg-accent'
+          title="Zdieľame vedomosti"
+          description="Členovia nášho tímu vyučujú nekoľko predmetov na FEI STU a na SPŠE Zochova."
+          moreText="Zistite viac o našej výuke"
+          moreHref="#"
+          color="bg-accent"
         />
       </div>
     </section>
 
     <section class="mt-14" aria-labelledby="what-is-csirt-title">
-      <h2 class="text-primary font-bold text-2xl text-center" id="what-is-csirt-title">
-        {`${t('content.aboutcsirt.title')} `} <span class="text-secondary">CSIRT?</span>
+      <h2
+        class="text-primary font-bold text-2xl text-center"
+        id="what-is-csirt-title"
+      >
+        {`${t('content.aboutcsirt.title')} `}
+        <span class="text-secondary">CSIRT?</span>
       </h2>
       <p class="max-w-2xl mx-auto text-justify mt-4">
         {t('content.aboutcsirt.description')}
       </p>
-      <div class="flex justify-evenly mt-12">
-        <Image src={forPublicImage} alt="for public image" width="350" />
-        <Image src={forStudentsImage} alt="for students image" width="350" />
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 md:justify-evenly mt-12 gap-4"
+      >
+        <Image
+          src={forPublicImage}
+          alt="for public image"
+          width="350"
+          class="m-auto"
+        />
+        <Image
+          src={forStudentsImage}
+          alt="for students image"
+          width="350"
+          class="m-auto"
+        />
       </div>
     </section>
 
     <section class="mt-14 mb-20" aria-labelledby="csirt-news">
-      <h2 class="text-primary font-bold text-2xl text-center" id="csirt-news">{t('news')}</h2>
+      <h2 class="text-primary font-bold text-2xl text-center" id="csirt-news">
+        {t('news')}
+      </h2>
 
-      <div class="grid grid-cols-2 gap-4 my-6">
-        {
-          posts.flatMap((post) =>
-            post.translations.map((translation) => (
-              <Post
-                title={translation.title}
-                body={translation.content}
-                href={`/news/${post.slug}`}
-              />
-            )),
-          )
-        }
-      </div>
+      {
+        !posts.length && (
+          <p class="text-center max-w-xl mx-auto mt-7">
+            {t('content.news.empty')}
+          </p>
+        )
+      }
+
+      {
+        !!posts.length && (
+          <div class="grid grid-cols-2 gap-4 my-6">
+            {posts.flatMap((post) =>
+              post.translations.map((translation) => (
+                <Post
+                  title={translation.title}
+                  body={translation.content}
+                  href={`/news/${post.slug}`}
+                />
+              )),
+            )}
+          </div>
+        )
+      }
     </section>
   </main>
   <Footer />

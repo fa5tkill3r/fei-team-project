@@ -24,6 +24,9 @@
     "aboutcsirt": {
       "title": "What is",
       "description": "CSIRT (Computer Security Incident Response Team) is a team of security IT staff that coordinates responses to security incidents, provides support to faculty network administrators and educates the public about cyber security."
+    },
+    "news": {
+      "empty": "No news"
     }
   }
 }
