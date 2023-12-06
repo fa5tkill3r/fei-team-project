@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro'
+
+import Navigation from '../../components/Navigation.astro'
+import IncidentForm from '../../components/svelte/IncidentForm.svelte'
+---
+
+<Layout title="CSIRT">
+  <div class="bg-accent">
+    <Navigation />
+  </div>
+
+  <main class="max-w-4xl m-auto p-2">
+    <div>
+      <IncidentForm client:load />
+    </div>
+  </main>
+</Layout>
