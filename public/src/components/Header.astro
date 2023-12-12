@@ -1,31 +1,42 @@
 ---
-import { Image } from "astro:assets"
+import { Image } from 'astro:assets'
 import { t } from 'astro-i18n'
-import Navigation from "./Navigation.astro"
-import headerImage from "../assets/header-image.svg"
+import headerImage from '../assets/header-image.svg'
 ---
 
-<header>
-  <!-- <Navigation bgColor="bg-accent" /> -->
-  <div class="bg-accent">
-    <div class="container mx-auto px-4 flex">
-      <div class="container flex justify-center">
-        <div class="flex flex-col items-start mt-14">
-          <h1 class="text-primary font-black text-4xl">
-            <span class="text-secondary">Computer</span> Security Incidents<br/>
-            Response Team
-          </h1>
-
-          <div class="mt-8">{t('header.description')}</div>
-
-          <button class="btn btn-secondary rounded-full mt-24 mb-8" onclick="(function(){alert('Feature is coming soon...')})()" type="button">
-            {t('header.button')}
-          </button>
+<div class="bg-accent">
+  <div class="container mx-auto px-4 grid grid-cols-2 mt-14 mb-8 gap-4">
+    <div class="flex justify-center">
+      <div>
+        <h1 class="text-primary font-black text-3xl lg:text-4xl">
+          <span class="text-secondary">Computer</span> Security Incidents<br />
+           Response Team
+        </h1>
+        <div class="hidden lg:block mt-8">
+          {t('header.description')}
         </div>
-      </div>
-      <div class="container mb-8">
-        <Image class="mx-auto mt-12" src={headerImage} alt="header image" width="350" />
+        <button
+          class="btn btn-secondary rounded-full hidden lg:block mt-24"
+          onclick="(function(){alert('Feature is coming soon...')})()"
+          type="button"
+        >
+          {t('header.button')}
+        </button>
       </div>
     </div>
+
+    <div class="col-start-1 col-span-2 lg:hidden">
+      {t('header.description')}
+    </div>
+    <button
+      class="btn btn-secondary rounded-full col-span-2 lg:hidden"
+      onclick="(function(){alert('Feature is coming soon...')})()"
+      type="button"
+    >
+      {t('header.button')}
+    </button>
+    <div class="container col-start-2 row-start-1">
+      <Image class="mx-auto" src={headerImage} alt="header image" width="350" />
+    </div>
   </div>
-</header>
+</div>

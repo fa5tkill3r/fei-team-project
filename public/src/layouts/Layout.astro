@@ -4,9 +4,10 @@ import '../styles/global.css'
 
 interface Props {
   title: string
+  navColor?: 'primary' | 'secondary' | 'accent'
 }
 
-const { title } = Astro.props
+const { title, navColor } = Astro.props
 const params: Record<string, string> = {}
 for (const [key, value] of Object.entries(Astro.params)) {
   if (value === undefined) continue
@@ -24,7 +25,7 @@ const links = astroI18n.locales
   }))
 
 const navLinks = [
-  { href: l('/'), label: t('nav.items.activity') },
+  { href: l('/activity'), label: t('nav.items.activity') },
   { href: l('/academics'), label: t('nav.items.academicactivity') },
   { href: l('/about'), label: t('nav.items.about') },
   { href: l('/vulnerabilities'), label: t('nav.items.vulnerabilities') },
@@ -63,11 +64,14 @@ const navLinks = [
     ></script>
   </head>
   <body class="min-h-screen flex flex-col">
-    <div class="drawer">
+    <div class="drawer flex-1">
       <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col">
         <!-- Navbar -->
-        <div class="w-full bg-accent">
+        <div
+          class="w-full"
+          class:list={navColor ? `bg-${navColor}` : undefined}
+        >
           <div class="flex w-full max-w-6xl m-auto navbar">
             <div class="flex-none lg:hidden">
               <label
@@ -183,6 +187,13 @@ const navLinks = [
           class="drawer-overlay"></label>
         <ul class="menu p-4 w-80 min-h-full bg-base-200">
           <!-- Sidebar content here -->
+          <li>
+            <a href={l('/')}>
+              <span class="text-2xl font-bold tracking-wider text-primary">
+                CSIRT
+              </span>
+            </a>
+          </li>
           {
             navLinks.map((link) => (
               <li>
