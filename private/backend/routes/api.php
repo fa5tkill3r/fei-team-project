@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\IncidentTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,16 +38,16 @@ Route::group([
     });
 });
 
-Route::group([
-    'prefix' => 'teams',
-    'middleware' => ['auth'],
-], function () {
-    Route::get("/", TeamController::class . "@index");
-    Route::post("/", TeamController::class . "@store");
-    Route::get("/{id}", TeamController::class . "@show");
-    Route::put("/{id}", TeamController::class . "@update");
-    Route::delete("/{id}", TeamController::class . "@destroy");
-});
+// Route::group([
+//     'prefix' => 'teams',
+//     'middleware' => ['auth'],
+// ], function () {
+//     Route::get("/", TeamController::class . "@index");
+//     Route::post("/", TeamController::class . "@store");
+//     Route::get("/{id}", TeamController::class . "@show");
+//     Route::put("/{id}", TeamController::class . "@update");
+//     Route::delete("/{id}", TeamController::class . "@destroy");
+// });
 
 Route::group([
     'prefix' => 'tasks',
@@ -65,22 +66,22 @@ Route::group([
     'prefix' => 'incidents',
     'middleware' => ['auth'],
 ], function(){
-    Route::get("/", IncidentsController::class ."@index");
-    Route::get("/{id}", IncidentsController::class ."@show");
-    Route::put("/{id}", IncidentsController::class ."@update");
-    Route::delete("/{id}", IncidentsController::class ."@destroy");
+    // Route::get("/", IncidentsController::class ."@index");
+    // Route::get("/{id}", IncidentsController::class ."@show");
+    // Route::put("/{id}", IncidentsController::class ."@update");
+    // Route::delete("/{id}", IncidentsController::class ."@destroy");
     Route::get('type/{type}', IncidentsController::class ."@getIncidentsByType");
-});
-Route::get("/{id}/images", IncidentsController::class ."@getImages");
-
-Route::group([
-    'prefix' => 'roles',
-], function () {
-    Route::get("/", RoleController::class . "@index");
-    Route::post("/", RoleController::class . "@store");
-    //ask how to manage deletion and creation of roles
+    Route::get("/{id}/images", IncidentsController::class ."@getImages");
 });
 
 Route::resource('thesis', ThesisController::class);
 
-Route::post('/incidents', IncidentsController::class . '@store');
+Route::group([
+    'prefix' => '/',
+    'middleware' => ['auth'],
+], function(){
+    Route::resource('teams', TeamController::class);
+    Route::resource('incidents', IncidentsController::class);
+    Route::resource('roles', RoleController::class)->only(['index', 'store']);
+
+});
