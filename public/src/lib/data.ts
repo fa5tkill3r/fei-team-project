@@ -13,25 +13,29 @@ export const reverseLangMap: Record<string, string> = Object.fromEntries(
 )
 
 export function getPostsByLanguage(lang: string): Promise<Post[]> {
-  return directus.request(
-    readItems('posts', {
-      deep: {
-        translations: {
-          _filter: {
-            languages_id: { _eq: langMap[lang] },
+  return directus
+    .request(
+      readItems('posts', {
+        deep: {
+          translations: {
+            _filter: {
+              languages_id: { _eq: langMap[lang] },
+            },
           },
         },
-      },
-      fields: ['*', { translations: ['*'] }],
-      limit: 10,
-    })
-  ) as Promise<Post[]>
+        fields: ['*', { translations: ['*'] }],
+        limit: 10,
+      })
+    )
+    .catch(() => []) as Promise<Post[]>
 }
 
 export function getAllPosts() {
-  return directus.request(
-    readItems('posts', {
-      fields: ['*', { translations: ['*'] }],
-    })
-  )
+  return directus
+    .request(
+      readItems('posts', {
+        fields: ['*', { translations: ['*'] }],
+      })
+    )
+    .catch(() => [])
 }
