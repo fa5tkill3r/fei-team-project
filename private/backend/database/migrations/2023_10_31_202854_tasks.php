@@ -18,6 +18,10 @@ return new class extends Migration
             $table->text('description');
             $table->string('sevirity');
             $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('incident_id')->nullable();
+            $table->boolean('is_resolved')->default(false);
+            $table->boolean('is_closed')->default(false);
+            $table->text('resolution')->nullable();
             $table->timestamps();
         });
     }
