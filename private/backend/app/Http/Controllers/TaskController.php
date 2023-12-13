@@ -72,9 +72,9 @@ class TaskController extends Controller
         $task = $team->tasks()->findOrFail($taskId);
         
         if($task->incident != null) {
-            $task->incident->update($request->all());
+            $task->incident->update($request->incident);
         }
-        
+
         foreach($request->users as $user) {
             $task->users()->attach($user);
         }
