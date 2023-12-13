@@ -72,6 +72,39 @@ services:
   #   restart: no
   #   build:
   #     context: ./private/frontend
+  bookstack:
+    image: lscr.io/linuxserver/bookstack
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=http://localhost:8085
+      - DB_HOST=bookstack_db
+      - DB_PORT=3306
+      - DB_USER=bookstack
+      - DB_PASS=yourdbpass
+      - DB_DATABASE=bookstackapp
+    volumes:
+      - ./wiki/bookstack_app_data:/config
+    ports:
+      - 8085:80
+    restart: unless-stopped
+    depends_on:
+      - bookstack_db
+  bookstack_db:
+    image: lscr.io/linuxserver/mariadb
+    container_name: bookstack_db
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=yourdbpass
+      - TZ=Europe/London
+      - MYSQL_DATABASE=bookstackapp
+      - MYSQL_USER=bookstack
+      - MYSQL_PASSWORD=yourdbpass
+    volumes:
+      - ./wiki/bookstack_db_data:/config/database
+    restart: unless-stopped
 
   nginx:
     image: nginx:latest
@@ -81,7 +114,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./public/dist:/var/www/public:ro
-      - ./private/backend/public:/var/www/private/public:ro
+      - ./private/backend/public:/var/www/private/public:ro      
     depends_on:
       - public-api
       - private-backend

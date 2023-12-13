@@ -1,0 +1,23 @@
+
+   InvalidArgumentException 
+
+  Database connection [pgsql] not configured.
+
+  at /app/www/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php:173
+    169▕         // If the configuration doesn't exist, we'll throw an exception and bail.
+    170▕         $connections = $this->app['config']['database.connections'];
+    171▕ 
+    172▕         if (is_null($config = Arr::get($connections, $name))) {
+  ➜ 173▕             throw new InvalidArgumentException("Database connection [{$name}] not configured.");
+    174▕         }
+    175▕ 
+    176▕         return (new ConfigurationUrlParser)
+    177▕                     ->parseConfiguration($config);
+
+      [2m+12 vendor frames [22m
+  13  /app/www/app/App/Providers/AppServiceProvider.php:60
+      Illuminate\Support\Facades\Facade::__callStatic()
+
+      [2m+7 vendor frames [22m
+  21  [internal]:0
+      Illuminate\Foundation\Application::Illuminate\Foundation\{closure}()

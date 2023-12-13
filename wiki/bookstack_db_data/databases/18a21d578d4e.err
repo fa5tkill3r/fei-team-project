@@ -1,0 +1,207 @@
+231213 17:29:51 mysqld_safe Starting mariadbd daemon with databases from /config/databases
+2023-12-13 17:29:51 0 [Warning] Setting lower_case_table_names=2 because file system for /config/databases/ is case insensitive
+2023-12-13 17:29:51 0 [Note] Starting MariaDB 10.11.5-MariaDB-log source revision 7875294b6b74b53dd3aaa723e6cc103d2bb47b2c as process 500
+2023-12-13 17:29:51 0 [Note] InnoDB: Compressed tables use zlib 1.2.13
+2023-12-13 17:29:51 0 [Note] InnoDB: Number of transaction pools: 1
+2023-12-13 17:29:51 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
+2023-12-13 17:29:51 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
+2023-12-13 17:29:51 0 [Note] InnoDB: Using Linux native AIO
+2023-12-13 17:29:51 0 [Note] InnoDB: Initializing buffer pool, total size = 256.000MiB, chunk size = 4.000MiB
+2023-12-13 17:29:51 0 [Note] InnoDB: Completed initialization of buffer pool
+2023-12-13 17:29:51 0 [Note] InnoDB: Buffered log writes (block size=512 bytes)
+2023-12-13 17:29:51 0 [Note] InnoDB: End of log at LSN=46438
+2023-12-13 17:29:52 0 [Note] InnoDB: 128 rollback segments are active.
+2023-12-13 17:29:52 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2023-12-13 17:29:52 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2023-12-13 17:29:52 0 [Note] InnoDB: log sequence number 46438; transaction id 14
+2023-12-13 17:29:52 0 [Note] Plugin 'FEEDBACK' is disabled.
+2023-12-13 17:29:52 0 [Note] InnoDB: Loading buffer pool(s) from /config/databases/ib_buffer_pool
+2023-12-13 17:29:52 0 [Note] InnoDB: Buffer pool(s) load completed at 231213 17:29:52
+2023-12-13 17:29:52 0 [Note] Server socket created on IP: '0.0.0.0'.
+2023-12-13 17:29:52 0 [Note] Server socket created on IP: '::'.
+2023-12-13 17:29:52 0 [Note] /usr/bin/mariadbd: ready for connections.
+Version: '10.11.5-MariaDB-log'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  Alpine Linux
+2023-12-13 17:29:52 4 [Warning] Aborted connection 4 to db: 'unconnected' user: 'unauthenticated' host: 'localhost' (This connection closed normally without authentication)
+2023-12-13 17:29:54 6 [Warning] Aborted connection 6 to db: 'unconnected' user: 'unauthenticated' host: 'bookstack.docker-bookstack-master_default' (This connection closed normally without authentication)
+2023-12-13 17:30:01 7 [ERROR] InnoDB: preallocating 212992 bytes for file ./bookstackapp/pages.ibd failed with error 2
+2023-12-13 17:30:01 0x7fd813f22b38  InnoDB: Assertion failure in file /home/buildozer/aports/main/mariadb/src/mariadb-10.11.5/storage/innobase/fil/fil0fil.cc line 620
+InnoDB: Failing assertion: fsize != os_offset_t(-1)
+InnoDB: We intentionally generate a memory trap.
+InnoDB: Submit a detailed bug report to https://jira.mariadb.org/
+InnoDB: If you get repeated assertion failures or crashes, even
+InnoDB: immediately after the mariadbd startup, there may be
+InnoDB: corruption in the InnoDB tablespace. Please refer to
+InnoDB: https://mariadb.com/kb/en/library/innodb-recovery-modes/
+InnoDB: about forcing recovery.
+231213 17:30:01 [ERROR] mysqld got signal 6 ;
+This could be because you hit a bug. It is also possible that this binary
+or one of the libraries it was linked against is corrupt, improperly built,
+or misconfigured. This error can also be caused by malfunctioning hardware.
+
+To report this bug, see https://mariadb.com/kb/en/reporting-bugs
+
+We will try our best to scrape up some info that will hopefully help
+diagnose the problem, but since we have already crashed, 
+something is definitely wrong and this may fail.
+
+Server version: 10.11.5-MariaDB-log source revision: 7875294b6b74b53dd3aaa723e6cc103d2bb47b2c
+key_buffer_size=134217728
+read_buffer_size=2097152
+max_used_connections=1
+max_threads=102
+thread_count=1
+It is possible that mysqld could use up to 
+key_buffer_size + (read_buffer_size + sort_buffer_size)*max_threads = 760442 K  bytes of memory
+Hope that's ok; if not, decrease some variables in the equation.
+
+Thread pointer: 0x7fd8140ebe88
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+Cannot determine thread, fp=0x7fd813f1caa0, backtrace may not be correct.
+Stack range sanity check OK, backtrace follows:
+0x5596da2b1615
+0x7fd83ad8cd07
+0x0
+New value of fp=0x87007 failed sanity check, terminating stack trace!
+Please read http://dev.mysql.com/doc/refman/5.1/en/resolve-stack-dump.html
+and follow instructions on how to resolve the stack trace.
+Resolved stack trace is much more helpful in diagnosing the
+problem, so please do resolve it
+
+Trying to get some variables.
+Some pointers may be invalid and cause the dump to abort.
+Query (0x7fd813ecd0d8): alter table `pages` add index `pages_template_index`(`template`)
+
+Connection ID (thread ID): 7
+Status: NOT_KILLED
+
+Optimizer switch: index_merge=on,index_merge_union=on,index_merge_sort_union=on,index_merge_intersection=on,index_merge_sort_intersection=off,engine_condition_pushdown=off,index_condition_pushdown=on,derived_merge=on,derived_with_keys=on,firstmatch=on,loosescan=on,materialization=on,in_to_exists=on,semijoin=on,partial_match_rowid_merge=on,partial_match_table_scan=on,subquery_cache=on,mrr=off,mrr_cost_based=off,mrr_sort_keys=off,outer_join_with_cache=on,semijoin_with_cache=on,join_cache_incremental=on,join_cache_hashed=on,join_cache_bka=on,optimize_join_buffer_size=on,table_elimination=on,extended_keys=on,exists_to_in=on,orderby_uses_equalities=on,condition_pushdown_for_derived=on,split_materialized=on,condition_pushdown_for_subquery=on,rowid_filter=on,condition_pushdown_from_having=on,not_null_range_scan=off,hash_join_cardinality=off
+
+The manual page at https://mariadb.com/kb/en/how-to-produce-a-full-stack-trace-for-mysqld/ contains
+information that should help you find out what is causing the crash.
+Writing a core file...
+Working directory at /config/databases
+Resource Limits:
+Limit                     Soft Limit           Hard Limit           Units     
+Max cpu time              unlimited            unlimited            seconds   
+Max file size             unlimited            unlimited            bytes     
+Max data size             unlimited            unlimited            bytes     
+Max stack size            8388608              unlimited            bytes     
+Max core file size        0                    unlimited            bytes     
+Max resident set          unlimited            unlimited            bytes     
+Max processes             unlimited            unlimited            processes 
+Max open files            1048576              1048576              files     
+Max locked memory         83968000             83968000             bytes     
+Max address space         unlimited            unlimited            bytes     
+Max file locks            unlimited            unlimited            locks     
+Max pending signals       31646                31646                signals   
+Max msgqueue size         819200               819200               bytes     
+Max nice priority         0                    0                    
+Max realtime priority     0                    0                    
+Max realtime timeout      unlimited            unlimited            us        
+Core pattern: /mnt/wslg/dumps/core.%e
+
+Kernel version: Linux version 5.15.133.1-microsoft-standard-WSL2 (root@1c602f52c2e4) (gcc (GCC) 11.2.0, GNU ld (GNU Binutils) 2.37) #1 SMP Thu Oct 5 21:02:42 UTC 2023
+
+231213 17:30:02 mysqld_safe Number of processes running now: 2
+231213 17:30:02 mysqld_safe mysqld restarted
+2023-12-13 17:30:02 0 [Warning] Setting lower_case_table_names=2 because file system for /config/databases/ is case insensitive
+2023-12-13 17:30:02 0 [Note] Starting MariaDB 10.11.5-MariaDB-log source revision 7875294b6b74b53dd3aaa723e6cc103d2bb47b2c as process 569
+2023-12-13 17:30:02 0 [Note] InnoDB: Compressed tables use zlib 1.2.13
+2023-12-13 17:30:02 0 [Note] InnoDB: Number of transaction pools: 1
+2023-12-13 17:30:02 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
+2023-12-13 17:30:02 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
+2023-12-13 17:30:02 0 [Note] InnoDB: Using Linux native AIO
+2023-12-13 17:30:02 0 [Note] InnoDB: Initializing buffer pool, total size = 256.000MiB, chunk size = 4.000MiB
+2023-12-13 17:30:02 0 [Note] InnoDB: Completed initialization of buffer pool
+2023-12-13 17:30:02 0 [Note] InnoDB: Buffered log writes (block size=512 bytes)
+2023-12-13 17:30:02 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=46422
+2023-12-13 17:30:03 0 [Note] InnoDB: End of log at LSN=612827
+2023-12-13 17:30:04 0 [Note] InnoDB: To recover: 172 pages
+2023-12-13 17:30:04 0 [Note] InnoDB: Last binlog file '/config/log/mysql/mariadb-bin.000003', position 84314
+2023-12-13 17:30:04 0 [Note] InnoDB: 128 rollback segments are active.
+2023-12-13 17:30:04 0 [Note] InnoDB: Removed temporary tablespace data file: "./ibtmp1"
+2023-12-13 17:30:04 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2023-12-13 17:30:04 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2023-12-13 17:30:04 0 [Note] InnoDB: log sequence number 612827; transaction id 1431
+2023-12-13 17:30:04 0 [Note] Plugin 'FEEDBACK' is disabled.
+2023-12-13 17:30:04 0 [Note] InnoDB: Loading buffer pool(s) from /config/databases/ib_buffer_pool
+2023-12-13 17:30:04 0 [Note] InnoDB: Buffer pool(s) load completed at 231213 17:30:04
+2023-12-13 17:30:04 0 [Note] Recovering after a crash using /config/log/mysql/mariadb-bin
+2023-12-13 17:30:04 0 [Note] Starting table crash recovery...
+2023-12-13 17:30:04 0 [Note] Crash table recovery finished.
+2023-12-13 17:30:04 0 [Note] DDL_LOG: Crash recovery executed 1 entries
+2023-12-13 17:30:04 0 [Note] Server socket created on IP: '0.0.0.0'.
+2023-12-13 17:30:04 0 [Note] Server socket created on IP: '::'.
+2023-12-13 17:30:05 0 [Note] /usr/bin/mariadbd: ready for connections.
+Version: '10.11.5-MariaDB-log'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  Alpine Linux
+231213 17:32:48 mysqld_safe Starting mariadbd daemon with databases from /config/databases
+2023-12-13 17:32:48 0 [Warning] Setting lower_case_table_names=2 because file system for /config/databases/ is case insensitive
+2023-12-13 17:32:48 0 [Note] Starting MariaDB 10.11.5-MariaDB-log source revision 7875294b6b74b53dd3aaa723e6cc103d2bb47b2c as process 413
+2023-12-13 17:32:48 0 [Note] InnoDB: Compressed tables use zlib 1.2.13
+2023-12-13 17:32:48 0 [Note] InnoDB: Number of transaction pools: 1
+2023-12-13 17:32:48 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
+2023-12-13 17:32:48 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
+2023-12-13 17:32:49 0 [Note] InnoDB: Using Linux native AIO
+2023-12-13 17:32:49 0 [Note] InnoDB: Initializing buffer pool, total size = 256.000MiB, chunk size = 4.000MiB
+2023-12-13 17:32:49 0 [Note] InnoDB: Completed initialization of buffer pool
+2023-12-13 17:32:49 0 [Note] InnoDB: Buffered log writes (block size=512 bytes)
+2023-12-13 17:32:49 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=46422
+2023-12-13 17:32:49 0 [Note] InnoDB: End of log at LSN=673706
+2023-12-13 17:32:49 0 [Note] InnoDB: To recover: 301 pages
+2023-12-13 17:32:49 0 [Note] InnoDB: Last binlog file '/config/log/mysql/mariadb-bin.000003', position 94754
+2023-12-13 17:32:49 0 [Note] InnoDB: 128 rollback segments are active.
+2023-12-13 17:32:49 0 [Note] InnoDB: Removed temporary tablespace data file: "./ibtmp1"
+2023-12-13 17:32:49 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2023-12-13 17:32:49 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2023-12-13 17:32:49 0 [Note] InnoDB: log sequence number 673706; transaction id 1435
+2023-12-13 17:32:49 0 [Note] Plugin 'FEEDBACK' is disabled.
+2023-12-13 17:32:49 0 [Note] InnoDB: Loading buffer pool(s) from /config/databases/ib_buffer_pool
+2023-12-13 17:32:49 0 [Note] InnoDB: Buffer pool(s) load completed at 231213 17:32:49
+2023-12-13 17:32:49 0 [Note] Recovering after a crash using /config/log/mysql/mariadb-bin
+2023-12-13 17:32:49 0 [Note] Starting table crash recovery...
+2023-12-13 17:32:49 0 [Note] Crash table recovery finished.
+2023-12-13 17:32:49 0 [Note] Server socket created on IP: '0.0.0.0'.
+2023-12-13 17:32:49 0 [Note] Server socket created on IP: '::'.
+2023-12-13 17:32:49 0 [Note] /usr/bin/mariadbd: ready for connections.
+Version: '10.11.5-MariaDB-log'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  Alpine Linux
+2023-12-13 17:32:49 4 [Warning] Aborted connection 4 to db: 'unconnected' user: 'unauthenticated' host: 'localhost' (This connection closed normally without authentication)
+2023-12-13 17:32:51 6 [Warning] Aborted connection 6 to db: 'unconnected' user: 'unauthenticated' host: 'bookstack.docker-bookstack-master_default' (This connection closed normally without authentication)
+2023-12-13 17:32:57 7 [Warning] Aborted connection 7 to db: 'unconnected' user: 'unauthenticated' host: 'bookstack.docker-bookstack-master_default' (This connection closed normally without authentication)
+2023-12-13 17:33:58 0 [Note] /usr/bin/mariadbd (initiated by: unknown): Normal shutdown
+2023-12-13 17:33:58 0 [Note] InnoDB: FTS optimize thread exiting.
+2023-12-13 17:33:58 0 [Note] InnoDB: Starting shutdown...
+2023-12-13 17:33:58 0 [Note] InnoDB: Dumping buffer pool(s) to /config/databases/ib_buffer_pool
+2023-12-13 17:33:58 0 [Note] InnoDB: Buffer pool(s) dump completed at 231213 17:33:58
+2023-12-13 17:33:58 0 [Note] InnoDB: Removed temporary tablespace data file: "./ibtmp1"
+2023-12-13 17:33:58 0 [Note] InnoDB: Shutdown completed; log sequence number 675778; transaction id 1438
+2023-12-13 17:33:58 0 [Note] /usr/bin/mariadbd: Shutdown complete
+
+231213 17:33:58 mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
+231213 17:34:14 mysqld_safe Starting mariadbd daemon with databases from /config/databases
+2023-12-13 17:34:14 0 [Warning] Setting lower_case_table_names=2 because file system for /config/databases/ is case insensitive
+2023-12-13 17:34:14 0 [Note] Starting MariaDB 10.11.5-MariaDB-log source revision 7875294b6b74b53dd3aaa723e6cc103d2bb47b2c as process 411
+2023-12-13 17:34:14 0 [Note] InnoDB: Compressed tables use zlib 1.2.13
+2023-12-13 17:34:14 0 [Note] InnoDB: Number of transaction pools: 1
+2023-12-13 17:34:14 0 [Note] InnoDB: Using crc32 + pclmulqdq instructions
+2023-12-13 17:34:14 0 [Note] mariadbd: O_TMPFILE is not supported on /tmp (disabling future attempts)
+2023-12-13 17:34:14 0 [Note] InnoDB: Using Linux native AIO
+2023-12-13 17:34:14 0 [Note] InnoDB: Initializing buffer pool, total size = 256.000MiB, chunk size = 4.000MiB
+2023-12-13 17:34:14 0 [Note] InnoDB: Completed initialization of buffer pool
+2023-12-13 17:34:14 0 [Note] InnoDB: Buffered log writes (block size=512 bytes)
+2023-12-13 17:34:14 0 [Note] InnoDB: End of log at LSN=675778
+2023-12-13 17:34:14 0 [Note] InnoDB: 128 rollback segments are active.
+2023-12-13 17:34:14 0 [Note] InnoDB: Setting file './ibtmp1' size to 12.000MiB. Physically writing the file full; Please wait ...
+2023-12-13 17:34:14 0 [Note] InnoDB: File './ibtmp1' size is now 12.000MiB.
+2023-12-13 17:34:14 0 [Note] InnoDB: log sequence number 675778; transaction id 1435
+2023-12-13 17:34:14 0 [Note] Plugin 'FEEDBACK' is disabled.
+2023-12-13 17:34:14 0 [Note] InnoDB: Loading buffer pool(s) from /config/databases/ib_buffer_pool
+2023-12-13 17:34:14 0 [Note] Server socket created on IP: '0.0.0.0'.
+2023-12-13 17:34:14 0 [Note] Server socket created on IP: '::'.
+2023-12-13 17:34:14 0 [Note] InnoDB: Buffer pool(s) load completed at 231213 17:34:14
+2023-12-13 17:34:15 0 [Note] /usr/bin/mariadbd: ready for connections.
+Version: '10.11.5-MariaDB-log'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  Alpine Linux
+2023-12-13 17:34:15 4 [Warning] Aborted connection 4 to db: 'unconnected' user: 'unauthenticated' host: 'localhost' (This connection closed normally without authentication)
+2023-12-13 17:34:16 6 [Warning] Aborted connection 6 to db: 'unconnected' user: 'unauthenticated' host: 'bookstack.docker-bookstack-master_default' (This connection closed normally without authentication)
+2023-12-13 17:34:22 7 [Warning] Aborted connection 7 to db: 'unconnected' user: 'unauthenticated' host: 'bookstack.docker-bookstack-master_default' (This connection closed normally without authentication)
