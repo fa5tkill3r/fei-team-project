@@ -15,7 +15,7 @@ class TaskController extends Controller
     }
 
     public function index() {
-        $teams = $this->user->teams();
+        $teams = $this->user->teams()->get();
 
         $tasks = [];
 
