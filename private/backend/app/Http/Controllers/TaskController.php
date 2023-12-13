@@ -16,13 +16,15 @@ class TaskController extends Controller
     }
 
     public function index() {
+        $team = request()->get('team');
+        if($team) {
+            return $this->getByTeam($team);
+        }
         $tasks = Task::all();
         return response()->json($tasks, 200);
     }
 
-
-
-    public function getByTeam($teamId) {
+    private function getByTeam($teamId) {
         $team = $this->user->teams()->findOrFail($teamId);
         return $team->tasks;
     }

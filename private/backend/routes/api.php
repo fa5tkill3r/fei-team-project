@@ -54,7 +54,6 @@ Route::group([
     'middleware' => ['auth'],
 ], function () {
     Route::get("/", TaskController::class . "@index");
-    Route::get("/{teamId}", TaskController::class . "@getByTeam");
     Route::post("/{teamId}", TaskController::class . "@store");
     Route::get("/{teamId}/{taskId}", TaskController::class . "@show");
     Route::put("/{teamId}/{taskId}", TaskController::class . "@update");
