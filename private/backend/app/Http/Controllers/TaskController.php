@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -15,17 +16,7 @@ class TaskController extends Controller
     }
 
     public function index() {
-        $teams = $this->user->teams();
-
-        $tasks = [];
-
-        foreach ($teams as $team) {
-            $tasks[] = [
-                'team' => $team,
-                'tasks' => $team->tasks(),
-            ];
-        }
-
+        $tasks = Task::all();
         return response()->json($tasks, 200);
     }
 
