@@ -49,7 +49,7 @@ class TaskController extends Controller
         foreach($request->users as $user) {
             $task->users()->attach($user);
         }
-        
+
         $task->users()->attach($this->user);
 
         return response()->json($task, 201);
@@ -74,6 +74,11 @@ class TaskController extends Controller
         if($task->incident != null) {
             $task->incident->update($request->all());
         }
+        
+        foreach($request->users as $user) {
+            $task->users()->attach($user);
+        }
+
         $task->update($request->all());
 
         return response()->json($task, 200);
