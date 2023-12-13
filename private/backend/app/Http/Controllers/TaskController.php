@@ -59,6 +59,10 @@ class TaskController extends Controller
         }
 
         $task = $team->tasks()->findOrFail($taskId);
+        
+        if($task->incident != null) {
+            $task->incident->update($request->all());
+        }
         $task->update($request->all());
 
         return response()->json($task, 200);
