@@ -15,30 +15,18 @@ class TaskController extends Controller
     }
 
     public function index() {
-        $teams = $this->user->teams()->get();
+        $teams = $this->user->teams();
 
         $tasks = [];
 
         foreach ($teams as $team) {
             $tasks[] = [
                 'team' => $team,
-                'tasks' => $team->tasks,
+                'tasks' => $team->tasks(),
             ];
         }
 
-
-
-
-        // $teams = $this->user->tasks()->with('team')->get();
-        // $tasks = [];
-
-        // foreach ($teams as $team) {
-        //     $tasks[] = [
-        //         'team' => $team,
-        //         'tasks' => $team->tasks,
-        //     ];
-        // }
-        // return response()->json($tasks, 200);
+        return response()->json($tasks, 200);
     }
 
 
