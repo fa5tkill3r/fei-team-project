@@ -11,14 +11,23 @@ class Task extends Model
 
     protected $fillable = [
         'name',
+        'type',
         'deadline',
         'description',
         'sevirity',
+        'is_resolved',
+        'is_closed',
+        'resolution',
     ];
 
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function incident()
+    {
+        return $this->belongsTo(Incident::class);
     }
 
     public function users()
