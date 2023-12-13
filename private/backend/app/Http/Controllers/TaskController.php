@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Incident;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -37,8 +38,18 @@ class TaskController extends Controller
         if($role->task_create == 0) {
             return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
+
         
         $task = $team->tasks()->create($request->all());
+        if($request->incident_id != null) {
+            $incident = Incident::findOrFail($request->incident_id);    
+            $task->incident()->associate($incident);
+        }
+
+        foreach($request->users as $user) {
+            $task->users()->attach($user);
+        }
+        
         $task->users()->attach($this->user);
 
         return response()->json($task, 201);
