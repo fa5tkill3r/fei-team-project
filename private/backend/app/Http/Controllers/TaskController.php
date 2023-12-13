@@ -27,6 +27,11 @@ class TaskController extends Controller
         return response()->json($tasks, 200);
     }
 
+    public function getByTeam($teamId) {
+        $team = $this->user->teams()->findOrFail($teamId);
+        return $team->tasks;
+    }
+
     public function store(Request $request, $teamId) {
         $team = $this->user->teams()->findOrFail($teamId);
         
