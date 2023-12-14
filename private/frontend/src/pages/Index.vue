@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 import { Squares2X2Icon, ListBulletIcon, EllipsisHorizontalIcon } from '@heroicons/vue/24/solid'
+import { ky } from '@/lib/ky.js'
+import { ref } from 'vue'
+
+const tasks = ref([])
+
+const getTasks = async () => {
+  tasks.value = await ky.get('tasks').json()
+}
+
+getTasks()
 </script>
 
 <template>
@@ -21,7 +31,7 @@ import { Squares2X2Icon, ListBulletIcon, EllipsisHorizontalIcon } from '@heroico
     </div>
 
     <div class="grid grid-cols-4 gap-6 mt-6">
-      <div v-for="_ in 4" class="flex flex-col gap-4">
+      <div v-for="_ in 1" class="flex flex-col gap-4">
         <div class="flex justify-between items-center">
           <h2>Tasks</h2>
 
@@ -30,9 +40,9 @@ import { Squares2X2Icon, ListBulletIcon, EllipsisHorizontalIcon } from '@heroico
           </button>
         </div>
 
-        <div v-for="_ in 5" class="bg-neutral p-6 rounded-lg">
+        <div v-for="task in tasks" class="bg-neutral p-6 rounded-lg">
           <div class="mb-2">
-            <p class="font-semibold text-xl">Title</p>
+            <p class="font-semibold text-xl">{{ task.name }}</p>
           </div>
 
           <div class="flex gap-2 mb-4">
