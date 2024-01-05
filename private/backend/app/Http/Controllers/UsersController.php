@@ -19,6 +19,7 @@ class UsersController extends Controller
             'users' => User::all(),
         ]);
     }
+
     public function register(Request $request)
     {
         $user = User::create($request->all());
@@ -77,11 +78,13 @@ class UsersController extends Controller
             }
         }
 
-        return response()->json([
-            "message" => "Login succesfuly",
-            "token" => $token,
-            "user" => $user,
-        ])->withCookie(cookie('remember_token', $user->remember_token, 60 * 24 * 7));
+        return response()
+            ->json([
+                "message" => "Login succesfuly",
+                "token" => $token,
+                "user" => $user,
+            ])
+            ->cookie('remember_token', $user->remember_token, 60 * 24 * 7);
     }
 
     public function refresh()
@@ -94,7 +97,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function logOut()
+    public function logout()
     {
         $token = JWTAuth::getToken();
         $token = JWTAuth::invalidate($token);
@@ -105,7 +108,7 @@ class UsersController extends Controller
         ])->withCookie($cookie);
     }
 
-    public function logOutFromAll()
+    public function logoutFromAll()
     {
         $token = JWTAuth::getToken();
         $user = JWTAuth::toUser($token);
@@ -118,7 +121,6 @@ class UsersController extends Controller
             "message" => "Logout succesfuly",
         ])->withCookie($cookie);
     }
-
 
 
 }

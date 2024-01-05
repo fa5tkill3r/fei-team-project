@@ -1,5 +1,13 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
 import { Bars3Icon } from '@heroicons/vue/24/solid'
+
+const auth = useAuthStore()
+
+function logout() {
+  // TODO: add confirmation modal?
+  auth.logout()
+}
 </script>
 
 <template>
@@ -7,7 +15,9 @@ import { Bars3Icon } from '@heroicons/vue/24/solid'
     <input id="drawer" type="checkbox" class="drawer-toggle" />
 
     <div class="drawer-content flex flex-col">
-      <div class="navbar bg-base-300 h-20 border-b border-base-content/10 sticky top-0 px-9">
+      <div
+        class="navbar bg-base-300 h-20 border-b border-base-content/10 sticky top-0 px-9"
+      >
         <label for="drawer" class="btn btn-square btn-ghost lg:hidden">
           <Bars3Icon class="w-6 h-6" />
         </label>
@@ -46,13 +56,10 @@ import { Bars3Icon } from '@heroicons/vue/24/solid'
               class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52"
             >
               <li>
-                <a class="justify-between">
-                  Profile
-                  <span class="badge">New</span>
-                </a>
+                <a>Profile</a>
               </li>
               <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li><button @click="logout">Logout</button></li>
             </ul>
           </div>
         </div>
