@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use App\Http\Resources\TagResource;
 
 class TagController extends Controller
 {
@@ -17,25 +18,19 @@ class TagController extends Controller
 
     public function index() 
     {
-        return response()->json([
-            'data' => Tag::all(),
-        ]);
+        return TagResource::collection(Tag::all());
+        
     }
 
     public function store(Request $request)
     {
         $tag = Tag::create($request->all());
-
-        return response()->json([
-            'data' => $tag,
-        ]);
+        return new TagResource($tag);
     }
 
     public function show($id)
     {
-        return response()->json([
-            'data' => Tag::find($id),
-        ]);
+        return new TagResource(Tag::find($id));
     }
 
     public function update(Request $request, $id)
@@ -43,8 +38,16 @@ class TagController extends Controller
         $tag = Tag::find($id);
         $tag->update($request->all());
 
-        return response()->json([
-            'data' => $tag,
-        ]);
+        return new TagResource($tag);
     }
+
+    public function destroy($id)
+    {
+        $tag = Tag::find($id);
+        $tag->delete();
+
+        return new TagResource($tag);
+    }
+
+    
 }

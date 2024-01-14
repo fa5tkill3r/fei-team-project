@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskResponseResource;
 use Illuminate\Http\Request;
 
 class TaskResponseController extends Controller
@@ -18,7 +19,7 @@ class TaskResponseController extends Controller
     public function index($taskId)
     {
         $task = $this->user->tasks()->findOrFail($taskId);
-        return $task->responses;
+        return TaskResponseResource::collection($task->responses);
     }
 
     public function store(Request $request, $taskId)
@@ -28,15 +29,15 @@ class TaskResponseController extends Controller
         $response->user()->associate($this->user);
         $response->save();
 
-        return response()->json([
-            'data' => $response,
-        ]);
+        return TaskResponseResource::make($response);
     }
 
     public function show($taskId, $responseId)
     {
         $task = $this->user->tasks()->findOrFail($taskId);
-        return $task->responses()->findOrFail($responseId);
+        $response = $task->responses()->findOrFail($responseId);
+
+        return TaskResponseResource::make($response);
     }
 
     public function update(Request $request, $taskId, $responseId)
@@ -45,9 +46,7 @@ class TaskResponseController extends Controller
         $response = $task->responses()->findOrFail($responseId);
         $response->update($request->all());
 
-        return response()->json([
-            'data' => $response,
-        ]);
+        return TaskResponseResource::make($response);
     }
 
     public function destroy($taskId, $responseId)
@@ -56,8 +55,6 @@ class TaskResponseController extends Controller
         $response = $task->responses()->findOrFail($responseId);
         $response->delete();
 
-        return response()->json([
-            'data' => $response,
-        ]);
+        return TaskResponseResource::make($response);
     }
 }

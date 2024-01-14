@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskResource;
 use App\Models\Incident;
 use App\Models\Task;
 use App\Models\TaskResponse;
@@ -23,7 +24,7 @@ class TaskController extends Controller
             return $this->getByTeam($team);
         }
         $tasks = Task::all();
-        return response()->json($tasks, 200);
+        return TaskResource::collection($tasks);
     }
 
     private function getByTeam($teamId) {
@@ -58,12 +59,14 @@ class TaskController extends Controller
 
         $task->users()->attach($this->user);
 
-        return response()->json($task, 201);
+        $task = $team->tasks()->findOrFail($task->id);
+        return new TaskResponse($task);
     }
 
     public function show($teamId, $taskId) {
         $team = $this->user->teams()->findOrFail($teamId);
-        return $team->tasks()->findOrFail($taskId);
+        $task = $team->tasks()->findOrFail($taskId);
+        return new TaskResource($task);
     }
 
     public function update(Request $request, $teamId, $taskId) {
@@ -95,7 +98,7 @@ class TaskController extends Controller
 
         $task->update($request->all());
 
-        return response()->json($task, 200);
+        return new TaskResource($task);
     }
 
     public function destroy($teamId, $taskId) {
