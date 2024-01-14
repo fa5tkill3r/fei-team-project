@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Incident;
 use App\Models\Task;
+use App\Models\TaskResponse;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -40,6 +41,7 @@ class TaskController extends Controller
         }
 
         
+
         $task = $team->tasks()->create($request->all());
         if($request->incident_id != null) {
             $incident = Incident::findOrFail($request->incident_id);    
@@ -48,6 +50,10 @@ class TaskController extends Controller
 
         foreach($request->users as $user) {
             $task->users()->attach($user);
+        }
+
+        foreach($request->tags as $tag) {
+            $task->tags()->attach($tag);
         }
 
         $task->users()->attach($this->user);
@@ -78,6 +84,14 @@ class TaskController extends Controller
         foreach($request->users as $user) {
             $task->users()->attach($user);
         }
+
+        foreach($request->tags as $tag) {
+            $task->tags()->attach($tag);
+        }
+
+        $response = new TaskResponse();
+        $response->fill($request->task_response);
+        $response->task()->associate($task);
 
         $task->update($request->all());
 

@@ -1,15 +1,18 @@
 <?php
 
-use App\Http\Controllers\ThesisController;
-use App\Http\Controllers\IncidentsController;
-use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TeamController;
 
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\TeamController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ThesisController;
+use App\Http\Controllers\IncidentsController;
+use App\Http\Controllers\TaskReponseController;
 use App\Http\Controllers\IncidentTaskController;
+use App\Http\Controllers\TaskResponseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,5 +86,13 @@ Route::group([
     Route::resource('teams', TeamController::class);
     Route::resource('incidents', IncidentsController::class);
     Route::resource('roles', RoleController::class)->only(['index', 'store']);
+    Route::resource('tags', TagController::class);
 
+    Route::get('task/{taskId}/responses', TaskResponseController::class . '@index');
+    Route::post('task/{taskId}/responses', TaskResponseController::class . '@store');
+    Route::get('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@show');
+    Route::put('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@update');
+    Route::delete('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@destroy');
+    
 });
+

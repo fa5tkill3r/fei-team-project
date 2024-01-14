@@ -35,5 +35,17 @@ class Task extends Model
         return $this->belongsToMany(User::class, 'task_user', 'task_id', 'user_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Task::class, 'parent_id');
+    }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'task_tag', 'task_id', 'tag_id');
+    }
+    public function responses()
+    {
+        return $this->hasMany(TaskResponse::class);
+    }
 }
