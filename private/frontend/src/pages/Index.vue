@@ -1,13 +1,18 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
-import { Squares2X2Icon, ListBulletIcon, EllipsisHorizontalIcon } from '@heroicons/vue/24/solid'
-import { ky } from '@/lib/ky.js'
+import {
+  Squares2X2Icon,
+  ListBulletIcon,
+  EllipsisHorizontalIcon,
+} from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
 
-const tasks = ref([])
+const auth = useAuthStore()
+const tasks = ref<any[]>([])
 
-const getTasks = async () => {
-  tasks.value = await ky.get('tasks').json()
+async function getTasks() {
+  tasks.value = (await auth.client.get('tasks')) as any[]
 }
 
 getTasks()
