@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TaskResponseResource;
+use App\Models\TaskResponse;
 use Illuminate\Http\Request;
 
 class TaskResponseController extends Controller
@@ -18,16 +19,24 @@ class TaskResponseController extends Controller
 
     public function index($taskId)
     {
-        $task = $this->user->tasks()->findOrFail($taskId);
-        return TaskResponseResource::collection($task->responses);
+        $tasks = $this->user->tasks()->findOrFail($taskId);
+
+        $responses = $tasks->responses()->with(['user', 'task'])->get();     
+
+        return TaskResponseResource::collection($responses);
     }
 
     public function store(Request $request, $taskId)
     {
         $task = $this->user->tasks()->findOrFail($taskId);
+        $request->merge(['user_id' => $this->user->id]);
+        $request->merge(['task_id' => $task->id]);
         $response = $task->responses()->create($request->all());
-        $response->user()->associate($this->user);
+        
+        
         $response->save();
+        
+        $response = TaskResponse::with(['user', 'task'])->findOrFail($response->id);
 
         return TaskResponseResource::make($response);
     }
@@ -36,6 +45,8 @@ class TaskResponseController extends Controller
     {
         $task = $this->user->tasks()->findOrFail($taskId);
         $response = $task->responses()->findOrFail($responseId);
+
+        $response = $response->with(['user', 'task']);
 
         return TaskResponseResource::make($response);
     }
@@ -46,6 +57,8 @@ class TaskResponseController extends Controller
         $response = $task->responses()->findOrFail($responseId);
         $response->update($request->all());
 
+        $response = $response->with(['user', 'task']);
+
         return TaskResponseResource::make($response);
     }
 
@@ -54,6 +67,9 @@ class TaskResponseController extends Controller
         $task = $this->user->tasks()->findOrFail($taskId);
         $response = $task->responses()->findOrFail($responseId);
         $response->delete();
+        
+        $response->with(['user', 'task']);
+
 
         return TaskResponseResource::make($response);
     }

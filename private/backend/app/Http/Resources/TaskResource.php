@@ -15,9 +15,9 @@ class TaskResource extends JsonResource
             'completed' => $this->completed,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            "users" => $this->users() ? UserResource::collection($this->users()) : null,
-            'tags' => $this->tags() ? TagResource::collection($this->tags()) : null,
-            'responses' => $this->responses() ? TaskResponseResource::collection($this->responses()) : null,
+            'users' => UserResource::collection($this->whenLoaded('users')),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'responses' => TaskResponseResource::collection($this->whenLoaded('responses')),
         ];
     }
 }

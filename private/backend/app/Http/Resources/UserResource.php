@@ -21,8 +21,8 @@ class UserResource extends JsonResource
             "email_verified_at" => $this->email_verified_at,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
-            "tasks" => TaskResource::collection($this->tasks),
-            "task_responses" => TaskResponseResource::collection($this->task_responses),
+            // "tasks" => TaskResource::collection($this->tasks),
+            // "task_responses" => TaskResponseResource::collection($this->task_responses),
         ];
     }
 }

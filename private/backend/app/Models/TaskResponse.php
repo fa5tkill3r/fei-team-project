@@ -13,6 +13,8 @@ class TaskResponse extends Model
 
     protected $fillable = [
         'response',
+        'user_id',
+        'task_id',
     ];
 
     public function task()
