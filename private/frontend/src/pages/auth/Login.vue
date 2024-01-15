@@ -1,6 +1,8 @@
 <template>
   <div class="mx-3">
-    <h1 class="text-3xl">Login</h1>
+    <h1 class="text-3xl">
+      {{ $t('auth.login') }}
+    </h1>
 
     <form @submit.prevent="login">
       <label class="form-control w-full">
