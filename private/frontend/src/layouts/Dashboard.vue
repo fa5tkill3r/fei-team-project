@@ -55,11 +55,15 @@ function logout() {
               tabindex="0"
               class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52"
             >
-              <li>
+              <li class="disabled">
                 <a>Profile</a>
               </li>
-              <li><a>Settings</a></li>
-              <li><button @click="logout">Logout</button></li>
+              <li class="disabled">
+                <a>Settings</a>
+              </li>
+              <li>
+                <button @click="logout">Logout</button>
+              </li>
             </ul>
           </div>
         </div>
@@ -91,7 +95,11 @@ function logout() {
         </div>
 
         <div class="p-4">
-          <li><a>Sidebar Item 1</a></li>
+          <li>
+            <router-link :to="{ name: 'home' }">
+              {{ $t('nav.tasks') }}
+            </router-link>
+          </li>
           <li><a>Sidebar Item 2</a></li>
 
           <div class="divider"></div>
