@@ -1,5 +1,8 @@
 {
   "auth": {
     "login": "Prihlásenie"
+  },
+  "nav": {
+    "tasks": "Ulohy"
   }
 }

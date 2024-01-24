@@ -1,5 +1,8 @@
 {
   "auth": {
     "login": "Login"
+  },
+  "nav": {
+    "tasks": "Tasks"
   }
 }
