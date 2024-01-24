@@ -25,6 +25,22 @@ const routes = [
       guest: true,
     },
   },
+  // tasks
+  {
+    path: '/tasks',
+    name: 'task-create',
+    component: () => import('./pages/tasks/Create.vue'),
+  },
+  {
+    path: '/tasks/:id',
+    name: 'task-detail',
+    component: () => import('./pages/tasks/Detail.vue'),
+  },
+  {
+    path: '/tasks/:id/edit',
+    name: 'task-edit',
+    component: () => import('./pages/tasks/Edit.vue'),
+  },
 ]
 
 // TODO: auth guard

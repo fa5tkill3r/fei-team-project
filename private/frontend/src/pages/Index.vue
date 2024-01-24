@@ -5,6 +5,7 @@ import {
   Squares2X2Icon,
   ListBulletIcon,
   EllipsisHorizontalIcon,
+  PlusIcon,
 } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
 
@@ -93,6 +94,15 @@ getTasks()
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="fixed bottom-6 right-6">
+      <router-link
+        class="btn btn-circle btn-lg btn-primary"
+        :to="{ name: 'task-create' }"
+      >
+        <PlusIcon class="w-6 h-6" />
+      </router-link>
     </div>
   </div>
 </template>
