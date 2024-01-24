@@ -41,6 +41,12 @@ const routes = [
     name: 'task-edit',
     component: () => import('./pages/tasks/Edit.vue'),
   },
+  // team
+  {
+    path: '/team/create',
+    name: 'team-create',
+    component: () => import('./pages/team/Create.vue'),
+  },
 ]
 
 // TODO: auth guard
