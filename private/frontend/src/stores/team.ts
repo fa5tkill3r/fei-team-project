@@ -5,10 +5,10 @@ import { useAuthStore } from '@/stores/auth'
 export const useTeamStore = defineStore('team', () => {
   const authStore = useAuthStore()
 
-
   const team = ref<any>(null)
   const teams = ref<any[]>([])
 
+  let callbacks: any[] = []
 
   async function getTeams() {
     return authStore.client
@@ -28,11 +28,14 @@ export const useTeamStore = defineStore('team', () => {
 
   function selectTeam(teamId: number) {
     team.value = teams.value.find((t: any) => t.id === teamId)
+
+    callbacks.forEach((callback) => callback(team.value))
   }
 
-  function getCurrentTeam() {
-    return team.value
+
+  function onTeamChange(callback: (callback: any) => void) {
+    callbacks.push(callback)
   }
 
-  return { teams, team, selectTeam }
+  return { teams, team, selectTeam, onTeamChange }
 })

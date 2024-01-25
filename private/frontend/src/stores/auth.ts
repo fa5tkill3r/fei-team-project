@@ -3,10 +3,12 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter, useRoute } from 'vue-router'
 import { tryParseJSON } from '@/lib/utils'
+import { queryStringAddon } from 'wretch/addons'
 
 const TOKEN_REFRESH_BUFFER = 30 * 1000
 
 const defaultClient = wretch(import.meta.env.VITE_API_URL)
+  .addon(queryStringAddon)
   .accept('application/json')
   .resolve((r) => r.json())
 

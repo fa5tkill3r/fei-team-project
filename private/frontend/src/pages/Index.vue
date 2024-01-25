@@ -8,13 +8,28 @@ import {
   PlusIcon,
 } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
+import { useTeamStore } from '@/stores/team.ts'
 
 const auth = useAuthStore()
+const teamStore = useTeamStore()
 const tasks = ref<any[]>([])
 
-async function getTasks() {
-  tasks.value = (await auth.client.get('tasks')) as any[]
+function getTasks(team: any = null) {
+  console.log(team)
+  auth.client.query({
+    team: team?.id,
+  }).get('tasks').then((res : any) => {
+    tasks.value = res.data
+  }).catch((err) => {
+    console.log(err)
+  })
 }
+
+const onTeamChange = (team: any) => {
+  getTasks(team)
+}
+
+teamStore.onTeamChange(onTeamChange)
 
 getTasks()
 </script>
@@ -48,7 +63,7 @@ getTasks()
 
         <div v-for="task in tasks" class="bg-neutral p-6 rounded-lg">
           <div class="mb-2">
-            <p class="font-semibold text-xl">{{ task.name }}</p>
+            <p class="font-semibold text-xl">{{ task.title }}</p>
           </div>
 
           <div class="flex gap-2 mb-4">
