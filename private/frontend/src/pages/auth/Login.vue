@@ -51,8 +51,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useTeamStore } from '@/stores/team'
 
 const auth = useAuthStore()
+const team = useTeamStore()
 const email = ref('')
 const password = ref('')
 const remember = ref(false)
@@ -62,8 +64,11 @@ function login() {
     return
   }
 
-  auth.login(email.value, password.value, remember.value).catch((err) => {
-    console.log(err)
-  })
+  auth
+    .login(email.value, password.value, remember.value)
+    .then(team.loadTeams)
+    .catch((err) => {
+      console.log(err)
+    })
 }
 </script>

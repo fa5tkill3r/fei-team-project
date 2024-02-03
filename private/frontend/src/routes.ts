@@ -49,6 +49,4 @@ const routes = [
   },
 ]
 
-// TODO: auth guard
-
 export default routes

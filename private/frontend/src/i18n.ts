@@ -1,7 +1,7 @@
 import { nextTick, WritableComputedRef } from 'vue'
 import { createI18n, I18n, I18nOptions } from 'vue-i18n'
 
-export const SUPPORT_LOCALES = ['en', 'sk']
+export const SUPPORTED_LOCALES = ['en', 'sk']
 
 export function setupI18n(options: I18nOptions) {
   const i18n = createI18n(options)

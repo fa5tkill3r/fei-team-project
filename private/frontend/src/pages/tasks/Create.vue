@@ -1,14 +1,17 @@
 <template>
-  <div>
-    <form @submit.prevent="createTask">
+  <form
+    @submit.prevent="createTask"
+    class="grid grid-cols-12 gap-x-4 max-w-7xl mx-auto"
+  >
+    <div class="col-span-12 xl:col-span-9">
       <label class="form-control w-full">
         <div class="label">
           <span class="label-text">{{ $t('task.title') }}</span>
         </div>
         <input
           type="text"
-          v-model="task.title"
-          placeholder="Type here"
+          v-model="task.name"
+          :placeholder="$t('task.title_placeholder')"
           class="input input-bordered w-full"
         />
       </label>
@@ -19,42 +22,83 @@
         </div>
         <textarea
           class="textarea textarea-bordered h-24 text-base"
-          placeholder="Bio"
+          :placeholder="$t('task.description_placeholder')"
+          v-model="task.description"
         ></textarea>
       </label>
+    </div>
 
-      <UsersCombobox v-model="task.users" />
+    <div class="col-span-12 xl:col-span-3">
+      <label class="form-control">
+        <div class="label">
+          <span class="label-text">{{ $t('task.severity') }}</span>
+        </div>
+        <select
+          class="select select-bordered select-sm w-full max-w-xs"
+          v-model="task.severity"
+        >
+          <option>low</option>
+          <option>medium</option>
+          <option>high</option>
+        </select>
+      </label>
 
-      <button type="submit" class="btn btn-primary mt-4">
+      <div class="divider my-0"></div>
+
+      <UserSelector v-model="task.users" />
+
+      <div class="divider my-0"></div>
+
+      <TagSelector v-model="task.tags" />
+    </div>
+
+    <div class="col-span-12 xl:col-span-9 text-right">
+      <button type="submit" class="btn btn-primary mt-4" :disabled="loading">
         {{ $t('task.create') }}
       </button>
-    </form>
-  </div>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
-import UsersCombobox from '@/components/UsersCombobox.vue';
+import UserSelector from '@/components/UserSelector.vue'
+import TagSelector from '@/components/TagSelector.vue'
+import { useRouter } from 'vue-router'
+import { useTeamStore } from '@/stores/team'
 
 interface Task {
-  title: string
+  name: string
   description: string
-  users: string[]
-  tags: string[]
+  users: number[]
+  tags: number[]
+  severity: string
 }
 
+const router = useRouter()
 const auth = useAuthStore()
+const team = useTeamStore()
+const loading = ref(false)
 const task = ref<Task>({
-  title: '',
+  name: '',
   description: '',
   users: [],
   tags: [],
+  severity: 'low',
 })
 
 function createTask() {
   console.log(task.value)
 
-  auth.client.post(task.value, 'tasks')
+  loading.value = true
+  auth.client
+    .post(task.value, `tasks/${team.team?.id}`)
+    .then((res: any) => {
+      router.push({ name: 'task-detail', params: { id: res.data.id } })
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 </script>

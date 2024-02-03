@@ -11,6 +11,7 @@ use App\Http\Resources\TeamResource;
 class TeamController extends Controller
 {
     private $user;
+
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -30,9 +31,9 @@ class TeamController extends Controller
         if ($team) {
             $adminRole = Role::where('slug', 'admin')->first();
             $team->users()->attach($this->user->id, ['role_id' => $adminRole->id]);
-            
+
             $team = Team::with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])
-                    ->findOrFail($team->id);
+                ->findOrFail($team->id);
 
             return TeamResource::make($team);
         } else {
@@ -59,9 +60,8 @@ class TeamController extends Controller
         $team->update($request->all());
 
 
-
         $team = Team::with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])
-                    ->findOrFail($team->id);
+            ->findOrFail($team->id);
 
         return TeamResource::make($team);
     }
@@ -86,7 +86,7 @@ class TeamController extends Controller
         $team->users()->attach($this->user, ['role_id' => $request->get('role_id')]);
 
         $team = Team::with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])
-                    ->findOrFail($team->id);
+            ->findOrFail($team->id);
 
         return TeamResource::make($team);
     }
@@ -105,8 +105,16 @@ class TeamController extends Controller
         $team->users()->detach($user);
 
         $team = Team::with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])
-                    ->findOrFail($team->id);
+            ->findOrFail($team->id);
 
         return TeamResource::make($team);
+    }
+
+    public function members($id)
+    {
+        $team = Team::findOrFail($id);
+        $members = $team->users()->get();
+
+        return response()->json($members);
     }
 }

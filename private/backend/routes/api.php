@@ -68,13 +68,13 @@ Route::group([
 Route::group([
     'prefix' => 'incidents',
     'middleware' => ['auth'],
-], function(){
+], function () {
     // Route::get("/", IncidentsController::class ."@index");
     // Route::get("/{id}", IncidentsController::class ."@show");
     // Route::put("/{id}", IncidentsController::class ."@update");
     // Route::delete("/{id}", IncidentsController::class ."@destroy");
-    Route::get('type/{type}', IncidentsController::class ."@getIncidentsByType");
-    Route::get("/{id}/images", IncidentsController::class ."@getImages");
+    Route::get('type/{type}', IncidentsController::class . "@getIncidentsByType");
+    Route::get("/{id}/images", IncidentsController::class . "@getImages");
 });
 
 Route::resource('thesis', ThesisController::class);
@@ -82,7 +82,7 @@ Route::resource('thesis', ThesisController::class);
 Route::group([
     'prefix' => '/',
     'middleware' => ['auth'],
-], function(){
+], function () {
     Route::resource('teams', TeamController::class);
     Route::resource('incidents', IncidentsController::class);
     Route::resource('roles', RoleController::class)->only(['index', 'store']);
@@ -93,6 +93,7 @@ Route::group([
     Route::get('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@show');
     Route::put('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@update');
     Route::delete('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@destroy');
-    
+
+    Route::get('teams/{id}/members', TeamController::class . '@members');
 });
 

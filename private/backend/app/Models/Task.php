@@ -14,7 +14,7 @@ class Task extends Model
         'type',
         'deadline',
         'description',
-        'sevirity',
+        'severity',
         'is_resolved',
         'is_closed',
         'resolution',

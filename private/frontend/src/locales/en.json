@@ -4,5 +4,18 @@
   },
   "nav": {
     "tasks": "Tasks"
+  },
+  "task": {
+    "title": "Title",
+    "title_placeholder": "Add title here...",
+    "description": "Description",
+    "description_placeholder": "Add description here...",
+    "assignees": "Assignees",
+    "tags": "Tags",
+    "create": "Create",
+    "edit": "Edit",
+    "save": "Save",
+    "no_assignees": "No assignees",
+    "severity": "Severity"
   }
 }

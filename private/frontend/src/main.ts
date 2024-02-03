@@ -2,7 +2,8 @@ import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import { useAuthStore } from './stores/auth'
-import { SUPPORT_LOCALES, loadLocaleMessages, setupI18n } from './i18n'
+import { useTeamStore } from './stores/team'
+import { SUPPORTED_LOCALES, loadLocaleMessages, setupI18n } from './i18n'
 import routes from './routes.ts'
 import App from './App.vue'
 
@@ -21,20 +22,22 @@ app.use(pinia)
 app.use(router)
 
 const auth = useAuthStore()
+const team = useTeamStore()
 
 function loadInitialLocale() {
   let locale = 'sk'
   const lang = navigator.language.substring(0, 2).toLowerCase()
 
-  if (SUPPORT_LOCALES.includes(lang)) {
+  if (SUPPORTED_LOCALES.includes(lang)) {
     locale = lang
   }
 
   return loadLocaleMessages(i18n, locale)
 }
 
-auth
+const promise = auth
   .login()
+  .then(team.loadTeams)
   .catch(() => {})
   // TODO: load locale from user settings
   .then(loadInitialLocale)
@@ -42,7 +45,9 @@ auth
     app.mount('#app')
   })
 
-router.beforeEach((to, _, next) => {
+router.beforeEach(async (to, _, next) => {
+  await promise
+
   if (!auth.user && !to.meta.guest) {
     const redirect = to.fullPath === '/' ? undefined : to.fullPath
 

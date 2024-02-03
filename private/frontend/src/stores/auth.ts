@@ -5,6 +5,15 @@ import { useRouter, useRoute } from 'vue-router'
 import { tryParseJSON } from '@/lib/utils'
 import { queryStringAddon } from 'wretch/addons'
 
+export interface User {
+  id: number
+  email: string
+  first_name: string
+  last_name: string
+  created_at: string
+  updated_at: string
+}
+
 const TOKEN_REFRESH_BUFFER = 30 * 1000
 
 const defaultClient = wretch(import.meta.env.VITE_API_URL)
@@ -24,7 +33,7 @@ function parseJWT(token: string) {
 export const useAuthStore = defineStore('auth', () => {
   let timerId: number | undefined
 
-  const user = ref(null)
+  const user = ref<User | null>(null)
   const client = ref(defaultClient)
   const router = useRouter()
   const route = useRoute()
