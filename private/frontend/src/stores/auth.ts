@@ -1,7 +1,7 @@
 import wretch from 'wretch'
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { tryParseJSON } from '@/lib/utils'
 import { queryStringAddon } from 'wretch/addons'
 
@@ -36,7 +36,6 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const client = ref(defaultClient)
   const router = useRouter()
-  const route = useRoute()
 
   function handleUserResponse(res: any) {
     if (!res) {
@@ -85,13 +84,6 @@ export const useAuthStore = defineStore('auth', () => {
       .options({ credentials: 'include' })
       .post({ email, password, remember_me: rememberMe }, 'users/login')
       .then(handleUserResponse)
-      .then(() => {
-        const redirect = route.query.redirect || '/'
-
-        if (typeof redirect === 'string') {
-          router.push(redirect)
-        }
-      })
   }
 
   function register(user: {

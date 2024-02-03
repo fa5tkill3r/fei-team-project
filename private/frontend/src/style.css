@@ -5,3 +5,7 @@
 body {
   font-family: 'Inter', sans-serif;
 }
+
+.link {
+  @apply hover:text-primary transition-colors;
+}

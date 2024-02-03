@@ -73,7 +73,7 @@ function logout() {
         </div>
       </div>
 
-      <div class="p-8">
+      <div class="px-5 py-3">
         <slot></slot>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <form
     @submit.prevent="createTask"
-    class="grid grid-cols-12 gap-x-4 max-w-7xl mx-auto"
+    class="grid grid-cols-12 gap-x-4 gap-y-4 max-w-7xl mx-auto"
   >
     <div class="col-span-12 xl:col-span-9">
       <label class="form-control w-full">
@@ -26,6 +26,12 @@
           v-model="task.description"
         ></textarea>
       </label>
+
+      <div class="text-right hidden lg:block">
+        <button type="submit" class="btn btn-primary mt-4" :disabled="loading">
+          {{ $t('task.create') }}
+        </button>
+      </div>
     </div>
 
     <div class="col-span-12 xl:col-span-3">
@@ -45,6 +51,20 @@
 
       <div class="divider my-0"></div>
 
+      <div class="form-control">
+        <div class="label">
+          <span class="label-text">{{ $t('task.deadline') }}</span>
+        </div>
+
+        <DatePicker
+          v-model="task.deadline"
+          :enable-time-picker="false"
+          auto-apply
+        />
+      </div>
+
+      <div class="divider my-0"></div>
+
       <UserSelector v-model="task.users" />
 
       <div class="divider my-0"></div>
@@ -52,7 +72,7 @@
       <TagSelector v-model="task.tags" />
     </div>
 
-    <div class="col-span-12 xl:col-span-9 text-right">
+    <div class="col-span-12 xl:col-span-9 text-right lg:hidden">
       <button type="submit" class="btn btn-primary mt-4" :disabled="loading">
         {{ $t('task.create') }}
       </button>
@@ -67,20 +87,16 @@ import UserSelector from '@/components/UserSelector.vue'
 import TagSelector from '@/components/TagSelector.vue'
 import { useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/team'
+import { TaskRequest } from '@/types'
+import DatePicker from '@vuepic/vue-datepicker'
 
-interface Task {
-  name: string
-  description: string
-  users: number[]
-  tags: number[]
-  severity: string
-}
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const router = useRouter()
 const auth = useAuthStore()
 const team = useTeamStore()
 const loading = ref(false)
-const task = ref<Task>({
+const task = ref<TaskRequest>({
   name: '',
   description: '',
   users: [],

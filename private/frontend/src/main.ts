@@ -13,7 +13,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
-const i18n = setupI18n({ legacy: false })
+const i18n = setupI18n({ legacy: false, fallbackLocale: 'en' })
 const app = createApp(App)
 const pinia = createPinia()
 

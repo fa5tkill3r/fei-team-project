@@ -16,6 +16,7 @@
     "edit": "Edit",
     "save": "Save",
     "no_assignees": "No assignees",
-    "severity": "Severity"
+    "severity": "Severity",
+    "comments": "{count} comments | {count} comment | {count} comments"
   }
 }

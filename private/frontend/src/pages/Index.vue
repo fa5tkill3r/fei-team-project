@@ -11,10 +11,11 @@ import { ref } from 'vue'
 import { useTeamStore } from '@/stores/team.ts'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
+import { Task } from '@/types'
 
 const auth = useAuthStore()
 const teamStore = useTeamStore()
-const tasks = ref<any[]>([])
+const tasks = ref<Task[]>([])
 
 function loadTasks(team: any = null) {
   auth.client
@@ -75,7 +76,7 @@ onMounted(() => {
           :to="{ name: 'task-detail', params: { id: task.id } }"
         >
           <div class="mb-2">
-            <p class="font-semibold text-xl">{{ task.title }}</p>
+            <p class="font-semibold text-xl">{{ task.name }}</p>
           </div>
 
           <div class="flex gap-2 mb-4">

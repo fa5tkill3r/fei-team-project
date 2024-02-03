@@ -15,7 +15,7 @@
         <!-- <span class="link" @click="">{{ $t('task.assign-yourself') }}</span> -->
       </p>
 
-      <div v-else>
+      <div v-else class="flex flex-col gap-1">
         <div
           v-for="personId in model"
           :key="personId"
@@ -39,10 +39,11 @@
     <dialog class="modal" ref="dialog">
       <div class="modal-box flex flex-col min-h-96 max-h-full">
         <h3 class="font-bold text-lg flex items-center justify-between mb-4">
-          {{ $t('task.assignees') }}
+          {{ $t('task.select_assignees') }}
 
           <button
             class="btn btn-ghost btn-circle btn-sm"
+            type="button"
             @click="dialog?.close()"
           >
             <XMarkIcon class="w-5 h-5" />
@@ -56,11 +57,11 @@
           placeholder="Search"
         />
 
-        <div class="flex flex-col flex-1 gap-2.5 overflow-y-auto">
+        <div class="flex flex-col flex-1 gap-1.5 overflow-y-auto">
           <label
             v-for="person in filteredPeople"
             :key="person.id"
-            class="flex items-center p-2 rounded-btn cursor-pointer hover:bg-primary hover:text-primary-content transition-colors"
+            class="flex items-center p-2 rounded-btn cursor-pointer hover:bg-primary hover:text-primary-content transition-colors duration-200 ease-out"
           >
             <input
               type="checkbox"
