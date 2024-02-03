@@ -9,29 +9,37 @@ import {
 } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
 import { useTeamStore } from '@/stores/team.ts'
+import { watch } from 'vue'
+import { onMounted } from 'vue'
 
 const auth = useAuthStore()
 const teamStore = useTeamStore()
 const tasks = ref<any[]>([])
 
-function getTasks(team: any = null) {
-  console.log(team)
-  auth.client.query({
-    team: team?.id,
-  }).get('tasks').then((res : any) => {
-    tasks.value = res.data
-  }).catch((err) => {
-    console.log(err)
-  })
+function loadTasks(team: any = null) {
+  auth.client
+    .query({
+      team: team?.id,
+    })
+    .get('tasks')
+    .then((res: any) => {
+      tasks.value = res.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
-const onTeamChange = (team: any) => {
-  getTasks(team)
-}
+watch(
+  () => teamStore.team,
+  (team) => {
+    loadTasks(team)
+  },
+)
 
-teamStore.onTeamChange(onTeamChange)
-
-getTasks()
+onMounted(() => {
+  loadTasks()
+})
 </script>
 
 <template>
@@ -61,7 +69,11 @@ getTasks()
           </button>
         </div>
 
-        <div v-for="task in tasks" class="bg-neutral p-6 rounded-lg">
+        <router-link
+          v-for="task in tasks"
+          class="bg-neutral p-6 rounded-lg"
+          :to="{ name: 'task-detail', params: { id: task.id } }"
+        >
           <div class="mb-2">
             <p class="font-semibold text-xl">{{ task.title }}</p>
           </div>
@@ -107,7 +119,7 @@ getTasks()
               </span>
             </div>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
 

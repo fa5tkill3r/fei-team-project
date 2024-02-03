@@ -12,11 +12,8 @@ export interface Team {
 
 export const useTeamStore = defineStore('team', () => {
   const authStore = useAuthStore()
-
   const team = ref<Team | undefined>()
   const teams = ref<Team[]>([])
-
-  let callbacks: any[] = []
 
   function getTeams() {
     return authStore.client.get('teams').then((res: any) => {
@@ -35,14 +32,8 @@ export const useTeamStore = defineStore('team', () => {
   }
 
   function selectTeam(teamId: number) {
-    team.value = teams.value.find((t: any) => t.id === teamId)
-
-    callbacks.forEach((callback) => callback(team.value))
+    team.value = teams.value.find((t) => t.id === teamId)
   }
 
-  function onTeamChange(callback: (callback: any) => void) {
-    callbacks.push(callback)
-  }
-
-  return { teams, team, selectTeam, loadTeams, onTeamChange }
+  return { teams, team, selectTeam, loadTeams }
 })

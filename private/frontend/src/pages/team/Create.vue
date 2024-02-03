@@ -1,7 +1,7 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
-import { useAlertStore } from '@/stores/alert.ts'
+import { AlertType, useAlertStore } from '@/stores/alert.ts'
 import { useRouter } from 'vue-router'
 
 const auth = useAuthStore()
@@ -24,58 +24,55 @@ const loading = ref(false)
 
 function createTeam() {
   loading.value = true
-  auth.client.post(team.value, 'teams')
+  auth.client
+    .post(team.value, 'teams')
     .then(() => {
-      alertStore.addAlert('Team created', alertStore.AlertType.SUCCESS)
+      alertStore.addAlert('Team created', AlertType.SUCCESS)
 
       router.push({ name: 'home' })
-    }).catch((err) => {
-    alertStore.addAlert('Error', alertStore.AlertType.ERROR)
-  }).finally(() => {
-    loading.value = false
-  })
+    })
+    .catch(() => {
+      alertStore.addAlert('Error', AlertType.ERROR)
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
-
 </script>
 
 <template>
   <div>
-    <form @submit.prevent='createTeam'>
-      <label class='form-control w-full'>
-        <div class='label'>
-          <span class='label-text'>Team Name</span>
+    <form @submit.prevent="createTeam">
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Team Name</span>
         </div>
         <input
-          type='text'
-          v-model='team.name'
-          placeholder='Type here'
-          class='input input-bordered w-full'
+          type="text"
+          v-model="team.name"
+          placeholder="Type here"
+          class="input input-bordered w-full"
         />
       </label>
-      <label class='form-control w-full'>
-        <div class='label'>
-          <span class='label-text'>Description</span>
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Description</span>
         </div>
         <input
-          type='text'
-          v-model='team.description'
-          placeholder='Team description'
-          class='input input-bordered w-full'
+          type="text"
+          v-model="team.description"
+          placeholder="Team description"
+          class="input input-bordered w-full"
         />
       </label>
 
-      <button type='submit' class='btn btn-primary mt-4'
-              :disabled='false'
-
-      >
-        <span v-if='loading' class='loading loading-spinner'></span>
-        <span v-if='loading'>Loading...</span>
+      <button type="submit" class="btn btn-primary mt-4" :disabled="false">
+        <span v-if="loading" class="loading loading-spinner"></span>
+        <span v-if="loading">Loading...</span>
         <span v-else>Create Team</span>
       </button>
     </form>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
