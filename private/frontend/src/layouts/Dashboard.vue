@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/auth'
 import { Bars3Icon, PlusIcon } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
 import { useTeamStore } from '@/stores/team.ts'
+import UserAvatar from '@/components/UserAvatar.vue'
 
 const auth = useAuthStore()
 const teamStore = useTeamStore()
@@ -43,18 +44,14 @@ function logout() {
 
         <div class="flex-none">
           <div class="dropdown dropdown-end">
-            <div
+            <UserAvatar
+              v-if="auth.user"
+              :user="auth.user"
+              size="md"
               tabindex="0"
               role="button"
-              class="btn btn-ghost btn-circle avatar"
-            >
-              <div class="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
-              </div>
-            </div>
+              class="btn btn-ghost btn-circle"
+            />
             <ul
               tabindex="0"
               class="mt-2 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52"
@@ -99,13 +96,13 @@ function logout() {
         </div>
 
         <div
-          v-if="teamStore.team"
+          v-if="teamStore.current"
           class="collapse collapse-arrow bg-base-200 rounded-none"
           @click="showTeams = !showTeams"
         >
           <input type="checkbox" v-model="showTeams" />
           <div class="collapse-title text-xl font-medium">
-            {{ teamStore.team.name }}
+            {{ teamStore.current.name }}
           </div>
           <div class="collapse-content space-y-2">
             <div class="w-full">
@@ -120,7 +117,7 @@ function logout() {
             <div v-for="team in teamStore.teams" class="w-full">
               <button
                 class="btn btn-sm btn-block"
-                :class="{ 'btn-accent': team.id === teamStore.team.id }"
+                :class="{ 'btn-accent': team.id === teamStore.current.id }"
                 @click="teamStore.selectTeam(team.id)"
               >
                 {{ team.name }}

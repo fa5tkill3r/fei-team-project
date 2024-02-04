@@ -8,7 +8,11 @@
             <span class="text-base-content">#{{ task.id }}</span>
           </h1>
           <div>
-            <span>{{ $t('task.created_at', task.created_at) }}</span>
+            <span>{{
+              $t('task.created_at', {
+                distance: formatDistance(task.created_at),
+              })
+            }}</span>
             ·
             <span>
               {{
@@ -44,23 +48,44 @@
 
       <div class="col-span-12 lg:col-span-3">
         <div>
-          <div class="flex justify-between text-sm">
-            <span>{{ $t('task.severity') }}</span>
-            <span>x</span>
-          </div>
-
-          <div>{{ task.severity }}</div>
+          <span class="text-sm">{{ $t('task.severity') }}</span>
+          <div class="text-neutral-200">{{ task.severity }}</div>
         </div>
 
         <div class="divider my-0"></div>
 
         <div>
-          <div class="flex justify-between text-sm">
-            <span>{{ $t('task.deadline') }}</span>
-            <span>x</span>
+          <span class="text-sm">{{ $t('task.deadline') }}</span>
+          <div class="text-neutral-200">
+            {{
+              task.deadline
+                ? $d(new Date(task.deadline), 'short')
+                : $t('task.no_deadline')
+            }}
           </div>
+        </div>
 
-          <div>{{ task.deadline || 'none' }}</div>
+        <div class="divider my-0"></div>
+
+        <div>
+          <span class="text-sm">
+            {{ $t('task.assignees') }}
+          </span>
+
+          <div class="flex flex-col gap-y-1 text-neutral-200">
+            <div
+              v-for="person in task.users"
+              :key="person.id"
+              class="flex gap-x-2 items-center"
+            >
+              <UserAvatar :user="person" />
+              <span>{{ person.first_name }} {{ person.last_name }}</span>
+            </div>
+
+            <div v-if="task.users.length === 0">
+              {{ $t('task.no_assignees') }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -76,10 +101,13 @@ import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
 import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import { computed } from 'vue'
+import { useFormatDistance } from '@/composables/useFormatDistance'
+import UserAvatar from '@/components/UserAvatar.vue'
 
 const auth = useAuthStore()
 const team = useTeamStore()
 const route = useRoute()
+const formatDistance = useFormatDistance()
 const task = ref<Task | null>(null)
 
 const description = computed(() => {
@@ -99,7 +127,7 @@ const description = computed(() => {
 
 onMounted(() => {
   auth.client
-    .get(`tasks/${team.team?.id}/${route.params.id}`)
+    .get(`tasks/${team.current?.id}/${route.params.id}`)
     .then((res: any) => {
       task.value = res.data as Task
     })

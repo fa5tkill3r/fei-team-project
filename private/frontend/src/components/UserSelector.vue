@@ -9,7 +9,7 @@
       <Cog6ToothIcon class="w-5 h-5" />
     </button>
 
-    <div class="pb-2 text-sm text-neutral-300">
+    <div class="pb-2 text-sm text-neutral-200">
       <p v-if="!model || model.length === 0">
         {{ $t('task.no_assignees') }}
         <!-- <span class="link" @click="">{{ $t('task.assign-yourself') }}</span> -->
@@ -28,7 +28,7 @@
               />
             </div>
           </div>
-          <span class="font-medium">
+          <span>
             {{ personMap[personId].first_name }}
             {{ personMap[personId].last_name }}
           </span>
@@ -73,13 +73,7 @@
             <span class="w-6">
               <CheckIcon v-if="tempModel.includes(person.id)" class="w-5 h-5" />
             </span>
-            <div class="avatar">
-              <div class="w-8 rounded-full">
-                <img
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
-              </div>
-            </div>
+            <UserAvatar :user="person" />
 
             <p class="ml-2">
               <!-- <span class="mr-1 font-medium">
@@ -108,16 +102,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { Cog6ToothIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { User, useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
+import UserAvatar from './UserAvatar.vue'
 
-const auth = useAuthStore()
 const team = useTeamStore()
 const model = defineModel<number[]>()
 const tempModel = ref<number[]>([])
-const people = ref<User[]>([])
+const people = computed(() => team.members)
 const dialog = ref<HTMLDialogElement | null>(null)
 const query = ref('')
 const personMap = computed(() =>
@@ -137,10 +130,6 @@ const filteredPeople = computed(() => {
 })
 
 function openDialog() {
-  if (!people.value || people.value.length === 0) {
-    loadMembers()
-  }
-
   dialog.value?.showModal()
   tempModel.value = model.value ? [...model.value] : []
 }
@@ -149,18 +138,4 @@ function save() {
   model.value = [...tempModel.value]
   dialog.value?.close()
 }
-
-function loadMembers() {
-  if (!team.team) {
-    return
-  }
-
-  auth.client.get(`teams/${team.team.id}/members`).then((res) => {
-    people.value = res as User[]
-  })
-}
-
-onMounted(() => {
-  loadMembers()
-})
 </script>

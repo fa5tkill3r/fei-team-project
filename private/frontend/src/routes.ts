@@ -1,3 +1,4 @@
+import { RouteLocationNormalizedLoaded } from 'vue-router'
 import Empty from './layouts/Empty.vue'
 
 const routes = [
@@ -29,17 +30,21 @@ const routes = [
   {
     path: '/tasks',
     name: 'task-create',
-    component: () => import('./pages/tasks/Create.vue'),
+    component: () => import('./pages/tasks/CreateEdit.vue'),
+  },
+  {
+    path: '/tasks/:id/edit',
+    name: 'task-edit',
+    component: () => import('./pages/tasks/CreateEdit.vue'),
+    props: (route: RouteLocationNormalizedLoaded) => ({
+      id: Number(route.params.id),
+      edit: true,
+    }),
   },
   {
     path: '/tasks/:id',
     name: 'task-detail',
     component: () => import('./pages/tasks/Detail.vue'),
-  },
-  {
-    path: '/tasks/:id/edit',
-    name: 'task-edit',
-    component: () => import('./pages/tasks/Edit.vue'),
   },
   // team
   {

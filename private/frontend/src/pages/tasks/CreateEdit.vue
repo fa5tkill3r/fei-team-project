@@ -1,7 +1,8 @@
 <template>
   <form
-    @submit.prevent="createTask"
+    @submit.prevent="saveTask"
     class="grid grid-cols-12 gap-x-4 gap-y-4 max-w-7xl mx-auto"
+    v-if="!initialLoading"
   >
     <div class="col-span-12 xl:col-span-9">
       <label class="form-control w-full">
@@ -29,7 +30,7 @@
 
       <div class="text-right hidden lg:block">
         <button type="submit" class="btn btn-primary mt-4" :disabled="loading">
-          {{ $t('task.create') }}
+          {{ $t('task.save') }}
         </button>
       </div>
     </div>
@@ -74,7 +75,7 @@
 
     <div class="col-span-12 xl:col-span-9 text-right lg:hidden">
       <button type="submit" class="btn btn-primary mt-4" :disabled="loading">
-        {{ $t('task.create') }}
+        {{ $t('task.save') }}
       </button>
     </div>
   </form>
@@ -88,14 +89,17 @@ import TagSelector from '@/components/TagSelector.vue'
 import { useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/team'
 import { TaskRequest } from '@/types'
+import { onMounted } from 'vue'
 import DatePicker from '@vuepic/vue-datepicker'
 
 import '@vuepic/vue-datepicker/dist/main.css'
 
+const { edit, id } = defineProps<{ edit?: boolean; id?: number }>()
 const router = useRouter()
 const auth = useAuthStore()
 const team = useTeamStore()
 const loading = ref(false)
+const initialLoading = ref(true)
 const task = ref<TaskRequest>({
   name: '',
   description: '',
@@ -104,12 +108,29 @@ const task = ref<TaskRequest>({
   severity: 'low',
 })
 
-function createTask() {
-  console.log(task.value)
-
-  loading.value = true
+function loadTask() {
+  initialLoading.value = true
   auth.client
-    .post(task.value, `tasks/${team.team?.id}`)
+    .get(`tasks/${team.current?.id}/${id}`)
+    .then((res: any) => {
+      task.value = {
+        ...res.data,
+        users: res.data.users.map((u: any) => u.id),
+      }
+    })
+    .finally(() => {
+      initialLoading.value = false
+    })
+}
+
+function saveTask() {
+  loading.value = true
+
+  const request = edit
+    ? auth.client.put(task.value, `tasks/${team.current?.id}/${id}`)
+    : auth.client.post(task.value, `tasks/${team.current?.id}`)
+
+  request
     .then((res: any) => {
       router.push({ name: 'task-detail', params: { id: res.data.id } })
     })
@@ -117,4 +138,12 @@ function createTask() {
       loading.value = false
     })
 }
+
+onMounted(() => {
+  if (edit && id) {
+    loadTask()
+  } else {
+    initialLoading.value = false
+  }
+})
 </script>

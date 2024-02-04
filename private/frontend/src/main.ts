@@ -3,7 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import { useAuthStore } from './stores/auth'
 import { useTeamStore } from './stores/team'
-import { SUPPORTED_LOCALES, loadLocaleMessages, setupI18n } from './i18n'
+import {
+  SUPPORTED_LOCALES,
+  datetimeFormats,
+  loadLocaleMessages,
+  setI18nLanguage,
+  setupI18n,
+} from './i18n'
 import routes from './routes.ts'
 import App from './App.vue'
 
@@ -13,7 +19,12 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 })
-const i18n = setupI18n({ legacy: false, fallbackLocale: 'en' })
+const i18n = setupI18n({
+  legacy: false,
+  fallbackLocale: 'en',
+  // @ts-ignore
+  datetimeFormats,
+})
 const app = createApp(App)
 const pinia = createPinia()
 
@@ -32,7 +43,9 @@ function loadInitialLocale() {
     locale = lang
   }
 
-  return loadLocaleMessages(i18n, locale)
+  return loadLocaleMessages(i18n, locale).then(() =>
+    setI18nLanguage(i18n, locale),
+  )
 }
 
 const promise = auth
@@ -55,6 +68,9 @@ router.beforeEach(async (to, _, next) => {
       name: 'login',
       query: { redirect },
     })
+  }
+  if (auth.user && to.meta.guest) {
+    next({ name: 'home' })
   } else {
     next()
   }

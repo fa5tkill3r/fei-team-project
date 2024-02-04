@@ -93,7 +93,5 @@ Route::group([
     Route::get('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@show');
     Route::put('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@update');
     Route::delete('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@destroy');
-
-    Route::get('teams/{id}/members', TeamController::class . '@members');
 });
 

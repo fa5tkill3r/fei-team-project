@@ -1,19 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-
-export interface Team {
-  id: number
-  name: string
-  description: string
-  created_at: string
-  updated_at: string
-}
+import { computed } from 'vue'
+import { Team, User } from '@/types'
 
 export const useTeamStore = defineStore('team', () => {
   const authStore = useAuthStore()
-  const team = ref<Team | undefined>()
+  const current = ref<Team | undefined>()
   const teams = ref<Team[]>([])
+  const members = computed<User[]>(() => current?.value?.users ?? [])
 
   function getTeams() {
     return authStore.client.get('teams').then((res: any) => {
@@ -26,14 +21,14 @@ export const useTeamStore = defineStore('team', () => {
   function loadTeams() {
     return getTeams().then((teams) => {
       if (teams.length > 0) {
-        team.value = teams[0]
+        current.value = teams[0]
       }
     })
   }
 
   function selectTeam(teamId: number) {
-    team.value = teams.value.find((t) => t.id === teamId)
+    current.value = teams.value.find((t) => t.id === teamId)
   }
 
-  return { teams, team, selectTeam, loadTeams }
+  return { teams, current, members, selectTeam, loadTeams }
 })

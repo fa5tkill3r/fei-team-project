@@ -12,6 +12,7 @@
     "@headlessui/vue": "^1.7.17",
     "@heroicons/vue": "^2.1.1",
     "@vuepic/vue-datepicker": "^8.0.0",
+    "date-fns": "^3.3.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
     "vue-i18n": "^9.9.0",

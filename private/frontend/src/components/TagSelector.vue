@@ -9,7 +9,7 @@
       <Cog6ToothIcon class="w-5 h-5" />
     </button>
 
-    <div class="pb-2 text-sm text-neutral-300">
+    <div class="pb-2 text-sm text-neutral-200">
       <p v-if="!model || model.length === 0">
         {{ $t('task.no_tags') }}
       </p>

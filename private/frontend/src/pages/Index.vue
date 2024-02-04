@@ -32,7 +32,7 @@ function loadTasks(team: any = null) {
 }
 
 watch(
-  () => teamStore.team,
+  () => teamStore.current,
   (team) => {
     loadTasks(team)
   },

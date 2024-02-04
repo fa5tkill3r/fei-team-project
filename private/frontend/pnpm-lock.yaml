@@ -14,6 +14,9 @@ dependencies:
   '@vuepic/vue-datepicker':
     specifier: ^8.0.0
     version: 8.0.0(vue@3.4.15)
+  date-fns:
+    specifier: ^3.3.1
+    version: 3.3.1
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.3.3)(vue@3.4.15)

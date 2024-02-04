@@ -109,12 +109,4 @@ class TeamController extends Controller
 
         return TeamResource::make($team);
     }
-
-    public function members($id)
-    {
-        $team = Team::findOrFail($id);
-        $members = $team->users()->get();
-
-        return response()->json($members);
-    }
 }

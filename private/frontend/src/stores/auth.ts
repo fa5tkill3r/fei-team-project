@@ -3,16 +3,8 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import { tryParseJSON } from '@/lib/utils'
+import { User } from '@/types'
 import { queryStringAddon } from 'wretch/addons'
-
-export interface User {
-  id: number
-  email: string
-  first_name: string
-  last_name: string
-  created_at: string
-  updated_at: string
-}
 
 const TOKEN_REFRESH_BUFFER = 30 * 1000
 
