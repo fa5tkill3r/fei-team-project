@@ -9,12 +9,12 @@
       <Cog6ToothIcon class="w-5 h-5" />
     </button>
 
-    <div class="pb-2 text-sm text-neutral-200">
+    <div class="text-neutral-200">
       <p v-if="!model || model.length === 0 || initialLoading">
         {{ $t('task.no_tags') }}
       </p>
 
-      <div v-else class="flex flex-wrap gap-1">
+      <div v-else class="flex flex-wrap gap-1 pb-1">
         <div
           v-for="tagId in model"
           :key="tagId"

@@ -12,6 +12,8 @@ import { useTeamStore } from '@/stores/team.ts'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
 import { Task } from '@/types'
+import { getStylesForTag } from '@/lib/utils'
+import UserAvatar from '@/components/UserAvatar.vue'
 
 const auth = useAuthStore()
 const teamStore = useTeamStore()
@@ -72,43 +74,39 @@ onMounted(() => {
 
         <router-link
           v-for="task in tasks"
-          class="bg-neutral p-6 rounded-lg"
+          class="bg-base-300 p-6 rounded-lg"
           :to="{ name: 'task-detail', params: { id: task.id } }"
         >
           <div class="mb-2">
             <p class="font-semibold text-xl">{{ task.name }}</p>
           </div>
 
-          <div class="flex gap-2 mb-4">
-            <span class="badge">Type</span>
+          <div v-if="task.tags" class="flex gap-1 mb-4 flex-wrap">
+            <div
+              v-for="tag in task.tags"
+              class="badge"
+              :style="getStylesForTag(tag)"
+            >
+              {{ tag.name }}
+            </div>
           </div>
 
           <div class="flex justify-between items-center">
             <div class="avatar-group -space-x-6 rtl:space-x-reverse">
-              <div class="avatar border-neutral">
-                <div class="w-10">
-                  <img
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  />
-                </div>
-              </div>
-              <div class="avatar border-neutral">
-                <div class="w-10">
-                  <img
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  />
-                </div>
-              </div>
-              <div class="avatar border-neutral">
-                <div class="w-10">
-                  <img
-                    src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                  />
-                </div>
-              </div>
-              <div class="avatar placeholder border-neutral">
+              <UserAvatar
+                v-for="person in task.users.slice(0, 3)"
+                class="border-base-300"
+                :key="person.id"
+                :user="person"
+                size="md"
+              />
+
+              <div
+                v-if="task.users.length > 3"
+                class="avatar placeholder border-neutral"
+              >
                 <div class="w-10 bg-base-100">
-                  <span>+5</span>
+                  <span> +{{ task.users.length - 3 }} </span>
                 </div>
               </div>
             </div>
