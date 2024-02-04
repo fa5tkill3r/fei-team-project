@@ -25,5 +25,6 @@ export default {
     created_at: 'TODO created {distance}',
     select_tags: 'Select tags',
     no_results: 'No results',
+    commented_at: 'TODO commented {distance}',
   },
 }

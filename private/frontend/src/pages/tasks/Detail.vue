@@ -42,10 +42,66 @@
       <div class="divider mt-1 mb-3 col-span-full"></div>
 
       <div class="col-span-12 lg:col-span-9">
-        <div
-          class="rounded px-4 py-3 border border-neutral prose max-w-none"
-          v-html="description"
-        ></div>
+        <div class="flex gap-2">
+          <div>
+            <div class="avatar placeholder">
+              <div class="w-10 rounded-full bg-neutral text-neutral-content">
+                <span>TD</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-lg border border-neutral w-full">
+            <div class="border-b border-neutral px-4 py-2 text-sm">
+              <span>
+                {{
+                  $t('task.commented_at', {
+                    distance: formatDistance(task.created_at),
+                  })
+                }}
+              </span>
+            </div>
+
+            <div
+              class="prose max-w-none bg-base-200 px-4 py-3 rounded-b-lg"
+              v-html="description"
+            ></div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4 mt-6">
+          <div v-for="_ in 5">
+            <div class="flex gap-2">
+              <div>
+                <div class="avatar placeholder">
+                  <div
+                    class="w-10 rounded-full bg-neutral text-neutral-content"
+                  >
+                    <span>TD</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-lg border border-neutral w-full">
+                <div class="border-b border-neutral px-4 py-2 text-sm">
+                  <b>TODO</b> commented 2 days ago
+                </div>
+
+                <div
+                  class="prose max-w-none bg-base-200 px-4 py-3 rounded-b-lg"
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                  suscipit libero et nibh tincidunt rutrum. Nulla laoreet eros
+                  id nibh cursus feugiat. Suspendisse potenti. Interdum et
+                  malesuada fames ac ante ipsum primis in faucibus. Suspendisse
+                  quis dui a risus facilisis mollis quis vel orci. Proin
+                  faucibus odio eget ligula laoreet, in tempor elit dignissim.
+                  Mauris nec porttitor arcu, at sagittis turpis.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="col-span-12 lg:col-span-3">
@@ -74,7 +130,11 @@
             {{ $t('task.tags') }}
           </div>
 
-          <div class="flex flex-wrap gap-1">
+          <div v-if="task.tags.length === 0" class="text-neutral-200">
+            {{ $t('task.no_tags') }}
+          </div>
+
+          <div v-else class="flex flex-wrap gap-1 py-1">
             <div
               v-for="tag in task.tags"
               :key="tag.id"
@@ -83,21 +143,21 @@
             >
               {{ tag.name }}
             </div>
-
-            <div v-if="task.tags.length === 0" class="text-neutral-200">
-              {{ $t('task.no_tags') }}
-            </div>
           </div>
         </div>
 
         <div class="divider my-0"></div>
 
         <div>
-          <span class="text-sm">
+          <span class="text-sm mb-1">
             {{ $t('task.assignees') }}
           </span>
 
-          <div class="flex flex-col gap-y-1 text-neutral-200">
+          <div v-if="task.users.length === 0" class="text-neutral-200">
+            {{ $t('task.no_assignees') }}
+          </div>
+
+          <div v-else class="flex flex-col gap-y-1 text-neutral-200 pt-1">
             <div
               v-for="person in task.users"
               :key="person.id"
@@ -105,10 +165,6 @@
             >
               <UserAvatar :user="person" />
               <span>{{ person.first_name }} {{ person.last_name }}</span>
-            </div>
-
-            <div v-if="task.users.length === 0">
-              {{ $t('task.no_assignees') }}
             </div>
           </div>
         </div>
