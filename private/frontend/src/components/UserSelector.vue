@@ -9,7 +9,7 @@
       <Cog6ToothIcon class="w-5 h-5" />
     </button>
 
-    <div class="pb-2 text-sm text-neutral-200">
+    <div class="pb-2 text-neutral-200">
       <p v-if="!model || model.length === 0">
         {{ $t('task.no_assignees') }}
         <!-- <span class="link" @click="">{{ $t('task.assign-yourself') }}</span> -->
@@ -21,13 +21,7 @@
           :key="personId"
           class="flex items-center gap-2"
         >
-          <div class="avatar">
-            <div class="w-6 rounded-full">
-              <img
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-              />
-            </div>
-          </div>
+          <UserAvatar :user="personMap[personId]" />
           <span>
             {{ personMap[personId].first_name }}
             {{ personMap[personId].last_name }}
@@ -36,6 +30,9 @@
       </div>
     </div>
 
+    <!-- TODO: add fixed height -->
+    <!-- TODO: add clear query -->
+    <!-- TODO: add clear selection -->
     <dialog class="modal" ref="dialog">
       <div class="modal-box flex flex-col min-h-96 max-h-full">
         <h3 class="font-bold text-lg flex items-center justify-between mb-4">

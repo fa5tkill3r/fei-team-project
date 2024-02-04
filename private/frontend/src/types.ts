@@ -22,7 +22,7 @@ export interface Task {
   name: string
   description: string
   users: User[]
-  tags: number[]
+  tags: Tag[]
   severity: string
   created_at: string
   deadline?: string
@@ -35,4 +35,10 @@ export interface TaskRequest {
   tags: number[]
   severity: string
   deadline?: string
+}
+
+export interface Tag {
+  id: number
+  name: string
+  color: string
 }

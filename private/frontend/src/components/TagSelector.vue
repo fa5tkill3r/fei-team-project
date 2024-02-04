@@ -10,23 +10,27 @@
     </button>
 
     <div class="pb-2 text-sm text-neutral-200">
-      <p v-if="!model || model.length === 0">
+      <p v-if="!model || model.length === 0 || initialLoading">
         {{ $t('task.no_tags') }}
       </p>
 
-      <div v-else>
+      <div v-else class="flex flex-wrap gap-1">
         <div
           v-for="tagId in model"
           :key="tagId"
-          class="flex items-center gap-2"
+          class="badge"
+          :style="getStylesForTag(tagMap[tagId])"
         >
-          <span class="badge">{{ tagMap[tagId].name }}</span>
+          {{ tagMap[tagId].name }}
         </div>
       </div>
     </div>
 
+    <!-- TODO: add fixed height -->
+    <!-- TODO: add clear query -->
+    <!-- TODO: add clear selection -->
     <dialog class="modal" ref="dialog">
-      <div class="modal-box flex flex-col min-h-96 max-h-full">
+      <div class="modal-box flex flex-col h-[70%]">
         <h3 class="font-bold text-lg flex items-center justify-between mb-4">
           {{ $t('task.select_tags') }}
 
@@ -46,7 +50,7 @@
           placeholder="Search"
         />
 
-        <div class="flex flex-col flex-1 gap-2.5 overflow-y-auto">
+        <div class="flex flex-col flex-1 gap-1 overflow-y-auto">
           <label
             v-for="tag in filteredTags"
             :key="tag.id"
@@ -62,20 +66,10 @@
             <span class="w-6">
               <CheckIcon v-if="tempModel.includes(tag.id)" class="w-5 h-5" />
             </span>
-            <div class="avatar">
-              <div class="w-8 rounded-full">
-                <img
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
-              </div>
-            </div>
 
-            <p class="ml-2">
-              <!-- <span class="mr-1 font-medium">
-                {{ person.email }}
-              </span> -->
-              <span>{{ tag.name }}</span>
-            </p>
+            <div class="ml-2 badge" :style="getStylesForTag(tag)">
+              {{ tag.name }}
+            </div>
           </label>
 
           <p v-if="filteredTags.length === 0">
@@ -83,10 +77,25 @@
           </p>
         </div>
 
-        <div class="flex justify-end mt-4">
-          <button class="btn btn-primary" @click="save" type="button">
-            {{ $t('task.save') }}
-          </button>
+        <div class="flex flex-wrap justify-between mt-4 gap-2">
+          <div>
+            <div class="flex gap-2">
+              <input
+                v-model="newTag"
+                type="text"
+                class="input input-bordered w-full"
+              />
+
+              <button class="btn btn-secondary" @click="addTag" type="button">
+                Add
+              </button>
+            </div>
+          </div>
+          <div class="text-right w-full md:w-auto">
+            <button class="btn btn-primary" @click="save" type="button">
+              {{ $t('task.save') }}
+            </button>
+          </div>
         </div>
       </div>
       <form method="dialog" class="modal-backdrop">
@@ -99,16 +108,18 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { Cog6ToothIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Tag } from '@/types'
+import { useAuthStore } from '@/stores/auth'
+import { onMounted } from 'vue'
+import { getStylesForTag } from '@/lib/utils'
 
-interface Tag {
-  id: number
-  name: string
-}
-
+const auth = useAuthStore()
 const model = defineModel<number[]>()
-const query = ref('')
-const dialog = ref<HTMLDialogElement | null>(null)
 const tempModel = ref<number[]>([])
+const initialLoading = ref(true)
+const query = ref('')
+const newTag = ref('')
+const dialog = ref<HTMLDialogElement | null>(null)
 const tags = ref<Tag[]>([])
 const tagMap = computed(() =>
   Object.fromEntries(tags.value.map((tag) => [tag.id, tag])),
@@ -123,9 +134,43 @@ const filteredTags = computed(() => {
   )
 })
 
+function loadTags() {
+  auth.client
+    .get('tags')
+    .then((response: any) => {
+      tags.value = response.data
+    })
+    .finally(() => {
+      initialLoading.value = false
+    })
+}
+
+function addTag() {
+  if (!newTag.value) {
+    return
+  }
+
+  const color = '#' + Math.floor(Math.random() * 16777215).toString(16)
+
+  auth.client
+    .post({ name: newTag.value, color }, 'tags')
+    .then((response: any) => {
+      tags.value.push(response.data)
+      newTag.value = ''
+    })
+}
+
 function openDialog() {
+  tempModel.value = model.value ? [...model.value] : []
   dialog.value?.showModal()
 }
 
-function save() {}
+function save() {
+  model.value = [...tempModel.value]
+  dialog.value?.close()
+}
+
+onMounted(() => {
+  loadTags()
+})
 </script>

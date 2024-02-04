@@ -8,11 +8,13 @@
             <span class="text-base-content">#{{ task.id }}</span>
           </h1>
           <div>
-            <span>{{
-              $t('task.created_at', {
-                distance: formatDistance(task.created_at),
-              })
-            }}</span>
+            <span>
+              {{
+                $t('task.created_at', {
+                  distance: formatDistance(task.created_at),
+                })
+              }}
+            </span>
             ·
             <span>
               {{
@@ -68,6 +70,29 @@
         <div class="divider my-0"></div>
 
         <div>
+          <div class="text-sm mb-1">
+            {{ $t('task.tags') }}
+          </div>
+
+          <div class="flex flex-wrap gap-1">
+            <div
+              v-for="tag in task.tags"
+              :key="tag.id"
+              class="badge"
+              :style="getStylesForTag(tag)"
+            >
+              {{ tag.name }}
+            </div>
+
+            <div v-if="task.tags.length === 0" class="text-neutral-200">
+              {{ $t('task.no_tags') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="divider my-0"></div>
+
+        <div>
           <span class="text-sm">
             {{ $t('task.assignees') }}
           </span>
@@ -102,6 +127,7 @@ import { useTeamStore } from '@/stores/team'
 import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
 import { computed } from 'vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
+import { getStylesForTag } from '@/lib/utils'
 import UserAvatar from '@/components/UserAvatar.vue'
 
 const auth = useAuthStore()

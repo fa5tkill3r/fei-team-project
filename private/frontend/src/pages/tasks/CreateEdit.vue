@@ -40,6 +40,7 @@
         <div class="label">
           <span class="label-text">{{ $t('task.severity') }}</span>
         </div>
+        <!-- TODO: add better styles and figure out what values are actually supposed to be here -->
         <select
           class="select select-bordered select-sm w-full max-w-xs"
           v-model="task.severity"
@@ -57,6 +58,7 @@
           <span class="label-text">{{ $t('task.deadline') }}</span>
         </div>
 
+        <!-- TODO: add better styles -->
         <DatePicker
           v-model="task.deadline"
           :enable-time-picker="false"
@@ -66,11 +68,11 @@
 
       <div class="divider my-0"></div>
 
-      <UserSelector v-model="task.users" />
+      <TagSelector v-model="task.tags" />
 
       <div class="divider my-0"></div>
 
-      <TagSelector v-model="task.tags" />
+      <UserSelector v-model="task.users" />
     </div>
 
     <div class="col-span-12 xl:col-span-9 text-right lg:hidden">
@@ -116,6 +118,7 @@ function loadTask() {
       task.value = {
         ...res.data,
         users: res.data.users.map((u: any) => u.id),
+        tags: res.data.tags.map((t: any) => t.id),
       }
     })
     .finally(() => {

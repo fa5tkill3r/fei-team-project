@@ -21,7 +21,7 @@ function logout() {
 
     <div class="drawer-content flex flex-col">
       <div
-        class="navbar bg-base-300 h-20 border-b border-base-content/10 sticky top-0 xl:px-6"
+        class="navbar bg-base-300 h-20 border-b border-base-content/10 sticky top-0 xl:px-6 z-10"
       >
         <label for="drawer" class="btn btn-square btn-ghost lg:hidden">
           <Bars3Icon class="w-6 h-6" />

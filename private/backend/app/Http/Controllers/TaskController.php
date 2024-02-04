@@ -75,6 +75,7 @@ class TaskController extends Controller
 
         // load users
         $task->load('users');
+        $task->load('tags');
 
         return new TaskResource($task);
     }

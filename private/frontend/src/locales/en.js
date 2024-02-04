@@ -11,6 +11,7 @@ export default {
     description: 'Description',
     description_placeholder: 'Add description here...',
     assignees: 'Assignees',
+    select_assignees: 'Select assignees',
     tags: 'Tags',
     no_tags: 'No tags',
     create: 'Create',
@@ -22,5 +23,7 @@ export default {
     deadline: 'Deadline',
     no_deadline: 'No deadline',
     created_at: 'TODO created {distance}',
+    select_tags: 'Select tags',
+    no_results: 'No results',
   },
 }
