@@ -13,15 +13,14 @@ class TaskController extends Controller
 {
     private $user;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth:api');
         $this->user = auth()->user();
     }
 
     public function index() {
         $team = request()->get('team');
-        if($team) {
+        if ($team) {
             return $this->getByTeam($team);
         }
         $tasks = Task::with(['users', 'tags', 'responses'])->get();
@@ -41,26 +40,26 @@ class TaskController extends Controller
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
         $role = Role::findOrFail($roleId);
 
-        if($role->task_create == 0) {
+        if ($role->task_create == 0) {
             return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
         $task = $team->tasks()->create($request->all());
 
-        if($request->incident_id != null) {
+        if ($request->incident_id != null) {
             $incident = Incident::findOrFail($request->incident_id);
             $task->incident()->associate($incident);
         }
 
         $users = $request->users ? $request->users : [];
 
-        foreach($users as $user) {
+        foreach ($users as $user) {
             $task->users()->attach($user);
         }
 
         $tags = $request->tags ? $request->tags : [];
 
-        foreach($tags as $tag) {
+        foreach ($tags as $tag) {
             $task->tags()->attach($tag);
         }
 
@@ -86,29 +85,23 @@ class TaskController extends Controller
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
         $role = Role::findOrFail($roleId);
 
-        if($role->task_create == 0) {
+        if ($role->task_create == 0) {
             return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
         $task = $team->tasks()->findOrFail($taskId);
 
-        if($task->incident != null) {
+        if ($task->incident != null) {
             $task->incident->update($request->incident);
         }
 
-        $users = $request->users ? $request->users : [];
+        $task->update($request->except(['users', 'tags']));
 
-        foreach($users as $user) {
-            $task->users()->attach($user);
-        }
+        $users = $request->users ? $request->users : [];
+        $task->users()->sync($users);
 
         $tags = $request->tags ? $request->tags : [];
-
-        foreach($tags as $tag) {
-            $task->tags()->attach($tag);
-        }
-
-        $task->update($request->all());
+        $task->tags()->sync($tags);
 
         $task = $team->tasks()->with(['users', 'tags', 'responses', 'responses.user'])->findOrFail($task->id);
 
@@ -121,7 +114,7 @@ class TaskController extends Controller
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
         $role = Role::findOrFail($roleId);
 
-        if($role->task_delete == 0) {
+        if ($role->task_delete == 0) {
             return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
@@ -138,7 +131,7 @@ class TaskController extends Controller
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
         $role = Role::findOrFail($roleId);
 
-        if($role->task_access == 0) {
+        if ($role->task_access == 0) {
             return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
@@ -156,7 +149,7 @@ class TaskController extends Controller
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
         $role = Role::findOrFail($roleId);
 
-        if($role->task_access == 0) {
+        if ($role->task_access == 0) {
             return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
@@ -167,7 +160,4 @@ class TaskController extends Controller
 
         return response()->json($task->users, 200);
     }
-
-
-
 }
