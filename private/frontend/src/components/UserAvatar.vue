@@ -1,8 +1,9 @@
 <template>
   <div class="avatar placeholder">
     <div
-      class="rounded-full bg-neutral text-neutral-content"
+      class="rounded-full text-gray-800 font-bold"
       :class="avatarClasses"
+      :style="styles"
     >
       <img
         v-if="user.avatar"
@@ -15,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import { stringToHslColor } from '@/lib/utils'
 import { User } from '@/types'
 import { computed } from 'vue'
 
@@ -33,6 +35,9 @@ const classMap = {
 }
 
 const avatarClasses = computed(() => classMap[size] ?? classMap.sm)
+const styles = computed(() => ({
+  background: stringToHslColor(user.email),
+}))
 const initials = computed(() => {
   return (user.first_name[0] + user.last_name[0]).toUpperCase()
 })
