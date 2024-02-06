@@ -2,14 +2,14 @@
   <div>
     <button
       type="button"
-      class="flex w-full justify-between text-sm hover:text-primary py-2"
+      class="flex w-full justify-between text-sm hover:text-primary py-2 label-text"
       @click="openDialog"
     >
       <span>{{ $t('task.assignees') }}</span>
       <Cog6ToothIcon class="w-5 h-5" />
     </button>
 
-    <div class="pb-2 text-neutral-200">
+    <div class="pb-2 text-base-content">
       <p v-if="!model || model.length === 0">
         {{ $t('task.no_assignees') }}
         <!-- <span class="link" @click="">{{ $t('task.assign-yourself') }}</span> -->

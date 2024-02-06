@@ -3,11 +3,11 @@
     <div v-if="task" class="grid grid-cols-12 gap-x-4">
       <div class="col-span-full flex justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-neutral-200">
+          <h1 class="text-2xl font-bold text-base-content">
             {{ task.name }}
-            <span class="text-base-content">#{{ task.id }}</span>
+            <span class="text-base-content/65">#{{ task.id }}</span>
           </h1>
-          <div>
+          <div class="label-text">
             <span class="font-bold mr-1">
               {{ task.created_by.first_name }}
               {{ task.created_by.last_name }}
@@ -51,8 +51,10 @@
             <UserAvatar :user="task.created_by" size="md" />
           </div>
 
-          <div class="rounded-lg border border-neutral w-full">
-            <div class="border-b border-neutral px-4 py-2 text-sm">
+          <div class="rounded-lg border border-base-content/10 w-full">
+            <div
+              class="border-b border-base-content/10 px-4 py-2 text-sm label-text"
+            >
               <span class="font-bold mr-1">
                 {{ task.created_by.first_name }}
                 {{ task.created_by.last_name }}
@@ -67,7 +69,7 @@
             </div>
 
             <div
-              class="prose prose-green max-w-none bg-base-200 px-4 pt-2 pb-2.5 rounded-b-lg"
+              class="prose max-w-none bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content"
               v-html="description"
             ></div>
           </div>
@@ -86,13 +88,15 @@
                 </div>
               </div>
 
-              <div class="rounded-lg border border-neutral w-full">
-                <div class="border-b border-neutral px-4 py-2 text-sm">
+              <div class="rounded-lg border border-base-content/10 w-full">
+                <div
+                  class="border-b border-base-content/10 px-4 py-2 text-sm label-text"
+                >
                   <b>TODO</b> commented 2 days ago
                 </div>
 
                 <div
-                  class="prose max-w-none bg-base-200 px-4 pt-2 pb-2.5 rounded-b-lg"
+                  class="prose max-w-none bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content"
                 >
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
                   suscipit libero et nibh tincidunt rutrum. Nulla laoreet eros
@@ -108,17 +112,21 @@
         </div>
       </div>
 
-      <div class="col-span-12 lg:col-span-3">
+      <div class="col-span-12 lg:col-span-3 text-base-content">
         <div>
-          <span class="text-sm">{{ $t('task.severity') }}</span>
-          <div class="text-neutral-200">{{ task.severity }}</div>
+          <span class="text-sm label-text">{{
+            $t('task.severity')
+          }}</span>
+          <div>{{ task.severity }}</div>
         </div>
 
         <div class="divider my-0"></div>
 
         <div>
-          <span class="text-sm">{{ $t('task.deadline') }}</span>
-          <div class="text-neutral-200">
+          <span class="text-sm label-text">{{
+            $t('task.deadline')
+          }}</span>
+          <div>
             {{
               task.deadline
                 ? $d(new Date(task.deadline), 'short')
@@ -130,11 +138,11 @@
         <div class="divider my-0"></div>
 
         <div>
-          <div class="text-sm mb-1">
+          <div class="text-sm mb-1 label-text">
             {{ $t('task.tags') }}
           </div>
 
-          <div v-if="task.tags.length === 0" class="text-neutral-200">
+          <div v-if="task.tags.length === 0">
             {{ $t('task.no_tags') }}
           </div>
 
@@ -153,15 +161,15 @@
         <div class="divider my-0"></div>
 
         <div>
-          <span class="text-sm mb-1">
+          <span class="text-sm mb-1 label-text">
             {{ $t('task.assignees') }}
           </span>
 
-          <div v-if="task.users.length === 0" class="text-neutral-200">
+          <div v-if="task.users.length === 0">
             {{ $t('task.no_assignees') }}
           </div>
 
-          <div v-else class="flex flex-col gap-y-1 text-neutral-200 pt-1">
+          <div v-else class="flex flex-col gap-y-1 pt-1">
             <div
               v-for="person in task.users"
               :key="person.id"
@@ -176,11 +184,11 @@
         <div class="divider my-0"></div>
 
         <div>
-          <span class="text-sm mb-1">
+          <span class="text-sm mb-1 label-text">
             {{ $t('task.parent') }}
           </span>
 
-          <div class="text-neutral-200">TODO</div>
+          <div>TODO</div>
         </div>
       </div>
     </div>

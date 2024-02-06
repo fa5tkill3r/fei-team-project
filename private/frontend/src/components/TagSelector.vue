@@ -2,7 +2,7 @@
   <div>
     <button
       type="button"
-      class="flex w-full justify-between text-sm hover:text-primary py-2"
+      class="flex w-full justify-between text-sm hover:text-primary py-2 label-text"
       @click="openDialog"
     >
       <span>{{ $t('task.tags') }}</span>

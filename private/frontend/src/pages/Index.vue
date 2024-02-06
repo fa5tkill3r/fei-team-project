@@ -103,9 +103,9 @@ onMounted(() => {
 
               <div
                 v-if="task.users.length > 3"
-                class="avatar placeholder border-neutral"
+                class="avatar placeholder border-base-300"
               >
-                <div class="w-10 bg-base-100">
+                <div class="w-10 bg-neutral">
                   <span> +{{ task.users.length - 3 }} </span>
                 </div>
               </div>

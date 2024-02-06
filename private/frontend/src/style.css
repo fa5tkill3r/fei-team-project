@@ -12,10 +12,14 @@ body {
 
 .divider {
   &:before {
-    @apply h-[1px] bg-neutral;
+    @apply h-[1px];
   }
 
   &:after {
     @apply hidden;
   }
+}
+
+.label-text {
+  @apply text-base-content/75;
 }
