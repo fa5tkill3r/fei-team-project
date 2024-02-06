@@ -9,3 +9,13 @@ body {
 .link {
   @apply hover:text-primary transition-colors;
 }
+
+.divider {
+  &:before {
+    @apply h-[1px] bg-neutral;
+  }
+
+  &:after {
+    @apply hidden;
+  }
+}

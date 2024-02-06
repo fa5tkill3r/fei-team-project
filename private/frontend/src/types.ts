@@ -26,6 +26,7 @@ export interface Task {
   severity: string
   created_at: string
   deadline?: string
+  created_by: User
 }
 
 export interface TaskRequest {

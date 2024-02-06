@@ -8,6 +8,10 @@
             <span class="text-base-content">#{{ task.id }}</span>
           </h1>
           <div>
+            <span class="font-bold mr-1">
+              {{ task.created_by.first_name }}
+              {{ task.created_by.last_name }}
+            </span>
             <span>
               {{
                 $t('task.created_at', {
@@ -44,15 +48,15 @@
       <div class="col-span-12 lg:col-span-9">
         <div class="flex gap-2">
           <div>
-            <div class="avatar placeholder">
-              <div class="w-10 rounded-full bg-neutral text-neutral-content">
-                <span>TD</span>
-              </div>
-            </div>
+            <UserAvatar :user="task.created_by" size="md" />
           </div>
 
           <div class="rounded-lg border border-neutral w-full">
             <div class="border-b border-neutral px-4 py-2 text-sm">
+              <span class="font-bold mr-1">
+                {{ task.created_by.first_name }}
+                {{ task.created_by.last_name }}
+              </span>
               <span>
                 {{
                   $t('task.commented_at', {
@@ -63,7 +67,7 @@
             </div>
 
             <div
-              class="prose max-w-none bg-base-200 px-4 py-3 rounded-b-lg"
+              class="prose prose-green max-w-none bg-base-200 px-4 pt-2 pb-2.5 rounded-b-lg"
               v-html="description"
             ></div>
           </div>
@@ -88,7 +92,7 @@
                 </div>
 
                 <div
-                  class="prose max-w-none bg-base-200 px-4 py-3 rounded-b-lg"
+                  class="prose max-w-none bg-base-200 px-4 pt-2 pb-2.5 rounded-b-lg"
                 >
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
                   suscipit libero et nibh tincidunt rutrum. Nulla laoreet eros
@@ -167,6 +171,16 @@
               <span>{{ person.first_name }} {{ person.last_name }}</span>
             </div>
           </div>
+        </div>
+
+        <div class="divider my-0"></div>
+
+        <div>
+          <span class="text-sm mb-1">
+            {{ $t('task.parent') }}
+          </span>
+
+          <div class="text-neutral-200">TODO</div>
         </div>
       </div>
     </div>

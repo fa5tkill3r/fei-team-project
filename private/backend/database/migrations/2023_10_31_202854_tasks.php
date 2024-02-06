@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->dateTime('deadline')->nullable();
             $table->text('description');
             $table->string('severity');
+            $table->foreignId('created_by_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('tasks')->onDelete('cascade');
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('incident_id')->nullable();

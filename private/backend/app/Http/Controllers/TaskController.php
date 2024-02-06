@@ -44,7 +44,10 @@ class TaskController extends Controller
             return response()->json(['error' => 'Dont have permissions to create task'], 403);
         }
 
-        $task = $team->tasks()->create($request->all());
+        $task = $team->tasks()->create([
+            ...$request->all(),
+            'created_by_id' => $this->user->id,
+        ]);
 
         if ($request->incident_id != null) {
             $incident = Incident::findOrFail($request->incident_id);

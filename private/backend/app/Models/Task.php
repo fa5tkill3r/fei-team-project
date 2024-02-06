@@ -18,34 +18,34 @@ class Task extends Model
         'is_resolved',
         'is_closed',
         'resolution',
+        'created_by_id',
     ];
 
-    public function team()
-    {
+    public function team() {
         return $this->belongsTo(Team::class);
     }
 
-    public function incident()
-    {
+    public function incident() {
         return $this->belongsTo(Incident::class);
     }
 
-    public function users()
-    {
+    public function createdBy() {
+        return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    public function users() {
         return $this->belongsToMany(User::class, 'task_user', 'task_id', 'user_id');
     }
 
-    public function parent()
-    {
+    public function parent() {
         return $this->belongsTo(Task::class, 'parent_id');
     }
 
-    public function tags()
-    {
+    public function tags() {
         return $this->belongsToMany(Tag::class, 'task_tag', 'task_id', 'tag_id');
     }
-    public function responses()
-    {
+
+    public function responses() {
         return $this->hasMany(TaskResponse::class);
     }
 }

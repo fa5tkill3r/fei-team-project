@@ -14,6 +14,7 @@ class TaskResource extends JsonResource
             'name' => $this->name,
             'deadline' => $this->deadline,
             'severity' => $this->severity,
+            'created_by' => UserResource::make($this->createdBy),
             'incident_id' => $this->incident_id,
             'description' => $this->description,
             'is_resolved' => $this->is_resolved,

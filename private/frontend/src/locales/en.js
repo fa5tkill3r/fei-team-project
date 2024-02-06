@@ -22,9 +22,10 @@ export default {
     comments: '{count} comments | {count} comment | {count} comments',
     deadline: 'Deadline',
     no_deadline: 'No deadline',
-    created_at: 'TODO created {distance}',
+    created_at: 'created {distance}',
     select_tags: 'Select tags',
     no_results: 'No results',
-    commented_at: 'TODO commented {distance}',
+    commented_at: 'commented {distance}',
+    parent: 'Parent',
   },
 }
