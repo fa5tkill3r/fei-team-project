@@ -3,12 +3,96 @@ import { t } from 'astro-i18n'
 import Layout from '../../layouts/Layout.astro'
 
 import Footer from '../../components/Footer.astro'
-import WorkingOnIt from '../../components/WorkingOnIt.astro'
+import PersonCard from '../../components/PersonCard.astro'
 ---
 
 <Layout title={`CSIRT | ${t('nav.items.about')}`}>
   <main class="max-w-4xl mx-auto px-2 mt-4">
-    <WorkingOnIt message='About us is coming soon...' />
+
+    <section class="my-8">
+      <h2 class="text-primary font-bold text-2xl text-center mb-4" id="csirt-news">
+        {t('nav.items.about')}
+      </h2>
+
+      <div class="grid gap-12 grid-cols-2">
+        <p class="max-w-sm mx-auto text-justify">
+          CSIRT (Computer Security Incident Response Team) je zodpovedný za detekciu, vyhodnocovanie a riešenie kybernetických hrozieb v sieti Fakulty Informatiky a Elektrotechniky STU.
+        </p>
+        <p class="max-w-sm mx-auto text-justify">
+          Náš tím bol na fakulte založený 17. marca 2023 a za riaditeľa bol vymenovaný Ing. Štefan Balogh, PhD., ktorý sa venuje výskumu detekčných systémov a detekcii malvéru na ústave Aplikovanej informatiky.
+        </p>
+      </div>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-primary font-bold text-2xl text-center mb-4" id="csirt-news">
+        {t('Vedenie CSIRT FEI')}
+      </h2>
+
+      <div class="grid gap-4 grid-cols-2">
+        <PersonCard
+          name="Ing. Štefan Balogh"
+          position="Riaditeľ CSIRT FEI"
+          image=""
+          email="stefan.balogh@stuba.sk"/>
+
+        <PersonCard
+          name="Bc. Veronika Paulinyová"
+          position="Manažér CSIRT FEI"
+          image=""
+          email="xpaulinyova@stuba.sk"/>
+
+        <PersonCard
+          name="Bc. Matúš Abrhan"
+          position="Vedúci pracoviska - Dátová analýza"
+          image=""
+          email="xabrhan@stuba.sk"/>
+
+        <PersonCard
+          name="Bc. Tatiana Hýlová"
+          position="Vedúci pracoviska - Training range"
+          image=""
+          email="xhylova@stuba.sk"/>
+
+        <PersonCard
+          name="Bc. Lukáš Šurab"
+          position="Vedúci pracoviska - Sieťový monitoring"
+          image=""
+          email="xsurab@stuba.sk"/>
+
+        <PersonCard
+          name="Bc. Stanislava Pecková"
+          position="Vedúci pracoviska - Vývoj a bezpečnosť webových aplikácií"
+          image=""
+          email="xpeckova@stuba.sk"/>
+      </div>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-primary font-bold text-2xl text-center mb-4" id="csirt-news">
+        {t('Organizačná štruktúra')}
+      </h2>
+
+      <p>
+        Sme súčasťou ústavu Aplikovanej informatiky FEI STU. Náš tím je tvorený študentami a zamestnancami UIM. Naše hlavné tímy:
+      </p>
+      <h4 class="font-bold">Sieťový monitoring</h4>
+      <p>Tím je zodpovedný za monitorovanie a analyzovanie aktivít vo fakultnej sieti s cieľom identifikovať bezpečnostné hrozby.</p>
+      <h4 class="font-bold">Dátová analýza a technologický rozvoj</h4>
+      <p>
+        Tím je zodpovedný za zber a analýzu bezpečnostných dát s cieľom identifikovať a predvídať potencionálne hrozby.
+        Taktiež má za úlohu rýchlu a efektívnu komunikáciu bezpečnostných hrozieb a incidentov v rámci fakulty.
+      </p>
+      <h4 class="font-bold">Vzdelávanie</h4>
+      <p>
+        Tím je zodpovedná za vytváranie študijných materiálov, kurzov, virtuálnych prostredí na tréning a testovanie rôznych scenárov bezpečnostných incidentov.
+      </p>
+      <h4 class="font-bold">Vývoj aplikácií</h4>
+      <p>
+        Tím je zodpovedný za vývoj správu, údržbu a rozvoj infraštruktúry, nástrojov a aplikácií potrebných pre CSIRT FEI.
+      </p>
+    </section>
+
   </main>
   <Footer />
 </Layout>
