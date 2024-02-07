@@ -1,7 +1,7 @@
 <template>
   <div class="avatar placeholder">
     <div
-      class="rounded-full text-gray-800 font-bold"
+      class="rounded-full text-black/80 font-bold"
       :class="avatarClasses"
       :style="styles"
     >

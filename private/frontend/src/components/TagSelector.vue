@@ -137,6 +137,7 @@ const filteredTags = computed(() => {
 function loadTags() {
   auth.client
     .get('tags')
+    .json()
     .then((response: any) => {
       tags.value = response.data
     })
@@ -154,6 +155,7 @@ function addTag() {
 
   auth.client
     .post({ name: newTag.value, color }, 'tags')
+    .json()
     .then((response: any) => {
       tags.value.push(response.data)
       newTag.value = ''

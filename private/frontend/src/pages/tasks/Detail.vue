@@ -37,7 +37,10 @@
           >
             <PencilIcon class="w-5 h-5" />
           </router-link>
-          <button class="btn btn-square btn-ghost btn-sm text-error">
+          <button
+            class="btn btn-square btn-ghost btn-sm text-error"
+            @click="dialog?.showModal()"
+          >
             <TrashIcon class="w-5 h-5" />
           </button>
         </div>
@@ -114,18 +117,14 @@
 
       <div class="col-span-12 lg:col-span-3 text-base-content">
         <div>
-          <span class="text-sm label-text">{{
-            $t('task.severity')
-          }}</span>
+          <span class="text-sm label-text">{{ $t('task.severity') }}</span>
           <div>{{ task.severity }}</div>
         </div>
 
         <div class="divider my-0"></div>
 
         <div>
-          <span class="text-sm label-text">{{
-            $t('task.deadline')
-          }}</span>
+          <span class="text-sm label-text">{{ $t('task.deadline') }}</span>
           <div>
             {{
               task.deadline
@@ -192,27 +191,69 @@
         </div>
       </div>
     </div>
+
+    <div v-else class="flex justify-center items-center h-96">
+      <div class="loading loading-spinner"></div>
+    </div>
+
+    <dialog class="modal" ref="dialog">
+      <div class="modal-box flex flex-col">
+        <h3 class="font-bold text-lg flex items-center justify-between mb-4">
+          {{ $t('task.delete_confirmation.title') }}
+
+          <button
+            class="btn btn-ghost btn-circle btn-sm"
+            type="button"
+            @click="dialog?.close()"
+          >
+            <XMarkIcon class="w-5 h-5" />
+          </button>
+        </h3>
+
+        <p>
+          {{ $t('task.delete_confirmation.content') }}
+        </p>
+
+        <div class="flex justify-end mt-4 gap-2">
+          <form method="dialog">
+            <button class="btn w-16" type="submit" :disabled="loading">
+              {{ $t('no') }}
+            </button>
+          </form>
+          <button class="btn btn-error w-16" type="button" @click="deleteTask">
+            <span v-if="loading" class="loading loading-spinner"></span>
+            <span v-else>{{ $t('yes') }}</span>
+          </button>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { Task } from '@/types'
 import { onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
-import { PencilIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import { computed } from 'vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
 import { getStylesForTag } from '@/lib/utils'
 import UserAvatar from '@/components/UserAvatar.vue'
 
+const router = useRouter()
 const auth = useAuthStore()
 const team = useTeamStore()
 const route = useRoute()
 const formatDistance = useFormatDistance()
 const task = ref<Task | null>(null)
+const dialog = ref<HTMLDialogElement | null>(null)
+const loading = ref(false)
 
 const description = computed(() => {
   const raw = task.value?.description
@@ -229,9 +270,28 @@ const description = computed(() => {
     )
 })
 
+function deleteTask() {
+  if (loading.value) {
+    return
+  }
+
+  loading.value = true
+  auth.client
+    .delete(`tasks/${team.current?.id}/${route.params.id}`)
+    .res()
+    .then(() => {
+      dialog.value?.close()
+      router.push({ name: 'home' })
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
+
 onMounted(() => {
   auth.client
     .get(`tasks/${team.current?.id}/${route.params.id}`)
+    .json()
     .then((res: any) => {
       task.value = res.data as Task
     })

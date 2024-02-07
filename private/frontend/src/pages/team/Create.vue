@@ -26,6 +26,7 @@ function createTeam() {
   loading.value = true
   auth.client
     .post(team.value, 'teams')
+    .json()
     .then(() => {
       alertStore.addAlert('Team created', AlertType.SUCCESS)
 

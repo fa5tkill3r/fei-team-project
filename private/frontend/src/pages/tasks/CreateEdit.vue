@@ -114,6 +114,7 @@ function loadTask() {
   initialLoading.value = true
   auth.client
     .get(`tasks/${team.current?.id}/${id}`)
+    .json()
     .then((res: any) => {
       task.value = {
         ...res.data,
@@ -134,6 +135,7 @@ function saveTask() {
     : auth.client.post(task.value, `tasks/${team.current?.id}`)
 
   request
+    .json()
     .then((res: any) => {
       router.push({ name: 'task-detail', params: { id: res.data.id } })
     })

@@ -11,11 +11,14 @@ export const useTeamStore = defineStore('team', () => {
   const members = computed<User[]>(() => current?.value?.users ?? [])
 
   function getTeams() {
-    return authStore.client.get('teams').then((res: any) => {
-      teams.value = res.data
+    return authStore.client
+      .get('teams')
+      .json()
+      .then((res: any) => {
+        teams.value = res.data
 
-      return res.data
-    })
+        return res.data
+      })
   }
 
   function loadTeams() {

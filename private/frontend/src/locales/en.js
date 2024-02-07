@@ -1,4 +1,6 @@
 export default {
+  yes: 'Yes',
+  no: 'No',
   auth: {
     login: 'Login',
   },
@@ -27,5 +29,9 @@ export default {
     no_results: 'No results',
     commented_at: 'commented {distance}',
     parent: 'Parent',
+    delete_confirmation: {
+      title: 'Delete task?',
+      content: 'Are you sure you want to delete this task?',
+    }
   },
 }

@@ -11,7 +11,6 @@ const TOKEN_REFRESH_BUFFER = 30 * 1000
 const defaultClient = wretch(import.meta.env.VITE_API_URL)
   .addon(queryStringAddon)
   .accept('application/json')
-  .resolve((r) => r.json())
 
 function parseJWT(token: string) {
   const start = token.indexOf('.') + 1
@@ -60,6 +59,7 @@ export const useAuthStore = defineStore('auth', () => {
   function tokenRefresh() {
     return client.value
       .post(null, 'users/refresh')
+      .json()
       .catch((err) => {
         // TODO: handle error
         console.log(err)
@@ -75,6 +75,7 @@ export const useAuthStore = defineStore('auth', () => {
     return defaultClient
       .options({ credentials: 'include' })
       .post({ email, password, remember_me: rememberMe }, 'users/login')
+      .json()
       .then(handleUserResponse)
   }
 
@@ -94,6 +95,7 @@ export const useAuthStore = defineStore('auth', () => {
         },
         'users/register',
       )
+      .json()
       .then(handleUserResponse)
       .then(() => {
         router.push('/')
@@ -104,6 +106,7 @@ export const useAuthStore = defineStore('auth', () => {
     return client.value
       .options({ credentials: 'include' })
       .post(null, 'users/logout')
+      .json()
       .then(() => {
         clearInterval(timerId)
 

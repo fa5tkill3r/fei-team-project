@@ -25,6 +25,7 @@ function loadTasks(team: any = null) {
       team: team?.id,
     })
     .get('tasks')
+    .json()
     .then((res: any) => {
       tasks.value = res.data
     })
