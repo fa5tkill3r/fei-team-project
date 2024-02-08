@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Incident;
 use App\Models\IncidentImage;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 
 class IncidentsController extends Controller
 {
-    public function index()
+    public function index() :AnonymousResourceCollection
     {
         return response()->json([
             'data' => Incident::all(),
@@ -28,6 +29,7 @@ class IncidentsController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
+
         if ($request->hasFile('images')) {
 
             foreach ($request->file('images') as $image) {
@@ -40,7 +42,6 @@ class IncidentsController extends Controller
                 $imageModel->save();
             }
         }
-
 
         return response()->json([
             'data' => $incident,
