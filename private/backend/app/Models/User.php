@@ -8,7 +8,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-
+/**
+ * User Model
+ * 
+ * @property int $id
+ * @property string $email
+ * @property string $password
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $remember_token
+ * @property string $remember_token_expires_at
+ * 
+ * @method BelongsToMany teams()
+ * @method BelongsToMany tasks()
+ * @method HasMany createdTasks()
+ * 
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory;

@@ -5,6 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Role Model
+ * 
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property boolean $task_access
+ * @property boolean $task_create
+ * @property boolean $task_delete
+ * @property boolean $user_access
+ * @property boolean $user_add
+ * @property boolean $role_access
+ * @property boolean $role_add
+ * @property boolean $role_delete
+ * @property boolean $team_info
+ * 
+ * @method BelongsToMany users()
+ * @method BelongsToMany teams()
+ */
 class Role extends Model
 {
     use HasFactory;

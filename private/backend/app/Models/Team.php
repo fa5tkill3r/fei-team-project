@@ -5,6 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Team Model
+ * 
+ * @property int $id
+ * @property string $name
+ * @property string $description
+ * 
+ * @method HasMany tasks()
+ * @method BelongsToMany users()
+ */
 class Team extends Model
 {
     use HasFactory;

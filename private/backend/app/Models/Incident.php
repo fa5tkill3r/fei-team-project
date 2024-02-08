@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
 
+
+/**
+ * Incident Model
+ * 
+ * @property int $id
+ * @property string $title
+ * @property string $description
+ * @property string $name
+ * @property string $email
+ * @property string $surname
+ * @property string $type
+ * 
+ * @method HasMany images()
+ */
 class Incident extends Model
 {
     use HasFactory;

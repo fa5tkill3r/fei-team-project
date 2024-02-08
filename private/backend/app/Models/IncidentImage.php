@@ -5,6 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * IncidentImage Model
+ * 
+ * @property int $id
+ * @property string $image
+ * @property int $incident_id
+ * @property string $path
+ * 
+ * @method BelongsTo incident()
+ */
 class IncidentImage extends Model
 {
     use HasFactory;
