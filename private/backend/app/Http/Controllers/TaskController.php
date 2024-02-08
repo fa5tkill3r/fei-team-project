@@ -14,12 +14,13 @@ class TaskController extends Controller
 {
     private $user;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:api');
         $this->user = auth()->user();
     }
 
-    public function index(): AnonymousResourceCollection 
+    public function index(): AnonymousResourceCollection
     {
         $team = request()->get('team');
         if ($team) {
@@ -116,7 +117,7 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function destroy($teamId, $taskId): void
+    public function destroy($teamId, $taskId): AnonymousResourceCollection
     {
         $team = $this->user->teams()->findOrFail($teamId);
 
@@ -134,7 +135,7 @@ class TaskController extends Controller
         return response()->json(null, 204);
     }
 
-    public function assignUser(Request $request, $teamId, $taskId) 
+    public function assignUser(Request $request, $teamId, $taskId)
     {
         $team = $this->user->teams()->findOrFail($teamId);
 
@@ -153,7 +154,7 @@ class TaskController extends Controller
         return response()->json($task->users, 200);
     }
 
-    public function unassignUser(Request $request, $teamId, $taskId) 
+    public function unassignUser(Request $request, $teamId, $taskId)
     {
         $team = $this->user->teams()->findOrFail($teamId);
 
