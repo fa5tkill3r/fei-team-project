@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\TeamResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TeamController extends Controller
 {
@@ -18,13 +19,13 @@ class TeamController extends Controller
         $this->user = auth()->user();
     }
 
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $teams = $this->user->teams()->with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])->get();
         return TeamResource::collection($teams);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): TeamResource
     {
         $team = Team::create($request->all());
 
@@ -36,17 +37,19 @@ class TeamController extends Controller
                 ->findOrFail($team->id);
 
             return TeamResource::make($team);
+
         } else {
             return response()->json(['error' => 'Error creating team'], 500);
         }
     }
 
-    public function show($id)
+    public function show($id): TeamResource
     {
-        return $this->user->teams()->findOrFail($id);
+        $team = $this->user->teams()->findOrFail($id)->with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])->get();
+        return TeamResource::make($team);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): TeamResource
     {
         $team = Team::findOrFail($id);
         $updater = $team->users()->findOrFail($this->user->id);
@@ -58,7 +61,6 @@ class TeamController extends Controller
         }
 
         $team->update($request->all());
-
 
         $team = Team::with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])
             ->findOrFail($team->id);
@@ -72,7 +74,7 @@ class TeamController extends Controller
         return response()->json(null, 204);
     }
 
-    public function addUser($id, Request $request)
+    public function addUser($id, Request $request): TeamResource
     {
         $team = Team::findOrFail($id);
         $user = User::findOrFail(request()->get('user_id'));
@@ -91,7 +93,7 @@ class TeamController extends Controller
         return TeamResource::make($team);
     }
 
-    public function removeUser($id, Request $request)
+    public function removeUser($id, Request $request): TeamResource
     {
         $team = Team::findOrFail($id);
         $user = User::findOrFail(request()->get('user_id'));

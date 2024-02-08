@@ -8,6 +8,7 @@ use App\Models\Incident;
 use App\Models\TaskResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\TaskResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
@@ -18,24 +19,27 @@ class TaskController extends Controller
         $this->user = auth()->user();
     }
 
-    public function index() {
+    public function index(): AnonymousResourceCollection 
+    {
         $team = request()->get('team');
         if ($team) {
             return $this->getByTeam($team);
         }
         $tasks = Task::with(['users', 'tags', 'responses'])->get();
 
-        // return $tasks;
         return TaskResource::collection($tasks);
     }
 
-    private function getByTeam($teamId) {
+    private function getByTeam($teamId): AnonymousResourceCollection
+    {
         $team = $this->user->teams()->findOrFail($teamId);
+
         $tasks = $team->tasks()->with(['users', 'tags', 'responses'])->get();
         return TaskResource::collection($tasks);
     }
 
-    public function store(Request $request, $teamId) {
+    public function store(Request $request, $teamId): TaskResource
+    {
         $team = $this->user->teams()->findOrFail($teamId);
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
         $role = Role::findOrFail($roleId);
@@ -71,18 +75,19 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function show($teamId, $taskId) {
+    public function show($teamId, $taskId): TaskResource
+    {
         $team = $this->user->teams()->findOrFail($teamId);
         $task = $team->tasks()->findOrFail($taskId);
 
-        // load users
         $task->load('users');
         $task->load('tags');
 
         return new TaskResource($task);
     }
 
-    public function update(Request $request, $teamId, $taskId) {
+    public function update(Request $request, $teamId, $taskId): TaskResource
+    {
         $team = $this->user->teams()->findOrFail($teamId);
 
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
@@ -111,7 +116,8 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function destroy($teamId, $taskId) {
+    public function destroy($teamId, $taskId): void
+    {
         $team = $this->user->teams()->findOrFail($teamId);
 
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
@@ -128,7 +134,8 @@ class TaskController extends Controller
         return response()->json(null, 204);
     }
 
-    public function assignUser(Request $request, $teamId, $taskId) {
+    public function assignUser(Request $request, $teamId, $taskId) 
+    {
         $team = $this->user->teams()->findOrFail($teamId);
 
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;
@@ -146,7 +153,8 @@ class TaskController extends Controller
         return response()->json($task->users, 200);
     }
 
-    public function unassignUser(Request $request, $teamId, $taskId) {
+    public function unassignUser(Request $request, $teamId, $taskId) 
+    {
         $team = $this->user->teams()->findOrFail($teamId);
 
         $roleId = $team->users()->findOrFail($this->user->id)->pivot->role_id;

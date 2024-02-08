@@ -10,6 +10,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ThesisController;
 use App\Http\Controllers\IncidentsController;
+use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskReponseController;
 use App\Http\Controllers\IncidentTaskController;
 use App\Http\Controllers\TaskResponseController;
@@ -93,5 +94,10 @@ Route::group([
     Route::get('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@show');
     Route::put('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@update');
     Route::delete('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@destroy');
+
+    Route::apiResource('task/{taskId}/comments', TaskCommentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
 });
+
+
+
 

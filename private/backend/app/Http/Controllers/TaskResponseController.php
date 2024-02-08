@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TaskResponseResource;
 use App\Models\TaskResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskResponseController extends Controller
 {
@@ -17,7 +18,7 @@ class TaskResponseController extends Controller
     }
 
 
-    public function index($taskId)
+    public function index($taskId): AnonymousResourceCollection
     {
         $tasks = $this->user->tasks()->findOrFail($taskId);
 
@@ -26,7 +27,7 @@ class TaskResponseController extends Controller
         return TaskResponseResource::collection($responses);
     }
 
-    public function store(Request $request, $taskId)
+    public function store(Request $request, $taskId): TaskResponseResource
     {
         $task = $this->user->tasks()->findOrFail($taskId);
         $request->merge(['user_id' => $this->user->id]);
@@ -41,7 +42,7 @@ class TaskResponseController extends Controller
         return TaskResponseResource::make($response);
     }
 
-    public function show($taskId, $responseId)
+    public function show($taskId, $responseId): TaskResponseResource
     {
         $task = $this->user->tasks()->findOrFail($taskId);
         $response = $task->responses()->findOrFail($responseId);
@@ -51,7 +52,7 @@ class TaskResponseController extends Controller
         return TaskResponseResource::make($response);
     }
 
-    public function update(Request $request, $taskId, $responseId)
+    public function update(Request $request, $taskId, $responseId): TaskResponseResource
     {
         $task = $this->user->tasks()->findOrFail($taskId);
         $response = $task->responses()->findOrFail($responseId);
@@ -62,7 +63,7 @@ class TaskResponseController extends Controller
         return TaskResponseResource::make($response);
     }
 
-    public function destroy($taskId, $responseId)
+    public function destroy($taskId, $responseId): TaskResponseResource
     {
         $task = $this->user->tasks()->findOrFail($taskId);
         $response = $task->responses()->findOrFail($responseId);

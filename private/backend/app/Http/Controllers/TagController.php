@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Http\Resources\TagResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TagController extends Controller
 {
@@ -16,24 +17,24 @@ class TagController extends Controller
         $this->user = auth()->user();
     }
 
-    public function index() 
+    public function index(): AnonymousResourceCollection
     {
         return TagResource::collection(Tag::all());
         
     }
 
-    public function store(Request $request)
+    public function store(Request $request): TagResource
     {
         $tag = Tag::create($request->all());
         return new TagResource($tag);
     }
 
-    public function show($id)
+    public function show($id): TagResource
     {
         return new TagResource(Tag::find($id));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): TagResource
     {
         $tag = Tag::find($id);
         $tag->update($request->all());
@@ -41,13 +42,11 @@ class TagController extends Controller
         return new TagResource($tag);
     }
 
-    public function destroy($id)
+    public function destroy($id): TagResource
     {
         $tag = Tag::find($id);
         $tag->delete();
 
         return new TagResource($tag);
     }
-
-    
 }

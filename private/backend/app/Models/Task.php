@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method BelongsTo parent()
  * @method BelongsToMany tags()
  * @method HasMany responses()
+ * @method HasMany comments()
  */
 class Task extends Model
 {
@@ -65,6 +66,10 @@ class Task extends Model
 
     public function tags() {
         return $this->belongsToMany(Tag::class, 'task_tag', 'task_id', 'tag_id');
+    }
+
+    public function comments() {
+        return $this->hasMany(TaskComment::class);
     }
 
     public function responses() {
