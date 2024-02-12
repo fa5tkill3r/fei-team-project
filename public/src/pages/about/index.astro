@@ -16,17 +16,17 @@ import PersonCard from '../../components/PersonCard.astro'
 
       <div class="grid gap-12 grid-cols-2">
         <p class="max-w-sm mx-auto text-justify">
-          CSIRT (Computer Security Incident Response Team) je zodpovedný za detekciu, vyhodnocovanie a riešenie kybernetických hrozieb v sieti Fakulty Informatiky a Elektrotechniky STU.
+          {t('pages.about.description.left')}
         </p>
         <p class="max-w-sm mx-auto text-justify">
-          Náš tím bol na fakulte založený 17. marca 2023 a za riaditeľa bol vymenovaný Ing. Štefan Balogh, PhD., ktorý sa venuje výskumu detekčných systémov a detekcii malvéru na ústave Aplikovanej informatiky.
+          {t('pages.about.description.right')}
         </p>
       </div>
     </section>
 
     <section class="my-8">
       <h2 class="text-primary font-bold text-2xl text-center mb-4" id="csirt-news">
-        {t('Vedenie CSIRT FEI')}
+        {t('pages.about.management.subtitle')}
       </h2>
 
       <div class="grid gap-4 grid-cols-2">
@@ -70,26 +70,25 @@ import PersonCard from '../../components/PersonCard.astro'
 
     <section class="my-8">
       <h2 class="text-primary font-bold text-2xl text-center mb-4" id="csirt-news">
-        {t('Organizačná štruktúra')}
+        {t('pages.about.organization.subtitle')}
       </h2>
 
-      <p>
-        Sme súčasťou ústavu Aplikovanej informatiky FEI STU. Náš tím je tvorený študentami a zamestnancami UIM. Naše hlavné tímy:
+      <p class="mb-4">
+        {t('pages.about.organization.description')}
       </p>
-      <h4 class="font-bold">Sieťový monitoring</h4>
-      <p>Tím je zodpovedný za monitorovanie a analyzovanie aktivít vo fakultnej sieti s cieľom identifikovať bezpečnostné hrozby.</p>
-      <h4 class="font-bold">Dátová analýza a technologický rozvoj</h4>
-      <p>
-        Tím je zodpovedný za zber a analýzu bezpečnostných dát s cieľom identifikovať a predvídať potencionálne hrozby.
-        Taktiež má za úlohu rýchlu a efektívnu komunikáciu bezpečnostných hrozieb a incidentov v rámci fakulty.
+      <h4 class="font-bold">{t('pages.about.organization.teams.networkmonitoring.title')}</h4>
+      <p class="indent-4 pl-2 mb-2">{t('pages.about.organization.teams.networkmonitoring.description')}</p>
+      <h4 class="font-bold">{t('pages.about.organization.teams.analytics.title')}</h4>
+      <p class="indent-4 pl-2  mb-2">
+        {t('pages.about.organization.teams.analytics.description')}
       </p>
-      <h4 class="font-bold">Vzdelávanie</h4>
-      <p>
-        Tím je zodpovedná za vytváranie študijných materiálov, kurzov, virtuálnych prostredí na tréning a testovanie rôznych scenárov bezpečnostných incidentov.
+      <h4 class="font-bold">{t('pages.about.organization.teams.education.title')}</h4>
+      <p class="indent-4 pl-2 mb-2">
+        {t('pages.about.organization.teams.education.description')}
       </p>
-      <h4 class="font-bold">Vývoj aplikácií</h4>
-      <p>
-        Tím je zodpovedný za vývoj správu, údržbu a rozvoj infraštruktúry, nástrojov a aplikácií potrebných pre CSIRT FEI.
+      <h4 class="font-bold">{t('pages.about.organization.teams.development.title')}</h4>
+      <p class="indent-4 pl-2 mb-2">
+        {t('pages.about.organization.teams.development.description')}
       </p>
     </section>
 

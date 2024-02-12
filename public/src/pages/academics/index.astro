@@ -3,12 +3,127 @@ import { t } from 'astro-i18n'
 import Layout from '../../layouts/Layout.astro'
 
 import Footer from '../../components/Footer.astro'
-import WorkingOnIt from '../../components/WorkingOnIt.astro'
 ---
 
 <Layout title={`CSIRT | ${t('nav.items.academicactivity')}`}>
   <main class="max-w-4xl mx-auto px-2 mt-4">
-    <WorkingOnIt message="Academic activity is coming soon..." />
+
+    <section class="my-8">
+      <h2 class="text-primary font-bold text-2xl text-center mb-4">
+        {t('nav.items.academicactivity')}
+      </h2>
+
+      <p>
+        CSIRT poskytuje vzdelávanie a jednorazové odborné školenia pre študentov FEI STU a študentov strednej odbornej školy <a class="font-bold" href="https://zochova.sk/">SPŠE Zochova</a>.
+      </p>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-primary font-bold text-2xl mb-4">
+        {t('Predmety')}
+      </h2>
+
+      <div class="preview border-base-300 bg-base-100 rounded-b-box rounded-se-box flex min-h-[6rem] min-w-[18rem] max-w-4xl flex-wrap items-center justify-center gap-2 overflow-x-hidden bg-cover bg-top">
+
+        <div class="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" checked="checked" />
+          <div class="collapse-title text-xl font-medium">
+            Počítačová kriminalita
+          </div>
+          <div class="collapse-content">
+            <p>
+              Predmet je určený študentom bakalárskeho štúdia z odboru Aplikovaná informatika na FEI STU.
+              Poskytuje komplexný prehľad o počítačovej kriminalite, zhŕňajúc jej definície, rôzne formy a aktivity.
+              Predmet pokrýva témy ako hacking, cracking, spamming, sniffing, warezing, ako aj sociálne inžinierstvo,
+              phishing a pharming. Dôraz sa kladie aj na počítačové vírusy a kombinované formy počítačovej kriminality.
+              Viac informácii o predmete nájdete na <a class="underline" href="https://uim.fei.stuba.sk/predmet/b-pkrim/">https://uim.fei.stuba.sk/predmet/b-pkrim/</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
+          <div class="collapse-title text-xl font-medium">
+            Analýza kódu
+          </div>
+          <div class="collapse-content">
+            <p>
+              Predmet je určený študentom inžinierskeho štúdia z odboru Aplikovaná informatika na FEI STU.
+              Tento predmet poskytuje detailný pohľad na jazyk Assembler a jeho aplikácie v oblasti reverzného inžinierstva.
+              Zahŕňa štúdium architektúry počítača, CPU a základných strojových inštrukcií.
+              Kurz pokrýva prácu s príznakovým registrom, režazcami, bitovými posunmi, ako aj základné princípy a nástroje reverzného inžinierstva.
+              Ďalej sa zameriava na Portable Executable format, Windows API, disassembling, debugging, techniky exploitovania, ochrany proti disassemblovaniu, anti-debugovacie triky a súčasné techniky ochrany pred exploitovaním.
+              Viac informácií o predmete nájdete na <a class="underline" href="https://uim.fei.stuba.sk/predmet/i-akod/">https://uim.fei.stuba.sk/predmet/i-akod/</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
+          <div class="collapse-title text-xl font-medium">
+            Počítačové siete 2
+          </div>
+          <div class="collapse-content">
+            <p>
+              Tento predmet je určený študentom 2. Ročníka odboru Počítačové siete na strednej odbornej škole SPŠE Zochova.
+              Je zameraný na pochopenie a aplikáciu kľúčových sieťových technológií a protokolov. Zahŕňa témy ako koncepty prepínanie, VLAN a inter-VLAN smerovanie, základnú konfiguráciu zariadení, ako aj koncepty a nastavenia pre redundantné siete vrátane STP a EtherChannel.
+              Študenti sa tiež oboznámia s dostupnosťou a spoľahlivosťou sietí prostredníctvom DHCPv4/v6 a SLAAC, ako aj konceptmi FHRP.
+              Kurz pokračuje štúdiom zabezpečenia WLAN sietí, konfigurácie WLAN a pokročilými konceptmi smerovania.
+              Ide o komplexný kurz poskytujúci teoretické aj praktické zručnosti potrebné pre návrh, implementáciu a správu moderných počítačových sietí.
+            </p>
+          </div>
+        </div>
+
+        <div class="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
+          <div class="collapse-title text-xl font-medium">
+            Objektovo-orientované programovanie v programovacom jazyku Python
+          </div>
+          <div class="collapse-content">
+            <p>
+              Predmet je určený študentom odboru Inteligentné technológie  na strednej odbornej škole SPŠE Zochova.
+              Poskytuje úvod do objektovo orientovaného programovania s použitím jazyka Python. Študenti sa oboznámia so základnými princípmi OOP, ako sú triedy, objekty, dedičnosť, polymorfizmus a enkapsulácia.
+              Kurz je navrhnutý tak, aby poskytoval praktické cvičenia na lepšie pochopenie ako tieto koncepty fungujú v Pythone a ako ich možno využiť pri riešení programovacích problémov a pri vytváraní efektívneho, dobre štruktúrovaného kódu.
+            </p>
+          </div>
+        </div>
+
+        <div class="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
+          <div class="collapse-title text-xl font-medium">
+            Skriptovacie jazyky
+          </div>
+          <div class="collapse-content">
+            <p>
+              Predmet je určený študentom odboru Inteligentné technológie  na strednej odbornej škole SPŠE Zochova.
+              Je zameraný na poskytnutie základného porozumenia a zručností v programovacom jazyku JavaScript.
+              Kurz zahŕňa výučbu základných konceptov ako premenné, dátové typy, funkcie, objekty, a ovládacie štruktúry.
+              Študenti sa naučia, ako písať jednoduché ako aj komplexnejšie skripty, a budú aplikovať svoje znalosti na riešenie reálnych problémov.
+              Okrem toho sa kurz venuje aj moderným praktikám v JavaScripte, ako sú DOM manipulácie a základy asynchrónneho programovania.
+            </p>
+          </div>
+        </div>
+
+        <div class="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
+          <div class="collapse-title text-xl font-medium">
+            Kybernetická bezpečnosť
+          </div>
+          <div class="collapse-content">
+            <p>
+              Tento predmet je určený študentom odboru Inteligentné technológie na strednej odbornej škole SPŠE Zochova.
+              V tomto kurze sa študenti zoznámia s princípmi a praktikami zabezpečenia počítačových sietí, vrátane autentifikácie, autorizácie, ACL a hešovania.
+              Budú skúmať sociálne inžinierstvo, metódy spamu a phishingu, a hlbšie sa ponoria do kryptografie a šifrovania.
+              Detailne sa pozrieme na kryptomeny a technológiu blockchain. Kurz ďalej pokrýva otázky sieťovej bezpečnosti a základné koncepty OWASP.
+              Záverečné moduly sú venované analýze malvéru a crackingu, aby študenti pochopili a vedeli čeliť rôznym hrozbám v kybernetickom prostredí.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
   <Footer />
 </Layout>

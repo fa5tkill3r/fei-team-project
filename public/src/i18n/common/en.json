@@ -28,5 +28,39 @@
     "news": {
       "empty": "No news"
     }
+  },
+  "pages": {
+    "about": {
+      "description": {
+        "left": "CSIRT (Computer Security Incident Response Team) is responsible for detection, evaluation and resolution of cyber threats in the network of the Faculty of Informatics and Electrical Engineering STU.",
+        "right": "Our team was founded at the faculty on March 17, 2023, and Ing. Štefan Balogh, PhD., who researches detection systems and malware detection at the Institute of Applied Informatics."
+      },
+      "management": {
+        "subtitle": "CSIRT FEI Management"
+      },
+      "organization": {
+        "subtitle": "Organizational structure",
+        "description": "We are part of the Institute of Applied Informatics FEI STU. Our team is made up of UIM students and employees. Our main teams",
+        "teams": {
+          "networkmonitoring": {
+            "title": "Network monitoring",
+            "description": "The team is responsible for monitoring and analyzing activities on the faculty network in order to identify security threats."
+          },
+          "analytics": {
+            "title": "en:Dátová analýza a technologický rozvoj",
+            "description": "en:Tím je zodpovedný za zber a analýzu bezpečnostných dát s cieľom identifikovať a predvídať potencionálne hrozby. Taktiež má za úlohu rýchlu a efektívnu komunikáciu bezpečnostných hrozieb a incidentov v rámci fakulty."
+          },
+          "education": {
+            "title": "en:Vzdelávanie",
+            "description": "en:Tím je zodpovedná za vytváranie študijných materiálov, kurzov, virtuálnych prostredí na tréning a testovanie rôznych scenárov bezpečnostných incidentov."
+          },
+          "development": {
+            "title": "en:Vývoj aplikácií",
+            "description": "en:Tím je zodpovedný za vývoj správu, údržbu a rozvoj infraštruktúry, nástrojov a aplikácií potrebných pre CSIRT FEI."
+          }
+        }
+      }
+    },
+    "activity": {}
   }
 }

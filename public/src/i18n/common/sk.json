@@ -28,5 +28,39 @@
     "news": {
       "empty": "Žiadne novinky"
     }
+  },
+  "pages": {
+    "about": {
+      "description": {
+        "left": "CSIRT (Computer Security Incident Response Team) je zodpovedný za detekciu, vyhodnocovanie a riešenie kybernetických hrozieb v sieti Fakulty Informatiky a Elektrotechniky STU.",
+        "right": "Náš tím bol na fakulte založený 17. marca 2023 a za riaditeľa bol vymenovaný Ing. Štefan Balogh, PhD., ktorý sa venuje výskumu detekčných systémov a detekcii malvéru na ústave Aplikovanej informatiky."
+      },
+      "management": {
+        "subtitle": "Vedenie CSIRT FEI"
+      },
+      "organization": {
+        "subtitle": "Organizačná štruktúra",
+        "description": "Sme súčasťou ústavu Aplikovanej informatiky FEI STU. Náš tím je tvorený študentami a zamestnancami UIM. Naše hlavné tímy",
+        "teams": {
+          "networkmonitoring": {
+            "title": "Sieťový monitoring",
+            "description": "Tím je zodpovedný za monitorovanie a analyzovanie aktivít vo fakultnej sieti s cieľom identifikovať bezpečnostné hrozby."
+          },
+          "analytics": {
+            "title": "Dátová analýza a technologický rozvoj",
+            "description": "Tím je zodpovedný za zber a analýzu bezpečnostných dát s cieľom identifikovať a predvídať potencionálne hrozby. Taktiež má za úlohu rýchlu a efektívnu komunikáciu bezpečnostných hrozieb a incidentov v rámci fakulty."
+          },
+          "education": {
+            "title": "Vzdelávanie",
+            "description": "Tím je zodpovedná za vytváranie študijných materiálov, kurzov, virtuálnych prostredí na tréning a testovanie rôznych scenárov bezpečnostných incidentov."
+          },
+          "development": {
+            "title": "Vývoj aplikácií",
+            "description": "Tím je zodpovedný za vývoj správu, údržbu a rozvoj infraštruktúry, nástrojov a aplikácií potrebných pre CSIRT FEI."
+          }
+        }
+      }
+    },
+    "activity": {}
   }
 }
