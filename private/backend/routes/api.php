@@ -39,6 +39,9 @@ Route::group([
         Route::post("/refresh", UsersController::class . "@refresh");
         Route::post("/logout", UsersController::class . "@logout");
         Route::post("/logout-from-all", UsersController::class . "@logoutFromAll");
+    
+        Route::put("/avatar", UsersController::class . "@updateAvatar");
+        Route::delete("/avatar", UsersController::class . "@deleteAvatar");
     });
 });
 

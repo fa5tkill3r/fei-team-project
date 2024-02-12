@@ -122,5 +122,30 @@ class UsersController extends Controller
         ])->withCookie($cookie);
     }
 
+    public function updateAvatar(Request $request, $id)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
+        $user = User::find($id);
+
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarPath = $avatar->store('avatars', 'public');
+            $user->avatar = $avatarPath;
+            $user->save();
+        }
+
+        return back()->with('success', 'Avatar uploaded successfully.');
+    }
+
+    public function deleteAvatar($id)
+    {
+        $user = User::find($id);
+        $user->avatar = null;
+        $user->save();
+
+        return back()->with('success', 'Avatar deleted successfully.');
+    }
 }
