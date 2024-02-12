@@ -36,6 +36,9 @@ export default {
     delete_confirmation: {
       title: 'Delete task?',
       content: 'Are you sure you want to delete this task?',
+    },
+    comment: {
+      add: 'Add comment',
     }
   },
 }
