@@ -75,9 +75,13 @@
               class="bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content"
             >
               <div
+                v-if="task.description"
                 class="prose max-w-none text-base-content"
                 v-html="description"
               ></div>
+              <div v-else class="prose max-w-none italic text-base-content">
+                {{ $t('task.no_description') }}
+              </div>
 
               <div v-if="task.children.length > 0">
                 <div class="divider my-1"></div>

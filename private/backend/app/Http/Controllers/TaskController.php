@@ -52,6 +52,7 @@ class TaskController extends Controller
         $task = $team->tasks()->create([
             ...$request->all(),
             'created_by_id' => $this->user->id,
+            'description' => $request->description ?? '',
         ]);
 
         if ($request->incident_id != null) {
@@ -117,7 +118,7 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function destroy($teamId, $taskId): AnonymousResourceCollection
+    public function destroy($teamId, $taskId)
     {
         $team = $this->user->teams()->findOrFail($teamId);
 

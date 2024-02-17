@@ -32,6 +32,7 @@ export default {
     no_parent: 'No parent',
     subTasks: 'Subtasks',
     select_parent: 'Select parent',
+    no_description: 'No description provided',
     delete_confirmation: {
       title: 'Delete task?',
       content: 'Are you sure you want to delete this task?',
