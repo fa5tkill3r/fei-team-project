@@ -25,6 +25,8 @@ class TaskResource extends JsonResource
             'users' => UserResource::collection($this->whenLoaded('users')),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'responses' => TaskResponseResource::collection($this->whenLoaded('responses')),
+            'parent' => TaskResource::make($this->whenLoaded('parent')),
+            'children' => TaskResource::collection($this->whenLoaded('children')),
         ];
     }
 }

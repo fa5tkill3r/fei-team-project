@@ -72,9 +72,33 @@
             </div>
 
             <div
-              class="prose max-w-none bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content"
-              v-html="description"
-            ></div>
+              class="bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content"
+            >
+              <div
+                class="prose max-w-none text-base-content"
+                v-html="description"
+              ></div>
+
+              <div v-if="task.children.length > 0">
+                <div class="divider my-1"></div>
+
+                <h2 class="text-lg">{{ $t('task.subTasks') }}</h2>
+
+                <ul class="list-disc mb-1">
+                  <li v-for="child in task.children" class="list-item ml-4">
+                    <router-link
+                      :to="{
+                        name: 'task-detail',
+                        params: { id: child.id },
+                      }"
+                      class="link"
+                    >
+                      <span>{{ child.name }} (#{{ child.id }})</span>
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -187,7 +211,16 @@
             {{ $t('task.parent') }}
           </span>
 
-          <div>TODO</div>
+          <div>
+            <router-link
+              v-if="task.parent"
+              :to="{ name: 'task-detail', params: { id: task.parent.id } }"
+              class="link"
+            >
+              {{ task.parent?.name }}
+            </router-link>
+            <span v-else>{{ $t('task.no_parent') }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -245,6 +278,7 @@ import { computed } from 'vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
 import { getStylesForTag } from '@/lib/utils'
 import UserAvatar from '@/components/UserAvatar.vue'
+import { watch } from 'vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -270,6 +304,16 @@ const description = computed(() => {
     )
 })
 
+function loadTask() {
+  task.value = null
+  auth.client
+    .get(`tasks/${team.current?.id}/${route.params.id}`)
+    .json()
+    .then((res: any) => {
+      task.value = res.data as Task
+    })
+}
+
 function deleteTask() {
   if (loading.value) {
     return
@@ -288,12 +332,14 @@ function deleteTask() {
     })
 }
 
+watch(
+  () => route.params.id,
+  () => {
+    loadTask()
+  },
+)
+
 onMounted(() => {
-  auth.client
-    .get(`tasks/${team.current?.id}/${route.params.id}`)
-    .json()
-    .then((res: any) => {
-      task.value = res.data as Task
-    })
+  loadTask()
 })
 </script>

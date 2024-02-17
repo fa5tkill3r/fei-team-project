@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Task Model
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $type
@@ -18,15 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $is_closed
  * @property string $resolution
  * @property int $created_by_id
- * 
- * @method BelongsTo team()
- * @method BelongsTo incident()
- * @method BelongsTo createdBy()
- * @method BelongsToMany users()
- * @method BelongsTo parent()
- * @method BelongsToMany tags()
- * @method HasMany responses()
- * @method HasMany comments()
  */
 class Task extends Model
 {
@@ -44,35 +36,48 @@ class Task extends Model
         'created_by_id',
     ];
 
-    public function team() {
+    public function team()
+    {
         return $this->belongsTo(Team::class);
     }
 
-    public function incident() {
+    public function incident()
+    {
         return $this->belongsTo(Incident::class);
     }
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo(User::class, 'created_by_id');
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class, 'task_user', 'task_id', 'user_id');
     }
 
-    public function parent() {
+    public function parent()
+    {
         return $this->belongsTo(Task::class, 'parent_id');
     }
 
-    public function tags() {
+    public function children(): HasMany
+    {
+        return $this->hasMany(Task::class, 'parent_id');
+    }
+
+    public function tags()
+    {
         return $this->belongsToMany(Tag::class, 'task_tag', 'task_id', 'tag_id');
     }
 
-    public function comments() {
+    public function comments()
+    {
         return $this->hasMany(TaskComment::class);
     }
 
-    public function responses() {
+    public function responses()
+    {
         return $this->hasMany(TaskResponse::class);
     }
 }

@@ -27,6 +27,8 @@ export interface Task {
   created_at: string
   deadline?: string
   created_by: User
+  parent?: Task
+  children: Task[]
 }
 
 export interface TaskRequest {
@@ -36,6 +38,7 @@ export interface TaskRequest {
   tags: number[]
   severity: string
   deadline?: string
+  parent?: number
 }
 
 export interface Tag {

@@ -29,6 +29,9 @@ export default {
     no_results: 'No results',
     commented_at: 'commented {distance}',
     parent: 'Parent',
+    no_parent: 'No parent',
+    subTasks: 'Subtasks',
+    select_parent: 'Select parent',
     delete_confirmation: {
       title: 'Delete task?',
       content: 'Are you sure you want to delete this task?',

@@ -73,6 +73,10 @@
       <div class="divider my-0"></div>
 
       <UserSelector v-model="task.users" />
+
+      <div class="divider my-0"></div>
+
+      <TaskSelector v-model="task.parent" :task-id="id" />
     </div>
 
     <div class="col-span-12 xl:col-span-9 text-right lg:hidden">
@@ -88,6 +92,7 @@ import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
 import UserSelector from '@/components/UserSelector.vue'
 import TagSelector from '@/components/TagSelector.vue'
+import TaskSelector from '@/components/TaskSelector.vue'
 import { useRouter } from 'vue-router'
 import { useTeamStore } from '@/stores/team'
 import { TaskRequest } from '@/types'
@@ -108,6 +113,7 @@ const task = ref<TaskRequest>({
   users: [],
   tags: [],
   severity: 'low',
+  parent: undefined,
 })
 
 function loadTask() {
@@ -123,6 +129,7 @@ function loadTask() {
         deadline: res.data.deadline,
         users: res.data.users.map((u: any) => u.id),
         tags: res.data.tags.map((t: any) => t.id),
+        parent: res.data.parent?.id,
       }
     })
     .finally(() => {

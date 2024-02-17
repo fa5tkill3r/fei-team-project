@@ -79,10 +79,9 @@ class TaskController extends Controller
     public function show($teamId, $taskId): TaskResource
     {
         $team = $this->user->teams()->findOrFail($teamId);
-        $task = $team->tasks()->findOrFail($taskId);
-
-        $task->load('users');
-        $task->load('tags');
+        $task = $team->tasks()
+            ->with(['users', 'tags', 'responses', 'responses.user', 'parent', 'children'])
+            ->findOrFail($taskId);
 
         return new TaskResource($task);
     }
@@ -104,7 +103,8 @@ class TaskController extends Controller
             $task->incident->update($request->incident);
         }
 
-        $task->update($request->except(['users', 'tags']));
+        $task->parent_id = $request->parent;
+        $task->update($request->except(['users', 'tags', 'parent']));
 
         $users = $request->users ? $request->users : [];
         $task->users()->sync($users);
@@ -112,7 +112,7 @@ class TaskController extends Controller
         $tags = $request->tags ? $request->tags : [];
         $task->tags()->sync($tags);
 
-        $task = $team->tasks()->with(['users', 'tags', 'responses', 'responses.user'])->findOrFail($task->id);
+        $task = $team->tasks()->with(['users', 'tags', 'responses', 'responses.user', 'parent'])->findOrFail($task->id);
 
         return new TaskResource($task);
     }
