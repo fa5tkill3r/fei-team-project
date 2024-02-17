@@ -37,10 +37,18 @@ class UsersController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
+    public function restore()
     {
-        if (Cookie::get('remember_token') != null) {
-            $user = User::where('remember_token', Cookie::get('remember_token'))->first();
+        if (RateLimiter::tooManyAttempts(request()->ip(), 30)) {
+            return response()->json([
+                "message" => "Too many attempts, please try again later",
+            ], 429);
+        }
+
+        $rememberToken = Cookie::get('remember_token');
+
+        if ($rememberToken != null) {
+            $user = User::where('remember_token', $rememberToken)->first();
 
             if ($user != null) {
                 $token = JWTAuth::fromUser($user);
@@ -53,6 +61,11 @@ class UsersController extends Controller
             }
         }
 
+        return response(null, 204);
+    }
+
+    public function login(Request $request)
+    {
         if (RateLimiter::tooManyAttempts(request()->ip(), 3)) {
             return response()->json([
                 "message" => "Too many attempts, please try again later",
@@ -70,12 +83,10 @@ class UsersController extends Controller
         $user = Auth::user();
         $token = JWTAuth::fromUser($user);
 
-        if ($request->remember_me == true) {
-            if ($user->remember_token == null) {
-                $user->setRememberToken(Str::random(60));
-                $user->remember_token_expires_at = Carbon::now()->addDays(7);
-                $user->save();
-            }
+        if ($user->remember_token == null) {
+            $user->setRememberToken(Str::random(60));
+            $user->remember_token_expires_at = $request->remember_me ? Carbon::now()->addDays(7) : Carbon::now()->addHours(2);
+            $user->save();
         }
 
         return response()
@@ -84,7 +95,7 @@ class UsersController extends Controller
                 "token" => $token,
                 "user" => $user,
             ])
-            ->cookie('remember_token', $user->remember_token, 60 * 24 * 7);
+            ->cookie('remember_token', $user->remember_token, $request->remember_me ? 60 * 24 * 7 : 0);
     }
 
     public function refresh()

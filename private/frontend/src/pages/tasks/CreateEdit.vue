@@ -117,7 +117,10 @@ function loadTask() {
     .json()
     .then((res: any) => {
       task.value = {
-        ...res.data,
+        name: res.data.name,
+        description: res.data.description,
+        severity: res.data.severity,
+        deadline: res.data.deadline,
         users: res.data.users.map((u: any) => u.id),
         tags: res.data.tags.map((t: any) => t.id),
       }

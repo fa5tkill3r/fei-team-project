@@ -49,7 +49,7 @@ function loadInitialLocale() {
 }
 
 const promise = auth
-  .login()
+  .restore()
   .then(team.loadTeams)
   .catch(() => {})
   // TODO: load locale from user settings

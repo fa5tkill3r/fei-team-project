@@ -67,11 +67,18 @@ export const useAuthStore = defineStore('auth', () => {
       .then(handleUserResponse)
   }
 
-  function login(
-    email?: string,
-    password?: string,
-    rememberMe: boolean = false,
-  ) {
+  function restore() {
+    return client.value
+      .options({ credentials: 'include' })
+      .post(null, 'users/restore')
+      .json()
+      .then(handleUserResponse)
+      .catch(() => {
+        user.value = null
+      })
+  }
+
+  function login(email: string, password: string, rememberMe: boolean = false) {
     return defaultClient
       .options({ credentials: 'include' })
       .post({ email, password, remember_me: rememberMe }, 'users/login')
@@ -117,5 +124,5 @@ export const useAuthStore = defineStore('auth', () => {
       })
   }
 
-  return { user, client, register, login, logout }
+  return { user, client, restore, register, login, logout }
 })

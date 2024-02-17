@@ -31,6 +31,7 @@ Route::group([
 ], function () {
     Route::post("/register", UsersController::class . "@register");
     Route::post("/login", UsersController::class . "@login");
+    Route::post("/restore", UsersController::class . "@restore");
 
     Route::group([
         'middleware' => ['auth'],
@@ -39,7 +40,7 @@ Route::group([
         Route::post("/refresh", UsersController::class . "@refresh");
         Route::post("/logout", UsersController::class . "@logout");
         Route::post("/logout-from-all", UsersController::class . "@logoutFromAll");
-    
+
         Route::put("/avatar", UsersController::class . "@updateAvatar");
         Route::delete("/avatar", UsersController::class . "@deleteAvatar");
     });
