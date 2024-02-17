@@ -69,18 +69,34 @@
             <input
               type="radio"
               name="parent"
-              v-model="tempModel"
+              v-model="model"
               :value="task.id"
               class="hidden"
             />
 
             <span class="w-6">
-              <CheckIcon v-if="tempModel === task.id" class="w-5 h-5" />
+              <CheckIcon v-if="model === task.id" class="w-5 h-5" />
             </span>
 
             <p class="">
               <span>{{ task.name }}</span>
             </p>
+          </label>
+
+          <label
+            class="flex items-center p-2 rounded-btn cursor-pointer hover:bg-primary hover:text-primary-content transition-colors duration-200 ease-out"
+          >
+            <input
+              type="radio"
+              name="parent"
+              v-model="model"
+              :value="undefined"
+              class="hidden"
+            />
+            <span class="w-6">
+              <CheckIcon v-if="model === undefined" class="w-5 h-5" />
+            </span>
+            <p class="">{{ $t('task.no_parent') }}</p>
           </label>
 
           <p v-if="filteredTasks.length === 0">
@@ -107,7 +123,6 @@ const team = useTeamStore()
 const auth = useAuthStore()
 const model = defineModel<number | undefined>()
 const props = defineProps<{ taskId?: number }>()
-const tempModel = ref<number | undefined>(undefined)
 const tasks = ref<Task[]>([])
 const dialog = ref<HTMLDialogElement | null>(null)
 const query = ref('')
@@ -144,15 +159,17 @@ function loadTasks() {
 
 function openDialog() {
   dialog.value?.showModal()
-  tempModel.value = model.value
 }
 
 function save() {
-  model.value = tempModel.value
   dialog.value?.close()
 }
 
-watch(tempModel, () => save())
+watch(model, () => {
+  if (dialog.value?.open) {
+    save()
+  }
+})
 
 onMounted(() => {
   loadTasks()
