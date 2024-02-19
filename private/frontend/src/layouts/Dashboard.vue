@@ -29,7 +29,7 @@ function logout() {
         <div class="flex-none hidden md:block">
           <input
             type="text"
-            placeholder="Type here"
+            :placeholder="$t('nav.search')"
             class="input input-bordered w-full max-w-xs"
           />
         </div>

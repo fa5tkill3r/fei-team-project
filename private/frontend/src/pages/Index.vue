@@ -49,16 +49,16 @@ onMounted(() => {
 <template>
   <div>
     <div>
-      <h1 class="font-bold text-2xl">Tasks</h1>
+      <h1 class="font-bold text-2xl">{{ $t('main.tasks')}}</h1>
 
       <div class="join mt-4">
         <button class="btn join-item">
           <Squares2X2Icon class="w-5 h-5" />
-          Board view
+          {{ $t('main.board')}}
         </button>
         <button class="btn join-item">
           <ListBulletIcon class="w-5 h-5" />
-          List view
+          {{ $t('main.list')}}
         </button>
       </div>
     </div>
@@ -66,7 +66,7 @@ onMounted(() => {
     <div class="grid grid-cols-4 gap-6 mt-6">
       <div v-for="_ in 1" class="flex flex-col gap-4">
         <div class="flex justify-between items-center">
-          <h2>Tasks</h2>
+          <h2>{{ $t('main.tasks')}}</h2>
 
           <button class="btn btn-square btn-ghost">
             <EllipsisHorizontalIcon class="w-5 h-5" />

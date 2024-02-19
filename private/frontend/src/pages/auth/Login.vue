@@ -21,7 +21,7 @@
 
         <label class="form-control w-full">
           <div class="label">
-            <span class="label-text">Password</span>
+            <span class="label-text">{{ $t('auth.password') }}</span>
           </div>
           <input
             type="password"
@@ -40,12 +40,12 @@
               v-model="remember"
               class="checkbox"
             />
-            <span class="label-text">Remember me</span>
+            <span class="label-text">{{ $t('auth.remember') }}</span>
           </label>
         </div>
 
         <div class="text-right">
-          <button type="submit" class="btn btn-primary">Login</button>
+          <button type="submit" class="btn btn-primary">{{ $t('auth.login') }}</button>
         </div>
       </form>
     </div>

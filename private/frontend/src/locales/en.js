@@ -3,9 +3,18 @@ export default {
   no: 'No',
   auth: {
     login: 'Login',
+    password: 'Password',
+    remember: 'Remember me',
+    login: 'Login'
   },
   nav: {
     tasks: 'Tasks',
+    search: 'Search here...',
+  },
+  main: {
+    tasks: 'Tasks',
+    board: 'Board view',
+    list: 'List view',
   },
   task: {
     title: 'Title',
