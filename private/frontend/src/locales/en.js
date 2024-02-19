@@ -1,6 +1,7 @@
 export default {
   yes: 'Yes',
   no: 'No',
+  cancel: 'Cancel',
   auth: {
     login: 'Login',
     password: 'Password',
@@ -45,6 +46,14 @@ export default {
     delete_confirmation: {
       title: 'Delete task?',
       content: 'Are you sure you want to delete this task?',
+    },
+    comment: {
+      add: 'Add comment',
+      placeholder: 'What\'s on your mind?',
+      update: 'Update comment',
+      edit: 'Edit',
+      delete: 'Delete',
+      commented_at: 'commented {distance}',
     }
   },
 }
