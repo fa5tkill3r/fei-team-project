@@ -49,97 +49,13 @@
       <div class='divider mt-1 mb-3 col-span-full'></div>
 
       <div class='col-span-12 lg:col-span-9'>
-        <div class='flex gap-2'>
-          <div>
-            <UserAvatar :user='task.created_by' size='md' />
-          </div>
-
-          <div class='rounded-lg border border-base-content/10 w-full'>
-            <div
-              class='border-b border-base-content/10 px-4 py-2 text-sm label-text'
-            >
-              <span class='font-bold mr-1'>
-                {{ task.created_by.first_name }}
-                {{ task.created_by.last_name }}
-              </span>
-              <span>
-                {{
-                  $t('task.commented_at', {
-                    distance: formatDistance(task.created_at),
-                  })
-                }}
-              </span>
-            </div>
-
-            <div
-              class="bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content"
-            >
-              <div
-                v-if="task.description"
-                class="prose max-w-none text-base-content"
-                v-html="description"
-              ></div>
-              <div v-else class="prose max-w-none italic text-base-content">
-                {{ $t('task.no_description') }}
-              </div>
-
-              <div v-if="task.children.length > 0">
-                <div class="divider my-1"></div>
-
-                <h2 class="text-lg">{{ $t('task.subTasks') }}</h2>
-
-                <ul class="list-disc mb-1">
-                  <li v-for="child in task.children" class="list-item ml-4">
-                    <router-link
-                      :to="{
-                        name: 'task-detail',
-                        params: { id: child.id },
-                      }"
-                      class="link"
-                    >
-                      <span>{{ child.name }} (#{{ child.id }})</span>
-                    </router-link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class='flex flex-col gap-4 mt-6'>
           <div v-for='comment in comments'>
-            <div class='flex gap-2'>
-              <div>
-                <div class='avatar placeholder'>
-                  <div
-                    class='w-10 rounded-full bg-neutral text-neutral-content'
-                  >
-                    <span>{{ comment.user.first_name[0] + comment.user.last_name[0] }}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class='rounded-lg border border-base-content/10 w-full'>
-                <div
-                  class='border-b border-base-content/10 px-4 py-2 text-sm label-text flex justify-between items-center'
-                >
-                  <span>
-                        <b>{{ `${comment.user.first_name} ${comment.user.last_name}` }}</b> commented 2 days ago
-                  </span>
-                  <div>
-                    <button class='btn btn-xs btn-ghost'>
-                      <EllipsisHorizontalIcon class='w-5 h-5' />
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  class='prose max-w-none bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content'
-                >
-                  {{ comment.comment }}
-                </div>
-              </div>
-            </div>
+            <Comment
+              :comment='comment'
+              @deleteComment='deleteComment'
+              @editComment='editComment'
+            />
           </div>
         </div>
 
@@ -227,9 +143,9 @@
 
           <div>
             <router-link
-              v-if="task.parent"
+              v-if='task.parent'
               :to="{ name: 'task-detail', params: { id: task.parent.id } }"
-              class="link"
+              class='link'
             >
               {{ task.parent?.name }}
             </router-link>
@@ -292,6 +208,7 @@ import { computed } from 'vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
 import { getStylesForTag } from '@/lib/utils'
 import UserAvatar from '@/components/UserAvatar.vue'
+import Comment from '@/components/Comment.vue'
 import { watch } from 'vue'
 
 const router = useRouter()
@@ -364,6 +281,32 @@ function addComment() {
       res.data.user = auth.user
       comments.value.push(res.data)
       comment.value = ''
+    })
+}
+
+function deleteComment(id: number) {
+  auth.client
+    .delete(`task/${route.params.id}/comments/${id}`)
+    .res()
+    .then(() => {
+      comments.value = comments.value.filter((c) => c.id !== id)
+    })
+}
+
+function editComment(args: any) {
+  const { id, text } = args
+  console.log(id, text)
+  auth.client
+    .put({ comment: text }, `task/${route.params.id}/comments/${id}`)
+    .res()
+    .then(() => {
+      comments.value = comments.value.map((c) => {
+        if (c.id === id) {
+          c.comment = text
+        }
+
+        return c
+      })
     })
 }
 

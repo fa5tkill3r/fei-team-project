@@ -1,6 +1,7 @@
 export default {
   yes: 'Yes',
   no: 'No',
+  cancel: 'Cancel',
   auth: {
     login: 'Login',
   },
@@ -39,6 +40,11 @@ export default {
     },
     comment: {
       add: 'Add comment',
+      placeholder: 'What\'s on your mind?',
+      update: 'Update comment',
+      edit: 'Edit',
+      delete: 'Delete',
+      commented_at: 'commented {distance}',
     }
   },
 }
