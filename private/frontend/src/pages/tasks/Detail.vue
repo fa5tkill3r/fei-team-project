@@ -49,7 +49,64 @@
       <div class='divider mt-1 mb-3 col-span-full'></div>
 
       <div class='col-span-12 lg:col-span-9'>
-        <div class='flex flex-col gap-4 mt-6'>
+
+        <div class='flex flex-col gap-4'>
+          <div class="flex gap-2">
+            <div>
+              <UserAvatar :user="task.created_by" size="md" />
+            </div>
+
+            <div class="rounded-lg border border-base-content/10 w-full">
+              <div
+                class="border-b border-base-content/10 px-4 py-2 text-sm label-text"
+              >
+              <span class="font-bold mr-1">
+                {{ task.created_by.first_name }}
+                {{ task.created_by.last_name }}
+              </span>
+                <span>
+                {{
+                    $t('task.commented_at', {
+                      distance: formatDistance(task.created_at),
+                    })
+                  }}
+              </span>
+              </div>
+
+              <div
+                class="bg-base-300/30 px-4 pt-2 pb-2.5 rounded-b-lg text-base-content"
+              >
+                <div
+                  v-if="task.description"
+                  class="prose max-w-none text-base-content"
+                  v-html="description"
+                ></div>
+                <div v-else class="prose max-w-none italic text-base-content">
+                  {{ $t('task.no_description') }}
+                </div>
+
+                <div v-if="task.children.length > 0">
+                  <div class="divider my-1"></div>
+
+                  <h2 class="text-lg">{{ $t('task.subTasks') }}</h2>
+
+                  <ul class="list-disc mb-1">
+                    <li v-for="child in task.children" class="list-item ml-4">
+                      <router-link
+                        :to="{
+                        name: 'task-detail',
+                        params: { id: child.id },
+                      }"
+                        class="link"
+                      >
+                        <span>{{ child.name }} (#{{ child.id }})</span>
+                      </router-link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
           <div v-for='comment in comments'>
             <Comment
               :comment='comment'
