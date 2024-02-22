@@ -84,13 +84,17 @@ function logout() {
               class="mt-2 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52"
             >
               <li class="disabled">
-                <a>Profile</a>
-              </li>
-              <li class="disabled">
-                <a>Settings</a>
+                <a>{{ $t('nav.profile') }}</a>
               </li>
               <li>
-                <button @click="logout">Logout</button>
+                <router-link :to="{ name: 'user-settings' }">
+                  {{ $t('nav.settings') }}
+                </router-link>
+              </li>
+              <li>
+                <button @click="logout">
+                  {{ $t('nav.logout') }}
+                </button>
               </li>
             </ul>
           </div>

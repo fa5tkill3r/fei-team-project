@@ -11,6 +11,9 @@ export default {
   nav: {
     tasks: 'Tasks',
     search: 'Search here...',
+    profile: 'Profile',
+    settings: 'Settings',
+    logout: 'Logout',
   },
   main: {
     tasks: 'Tasks',
@@ -29,6 +32,7 @@ export default {
     create: 'Create',
     edit: 'Edit',
     save: 'Save',
+    close: 'Close',
     no_assignees: 'No assignees',
     severity: 'Severity',
     comments: '{count} comments | {count} comment | {count} comments',

@@ -52,6 +52,18 @@ const routes = [
     name: 'team-create',
     component: () => import('./pages/team/Create.vue'),
   },
+  // user
+  {
+    path: '/user/settings',
+    name: 'user-settings',
+    component: () => import('./pages/user/Settings.vue'),
+  },
+  // incidents
+  {
+    path: '/incidents',
+    name: 'incidents',
+    component: () => import('./pages/incidents/Index.vue'),
+  }
 ]
 
 export default routes
