@@ -61,7 +61,6 @@ export default {
       update: 'Update comment',
       edit: 'Edit',
       delete: 'Delete',
-      commented_at: 'commented {distance}',
     },
   },
   settings: {

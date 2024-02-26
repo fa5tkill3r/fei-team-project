@@ -21,11 +21,7 @@
             </span>
             ·
             <span>
-              {{
-                $t('task.comments', {
-                  count: 0,
-                })
-              }}
+              {{ $t('task.comments', comments?.length ?? 0) }}
             </span>
           </div>
         </div>
@@ -133,9 +129,7 @@
             </div>
           </div>
           <div class="mt-3 flex gap-2 justify-end">
-            <button class="btn">
-              {{ $t('task.close') }} (TODO)
-            </button>
+            <button class="btn">{{ $t('task.close') }} (TODO)</button>
             <button
               class="btn btn-success"
               :disabled="addCommentLoading || comment === ''"
