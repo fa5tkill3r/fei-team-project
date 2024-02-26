@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\TaskResponseResource;
+use App\Models\Task;
 use App\Models\TaskResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\TaskResponseResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskResponseController extends Controller
@@ -20,6 +21,7 @@ class TaskResponseController extends Controller
 
     public function index($taskId): AnonymousResourceCollection
     {
+        
         $tasks = $this->user->tasks()->findOrFail($taskId);
 
         $responses = $tasks->responses()->with(['user', 'task'])->get();     
@@ -29,7 +31,8 @@ class TaskResponseController extends Controller
 
     public function store(Request $request, $taskId): TaskResponseResource
     {
-        $task = $this->user->tasks()->findOrFail($taskId);
+        // $task = $this->user->tasks()->findOrFail($taskId);
+        $task = Task::findOrFail($taskId);
         $request->merge(['user_id' => $this->user->id]);
         $request->merge(['task_id' => $task->id]);
         $response = $task->responses()->create($request->all());
@@ -44,7 +47,8 @@ class TaskResponseController extends Controller
 
     public function show($taskId, $responseId): TaskResponseResource
     {
-        $task = $this->user->tasks()->findOrFail($taskId);
+        // $task = $this->user->tasks()->findOrFail($taskId);
+        $task = Task::findOrFail($taskId);
         $response = $task->responses()->findOrFail($responseId);
 
         $response = $response->with(['user', 'task']);

@@ -17,9 +17,14 @@ return new class extends Migration
             $table->string('description');
             $table->string('date');
             $table->longText('assignment');
+            $table->longText('assignment_sk');
+            $table->longText('abstract');
+            $table->longText('abstract_sk');
             $table->string('leader');
             $table->string('students_name')->nullable();
             $table->string('path')->nullable();
+            $table->string('tutors')->nullable();
+            $table->longText('solution')->nullable();
             $table->timestamps();
         });
     }

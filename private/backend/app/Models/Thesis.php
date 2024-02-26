@@ -13,9 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property string $date
  * @property string $assignment
+ * @property string $assignment_sk
+ * @property string $abstract
+ * @property string $abstract_sk
  * @property string $path
  * @property string $leader
  * @property string $students_name
+ * @property string $tutors
+ * @property string $solution
  */
 class Thesis extends Model
 {
@@ -26,8 +31,14 @@ class Thesis extends Model
         'description',
         'date',
         'assignment',
+        'assignment_sk',
+        'abstract',
+        'abstract_sk',
         'path',
         'leader',
         'students_name',
+        'tutors',
+        'solution'
     ];
+
 }
