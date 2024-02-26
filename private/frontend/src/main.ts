@@ -7,8 +7,10 @@ import {
   SUPPORTED_LOCALES,
   datetimeFormats,
   loadLocaleMessages,
+  pluralRules,
   setI18nLanguage,
   setupI18n,
+  defaultMessages,
 } from './i18n'
 import routes from './routes.ts'
 import App from './App.vue'
@@ -22,8 +24,12 @@ const router = createRouter({
 const i18n = setupI18n({
   legacy: false,
   fallbackLocale: 'en',
+  messages: {
+    en: defaultMessages,
+  },
   // @ts-ignore
   datetimeFormats,
+  pluralRules,
 })
 const app = createApp(App)
 const pinia = createPinia()

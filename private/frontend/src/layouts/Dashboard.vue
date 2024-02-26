@@ -118,7 +118,9 @@ function logout() {
       >
         <div class="h-20 border-b border-base-content/10 flex items-center">
           <div class="flex items-center justify-between px-6 w-full">
-            <h1 class="text-xl">Dashboard</h1>
+            <router-link to="/">
+              <h1 class="text-xl">Dashboard</h1>
+            </router-link>
 
             <button class="btn btn-ghost btn-square lg:hidden">
               <Bars3Icon class="w-6 h-6" />

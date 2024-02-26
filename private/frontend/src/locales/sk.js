@@ -10,6 +10,7 @@ export default {
   nav: {
     tasks: 'Úlohy',
     search: 'Hľadať tu...',
+    profile: 'Profil',
   },
   main: {
     tasks: 'Úlohy',
@@ -30,7 +31,7 @@ export default {
     save: 'Uložiť',
     no_assignees: 'Žiadni priradení',
     severity: 'Závažnosť',
-    comments: '{count} komentáre | {count} komentár | {count} komentáre',
+    comments: '{count} komentár | {count} komentáre | {count} komentárov',
     deadline: 'Deadline',
     no_deadline: 'Žiadny deadline',
     created_at: 'vytvorené {distance}',
