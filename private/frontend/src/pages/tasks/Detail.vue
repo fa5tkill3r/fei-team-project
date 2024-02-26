@@ -1,6 +1,10 @@
 <template>
   <div class="max-w-7xl mx-auto">
-    <div v-if="task" class="grid grid-cols-12 gap-x-4">
+    <div v-if="initialLoading" class="flex justify-center items-center h-96">
+      <div class="loading loading-spinner"></div>
+    </div>
+
+    <div v-else-if="task" class="grid grid-cols-12 gap-x-4">
       <div class="col-span-full flex justify-between">
         <div>
           <h1 class="text-2xl font-bold text-base-content">
@@ -135,7 +139,10 @@
               :disabled="addCommentLoading || comment === ''"
               @click="addComment"
             >
-              <span v-if="addCommentLoading" class="loading loading-spinner"></span>
+              <span
+                v-if="addCommentLoading"
+                class="loading loading-spinner"
+              ></span>
               {{ $t('task.comment.add') }}
             </button>
           </div>
@@ -228,10 +235,6 @@
       </div>
     </div>
 
-    <div v-else class="flex justify-center items-center h-96">
-      <div class="loading loading-spinner"></div>
-    </div>
-
     <dialog class="modal" ref="dialog">
       <div class="modal-box flex flex-col">
         <h3 class="font-bold text-lg flex items-center justify-between mb-4">
@@ -289,6 +292,7 @@ const auth = useAuthStore()
 const team = useTeamStore()
 const route = useRoute()
 const formatDistance = useFormatDistance()
+const initialLoading = ref(true)
 const task = ref<Task | null>(null)
 const dialog = ref<HTMLDialogElement | null>(null)
 const loading = ref(false)
@@ -313,11 +317,20 @@ const description = computed(() => {
 
 function loadTask() {
   task.value = null
-  auth.client
+  return auth.client
     .get(`tasks/${team.current?.id}/${route.params.id}`)
     .json()
     .then((res: any) => {
       task.value = res.data as Task
+    })
+}
+
+function loadComments() {
+  return auth.client
+    .get(`task/${route.params.id}/comments`)
+    .json()
+    .then((res: any) => {
+      comments.value = res.data
     })
 }
 
@@ -338,13 +351,6 @@ function deleteTask() {
       loading.value = false
     })
 }
-
-watch(
-  () => route.params.id,
-  () => {
-    loadTask()
-  },
-)
 
 function addComment() {
   addCommentLoading.value = true
@@ -388,19 +394,19 @@ function editComment(args: any) {
     })
 }
 
-onMounted(() => {
-  auth.client
-    .get(`tasks/${team.current?.id}/${route.params.id}`)
-    .json()
-    .then((res: any) => {
-      task.value = res.data as Task
-    })
+watch(
+  () => route.params.id,
+  () => {
+    loadTask()
+    loadComments()
+  },
+)
 
-  auth.client
-    .get(`task/${route.params.id}/comments`)
-    .json()
-    .then((res: any) => {
-      comments.value = res.data
+onMounted(() => {
+  loadTask()
+    .then(loadComments)
+    .finally(() => {
+      initialLoading.value = false
     })
 })
 </script>
