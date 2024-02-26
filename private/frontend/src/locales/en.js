@@ -2,11 +2,14 @@ export default {
   yes: 'Yes',
   no: 'No',
   cancel: 'Cancel',
+  edit: 'Edit',
+  delete: 'Delete',
+
   auth: {
     login: 'Login',
     password: 'Password',
     remember: 'Remember me',
-    login: 'Login'
+    login: 'Login',
   },
   nav: {
     tasks: 'Tasks',
@@ -54,15 +57,20 @@ export default {
     },
     comment: {
       add: 'Add comment',
-      placeholder: 'What\'s on your mind?',
+      placeholder: "What's on your mind?",
       update: 'Update comment',
       edit: 'Edit',
       delete: 'Delete',
       commented_at: 'commented {distance}',
-    }
+    },
   },
   settings: {
     title: 'Settings',
     locale: 'Locale',
-  }
+  },
+  tags: {
+    title: 'Tags',
+    search: 'Search tags...',
+    count: '{count} tags | {count} tag | {count} tags',
+  },
 }

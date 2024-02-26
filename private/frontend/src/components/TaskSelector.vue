@@ -19,20 +19,10 @@
         <router-link
           :to="{ name: 'task-detail', params: { id: model } }"
           target="_blank"
+          class="link"
         >
           {{ taskMap[model].name }}
         </router-link>
-        <!-- <div
-          v-for="personId in model"
-          :key="personId"
-          class="flex items-center gap-2"
-        >
-          <UserAvatar :user="personMap[personId]" />
-          <span>
-            {{ personMap[personId].first_name }}
-            {{ personMap[personId].last_name }}
-          </span>
-        </div> -->
       </div>
     </div>
 

@@ -46,6 +46,12 @@ const routes = [
     name: 'task-detail',
     component: () => import('./pages/tasks/Detail.vue'),
   },
+  // tags
+  {
+    path: '/tags',
+    name: 'tags',
+    component: () => import('./pages/tags/Index.vue'),
+  },
   // team
   {
     path: '/team/create',

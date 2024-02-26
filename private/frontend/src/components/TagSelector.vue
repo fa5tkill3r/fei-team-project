@@ -79,17 +79,9 @@
 
         <div class="flex flex-wrap justify-between mt-4 gap-2">
           <div>
-            <div class="flex gap-2">
-              <input
-                v-model="newTag"
-                type="text"
-                class="input input-bordered w-full"
-              />
-
-              <button class="btn btn-secondary" @click="addTag" type="button">
-                Add
-              </button>
-            </div>
+            <router-link :to="{ name: 'tags' }" class="btn">
+              {{ $t('task.manage_tags') }}
+            </router-link>
           </div>
           <div class="text-right w-full md:w-auto">
             <button class="btn btn-primary" @click="save" type="button">
@@ -118,7 +110,6 @@ const model = defineModel<number[]>()
 const tempModel = ref<number[]>([])
 const initialLoading = ref(true)
 const query = ref('')
-const newTag = ref('')
 const dialog = ref<HTMLDialogElement | null>(null)
 const tags = ref<Tag[]>([])
 const tagMap = computed(() =>
@@ -143,22 +134,6 @@ function loadTags() {
     })
     .finally(() => {
       initialLoading.value = false
-    })
-}
-
-function addTag() {
-  if (!newTag.value) {
-    return
-  }
-
-  const color = '#' + Math.floor(Math.random() * 16777215).toString(16)
-
-  auth.client
-    .post({ name: newTag.value, color }, 'tags')
-    .json()
-    .then((response: any) => {
-      tags.value.push(response.data)
-      newTag.value = ''
     })
 }
 

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->dateTime('deadline')->nullable();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('severity');
             $table->foreignId('created_by_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('tasks')->onDelete('cascade');
