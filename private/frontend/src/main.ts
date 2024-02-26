@@ -42,7 +42,6 @@ function loadInitialLocale() {
   if (SUPPORTED_LOCALES.includes(lang)) {
     locale = lang
   }
-  locale = 'en' // TODO: remove this line and fix
 
   return loadLocaleMessages(i18n, locale).then(() =>
     setI18nLanguage(i18n, locale),

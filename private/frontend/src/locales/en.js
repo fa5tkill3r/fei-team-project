@@ -10,6 +10,7 @@ export default {
   },
   nav: {
     tasks: 'Tasks',
+    incidents: 'Incidents',
     search: 'Search here...',
     profile: 'Profile',
     settings: 'Settings',
@@ -60,4 +61,8 @@ export default {
       commented_at: 'commented {distance}',
     }
   },
+  settings: {
+    title: 'Settings',
+    locale: 'Locale',
+  }
 }

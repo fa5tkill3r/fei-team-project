@@ -163,7 +163,11 @@ function logout() {
               {{ $t('nav.tasks') }}
             </router-link>
           </li>
-          <li><a>Sidebar Item 2</a></li>
+          <li>
+            <router-link :to="{ name: 'incidents' }">
+              {{ $t('nav.incidents') }}
+            </router-link>
+          </li>
 
           <div class="divider"></div>
         </div>
