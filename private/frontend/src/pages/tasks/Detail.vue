@@ -128,6 +128,7 @@
                 class="textarea textarea-bordered w-full"
                 :placeholder="$t('task.comment.placeholder')"
                 v-model="comment"
+                v-on:keydown.ctrl.enter="addComment"
               ></textarea>
             </div>
           </div>
@@ -136,10 +137,11 @@
               {{ $t('task.close') }} (TODO)
             </button>
             <button
-              class="btn btn-primary"
-              :disabled="false"
+              class="btn btn-success"
+              :disabled="addCommentLoading || comment === ''"
               @click="addComment"
             >
+              <span v-if="addCommentLoading" class="loading loading-spinner"></span>
               {{ $t('task.comment.add') }}
             </button>
           </div>
@@ -298,6 +300,7 @@ const dialog = ref<HTMLDialogElement | null>(null)
 const loading = ref(false)
 const comments = ref<any[]>([])
 const comment = ref<string>('')
+const addCommentLoading = ref(false)
 
 const description = computed(() => {
   const raw = task.value?.description
@@ -350,6 +353,8 @@ watch(
 )
 
 function addComment() {
+  addCommentLoading.value = true
+
   auth.client
     .post({ comment: comment.value }, `task/${route.params.id}/comments`)
     .json()
@@ -357,6 +362,9 @@ function addComment() {
       res.data.user = auth.user
       comments.value.push(res.data)
       comment.value = ''
+    })
+    .finally(() => {
+      addCommentLoading.value = false
     })
 }
 

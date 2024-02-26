@@ -9,7 +9,6 @@ const props = defineProps<{
   comment: any
 }>()
 
-const auth = useAuthStore()
 
 const formatDistance = useFormatDistance()
 const comment = computed(() => props.comment)
@@ -101,7 +100,9 @@ function editComment() {
         <div v-else>
           <textarea class='p-2 textarea textarea-bordered w-full'
                     :placeholder="$t('task.comment.placeholder')"
-                    v-model='editText'></textarea>
+                    v-model='editText'
+                    v-on:keydown.ctrl.enter='editComment'
+          ></textarea>
           <div class='flex justify-end gap-2 mt-2'>
             <button class='btn btn-sm btn-error'
                     :disabled='false'
@@ -109,7 +110,8 @@ function editComment() {
             </button>
             <button class='btn btn-sm btn-success'
                     :disabled='editLoading || editText === comment.comment || editText === ""'
-                    @click='editComment'>
+                    @click='editComment'
+            >
               <span v-if='editLoading' class='loading loading-spinner'></span>
               {{ $t('task.comment.update') }}
             </button>
