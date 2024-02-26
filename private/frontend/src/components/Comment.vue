@@ -2,6 +2,7 @@
 import { EllipsisHorizontalIcon } from '@heroicons/vue/24/solid'
 import { computed, ref, watch } from 'vue'
 import { useFormatDistance } from '@/composables/useFormatDistance.ts'
+import UserAvatar from './UserAvatar.vue'
 
 const props = defineProps<{
   comment: any
@@ -42,13 +43,7 @@ function editComment() {
 <template v-if="comment">
   <div class="flex gap-2">
     <div>
-      <div class="avatar placeholder">
-        <div class="w-10 rounded-full bg-neutral text-neutral-content">
-          <span>{{
-            comment.user.first_name[0] + comment.user.last_name[0]
-          }}</span>
-        </div>
-      </div>
+      <UserAvatar :user="comment.user" size="md" />
     </div>
 
     <div class="rounded-lg border border-base-content/10 w-full">

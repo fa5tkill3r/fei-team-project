@@ -117,7 +117,7 @@
               <UserAvatar :user="auth.user" size="md" />
             </div>
             <div class="flex-1">
-              <h1 class="text-base-content mb-2">
+              <h1 class="text-base-content mb-2 mt-1">
                 {{ $t('task.comment.add') }}
               </h1>
               <textarea
