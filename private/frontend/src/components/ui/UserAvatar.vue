@@ -5,6 +5,7 @@
       :class="avatarClasses"
       :style="styles"
     >
+      <!-- TODO: change to proper avatar url from backend -->
       <img
         v-if="user.avatar"
         src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"

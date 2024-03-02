@@ -180,14 +180,12 @@
           </div>
 
           <div v-else class="flex flex-wrap gap-1 py-1">
-            <div
+            <TagLabel
               v-for="tag in task.tags"
               :key="tag.id"
-              class="badge"
-              :style="getStylesForTag(tag)"
-            >
-              {{ tag.name }}
-            </div>
+              :name="tag.name"
+              :color="tag.color"
+            />
           </div>
         </div>
 
@@ -273,19 +271,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { Task } from '@/types'
-import { onMounted } from 'vue'
+import Comment from '@/components/Comment.vue'
+import TagLabel from '@/components/ui/Tag.vue'
+import UserAvatar from '@/components/ui/UserAvatar.vue'
+import { useFormatDistance } from '@/composables/useFormatDistance'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
+import { Task } from '@/types'
 import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/solid'
-import { computed } from 'vue'
-import { useFormatDistance } from '@/composables/useFormatDistance'
-import { getStylesForTag } from '@/lib/utils'
-import UserAvatar from '@/components/UserAvatar.vue'
-import Comment from '@/components/Comment.vue'
-import { watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const auth = useAuthStore()

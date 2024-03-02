@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useFormatDistance } from '@/composables/useFormatDistance.ts'
 import { EllipsisHorizontalIcon } from '@heroicons/vue/24/solid'
 import { computed, ref, watch } from 'vue'
-import { useFormatDistance } from '@/composables/useFormatDistance.ts'
-import UserAvatar from './UserAvatar.vue'
+import UserAvatar from './ui/UserAvatar.vue'
 
 const props = defineProps<{
   comment: any
@@ -119,3 +119,4 @@ function editComment() {
     </div>
   </div>
 </template>
+./ui/UserAvatar.vue

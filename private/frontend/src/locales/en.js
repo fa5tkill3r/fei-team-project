@@ -4,6 +4,7 @@ export default {
   cancel: 'Cancel',
   edit: 'Edit',
   delete: 'Delete',
+  add: 'Add',
 
   auth: {
     login: 'Login',
@@ -51,6 +52,7 @@ export default {
     subTasks: 'Subtasks',
     select_parent: 'Select parent',
     no_description: 'No description provided',
+    manage_tags: 'Manage tags',
     delete_confirmation: {
       title: 'Delete task?',
       content: 'Are you sure you want to delete this task?',
@@ -71,5 +73,10 @@ export default {
     title: 'Tags',
     search: 'Search tags...',
     count: '{count} tags | {count} tag | {count} tags',
+    name: 'Name',
+    color: 'Color',
+    preview: 'Tag preview',
+    add_title: 'Add tag',
+    edit_title: 'Edit tag',
   },
 }

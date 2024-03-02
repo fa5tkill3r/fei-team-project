@@ -7,11 +7,7 @@
     </div>
 
     <div v-else>
-      <div v-if="tags.length === 0" class="mt-4">
-        <p>{{ $t('tags.no_tags') }}</p>
-      </div>
-
-      <div v-else class="mt-4">
+      <div class="mt-4">
         <div class="mb-3 flex justify-between">
           <input
             type="text"
@@ -21,7 +17,7 @@
           />
 
           <div>
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" @click="dialogOpen = true">
               {{ $t('add') }}
             </button>
           </div>
@@ -39,14 +35,16 @@
             <tbody>
               <tr v-for="tag in tags" :key="tag.id">
                 <td>
-                  <div class="ml-2 badge" :style="getStylesForTag(tag)">
-                    {{ tag.name }}
-                  </div>
+                  <TagLabel :name="tag.name" :color="tag.color" />
                 </td>
                 <td class="flex justify-end gap-1">
-                  <button class="btn btn-sm btn-outline btn-warning">
+                  <button
+                    class="btn btn-sm btn-outline btn-warning"
+                    @click="edit(tag)"
+                  >
                     {{ $t('edit') }}
                   </button>
+                  <!-- TODO: implement delete -->
                   <button class="btn btn-sm btn-outline btn-error">
                     {{ $t('delete') }}
                   </button>
@@ -57,19 +55,45 @@
         </div>
       </div>
     </div>
+
+    <TagDialog v-model="dialogOpen" :edit="editing" @update="updateTag" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import TagDialog from '@/components/TagDialog.vue'
+import TagLabel from '@/components/ui/Tag.vue'
 import { useAuthStore } from '@/stores/auth'
 import { Tag } from '@/types'
-import { onMounted, ref } from 'vue'
-import { getStylesForTag } from '@/lib/utils'
+import { onMounted, ref, watch } from 'vue'
 
 const auth = useAuthStore()
 const initialLoading = ref(true)
 const tags = ref<Tag[]>([])
 const query = ref('')
+
+const dialogOpen = ref(false)
+const editing = ref<Tag | null>(null)
+
+watch(dialogOpen, (value) => {
+  if (!value) {
+    editing.value = null
+  }
+})
+
+function edit(tag: Tag) {
+  editing.value = tag
+}
+
+function updateTag(tag: Tag) {
+  const index = tags.value.findIndex((t) => t.id === tag.id)
+
+  if (index !== -1) {
+    tags.value[index] = tag
+  } else {
+    tags.value.push(tag)
+  }
+}
 
 function loadTags() {
   auth.client
@@ -82,22 +106,6 @@ function loadTags() {
       initialLoading.value = false
     })
 }
-
-// function addTag() {
-//   if (!newTag.value) {
-//     return
-//   }
-
-//   const color = '#' + Math.floor(Math.random() * 16777215).toString(16)
-
-//   auth.client
-//     .post({ name: newTag.value, color }, 'tags')
-//     .json()
-//     .then((response: any) => {
-//       tags.value.push(response.data)
-//       newTag.value = ''
-//     })
-// }
 
 onMounted(() => {
   loadTags()

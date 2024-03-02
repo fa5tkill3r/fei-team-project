@@ -15,14 +15,12 @@
       </p>
 
       <div v-else class="flex flex-wrap gap-1 pb-1">
-        <div
+        <TagLabel
           v-for="tagId in model"
           :key="tagId"
-          class="badge"
-          :style="getStylesForTag(tagMap[tagId])"
-        >
-          {{ tagMap[tagId].name }}
-        </div>
+          :name="tagMap[tagId].name"
+          :color="tagMap[tagId].color"
+        />
       </div>
     </div>
 
@@ -67,9 +65,7 @@
               <CheckIcon v-if="tempModel.includes(tag.id)" class="w-5 h-5" />
             </span>
 
-            <div class="ml-2 badge" :style="getStylesForTag(tag)">
-              {{ tag.name }}
-            </div>
+            <TagLabel :name="tag.name" :color="tag.color" />
           </label>
 
           <p v-if="filteredTags.length === 0">
@@ -98,12 +94,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { Cog6ToothIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { Tag } from '@/types'
 import { useAuthStore } from '@/stores/auth'
-import { onMounted } from 'vue'
-import { getStylesForTag } from '@/lib/utils'
+import { Tag } from '@/types'
+import { CheckIcon, Cog6ToothIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { computed, onMounted, ref } from 'vue'
+import TagLabel from './ui/Tag.vue'
 
 const auth = useAuthStore()
 const model = defineModel<number[]>()

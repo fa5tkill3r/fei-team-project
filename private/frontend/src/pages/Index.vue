@@ -1,19 +1,17 @@
 <script setup lang="ts">
+import TagLabel from '@/components/ui/Tag.vue'
+import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { useAuthStore } from '@/stores/auth'
+import { useTeamStore } from '@/stores/team.ts'
+import { Task } from '@/types'
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 import {
-  Squares2X2Icon,
-  ListBulletIcon,
   EllipsisHorizontalIcon,
+  ListBulletIcon,
   PlusIcon,
+  Squares2X2Icon,
 } from '@heroicons/vue/24/solid'
-import { ref } from 'vue'
-import { useTeamStore } from '@/stores/team.ts'
-import { watch } from 'vue'
-import { onMounted } from 'vue'
-import { Task } from '@/types'
-import { getStylesForTag } from '@/lib/utils'
-import UserAvatar from '@/components/UserAvatar.vue'
+import { onMounted, ref, watch } from 'vue'
 
 const auth = useAuthStore()
 const teamStore = useTeamStore()
@@ -49,16 +47,16 @@ onMounted(() => {
 <template>
   <div>
     <div>
-      <h1 class="font-bold text-2xl">{{ $t('main.tasks')}}</h1>
+      <h1 class="font-bold text-2xl">{{ $t('main.tasks') }}</h1>
 
       <div class="join mt-4">
         <button class="btn join-item">
           <Squares2X2Icon class="w-5 h-5" />
-          {{ $t('main.board')}}
+          {{ $t('main.board') }}
         </button>
         <button class="btn join-item">
           <ListBulletIcon class="w-5 h-5" />
-          {{ $t('main.list')}}
+          {{ $t('main.list') }}
         </button>
       </div>
     </div>
@@ -66,7 +64,7 @@ onMounted(() => {
     <div class="grid grid-cols-4 gap-6 mt-6">
       <div v-for="_ in 1" class="flex flex-col gap-4">
         <div class="flex justify-between items-center">
-          <h2>{{ $t('main.tasks')}}</h2>
+          <h2>{{ $t('main.tasks') }}</h2>
 
           <button class="btn btn-square btn-ghost">
             <EllipsisHorizontalIcon class="w-5 h-5" />
@@ -83,13 +81,12 @@ onMounted(() => {
           </div>
 
           <div v-if="task.tags" class="flex gap-1 mb-4 flex-wrap">
-            <div
+            <TagLabel
               v-for="tag in task.tags"
-              class="badge"
-              :style="getStylesForTag(tag)"
-            >
-              {{ tag.name }}
-            </div>
+              :key="tag.id"
+              :name="tag.name"
+              :color="tag.color"
+            />
           </div>
 
           <div class="flex justify-between items-center">

@@ -29,7 +29,7 @@
     <!-- TODO: add fixed height -->
     <!-- TODO: add clear query -->
     <!-- TODO: add clear selection -->
-    <dialog class="modal" ref="dialog">
+    <Modal v-model="dialogOpen">
       <div class="modal-box flex flex-col min-h-96 max-h-full">
         <h3 class="font-bold text-lg flex items-center justify-between mb-4">
           {{ $t('task.select_parent') }}
@@ -37,7 +37,7 @@
           <button
             class="btn btn-ghost btn-circle btn-sm"
             type="button"
-            @click="dialog?.close()"
+            @click="dialogOpen = false"
           >
             <XMarkIcon class="w-5 h-5" />
           </button>
@@ -94,10 +94,7 @@
           </p>
         </div>
       </div>
-      <form method="dialog" class="modal-backdrop">
-        <button>close</button>
-      </form>
-    </dialog>
+    </Modal>
   </div>
 </template>
 
@@ -108,13 +105,14 @@ import { useTeamStore } from '@/stores/team'
 import { useAuthStore } from '@/stores/auth'
 import { Task } from '@/types'
 import { onMounted } from 'vue'
+import Modal from '@/components/ui/Modal.vue'
 
 const team = useTeamStore()
 const auth = useAuthStore()
 const model = defineModel<number | undefined>()
 const props = defineProps<{ taskId?: number }>()
 const tasks = ref<Task[]>([])
-const dialog = ref<HTMLDialogElement | null>(null)
+const dialogOpen = ref(false)
 const query = ref('')
 const taskMap = computed(() =>
   Object.fromEntries(tasks.value.map((p) => [p.id, p])),
@@ -148,15 +146,15 @@ function loadTasks() {
 }
 
 function openDialog() {
-  dialog.value?.showModal()
+  dialogOpen.value = true
 }
 
 function save() {
-  dialog.value?.close()
+  dialogOpen.value = false
 }
 
 watch(model, () => {
-  if (dialog.value?.open) {
+  if (dialogOpen.value) {
     save()
   }
 })

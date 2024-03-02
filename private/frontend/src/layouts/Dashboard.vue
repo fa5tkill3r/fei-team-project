@@ -1,17 +1,17 @@
 <script setup lang="ts">
+import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { useAuthStore } from '@/stores/auth'
-import { Bars3Icon, PlusIcon } from '@heroicons/vue/24/solid'
+import { useTeamStore } from '@/stores/team.ts'
 import {
-  MoonIcon,
-  SunIcon,
   BriefcaseIcon,
-  ShieldExclamationIcon,
   Cog6ToothIcon,
+  MoonIcon,
+  ShieldExclamationIcon,
+  SunIcon,
   UserIcon,
 } from '@heroicons/vue/24/outline'
+import { Bars3Icon, PlusIcon } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
-import { useTeamStore } from '@/stores/team.ts'
-import UserAvatar from '@/components/UserAvatar.vue'
 
 const auth = useAuthStore()
 const teamStore = useTeamStore()

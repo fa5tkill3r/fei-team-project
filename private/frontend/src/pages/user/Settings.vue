@@ -27,7 +27,7 @@ const locale = ref(i18n.locale.value)
 // TODO: use existing loadLocaleMessages and setI18nLanguage from @/i18n.ts
 watch(locale, async (newLocale) => {
   const messages = await import(
-    /* webpackChunkName: "locale-[request]" */ `/src/locales/${newLocale}.js`
+    /* webpackChunkName: "locale-[request]" */ `../../locales/${newLocale}.js`
   )
 
   i18n.setLocaleMessage(newLocale, messages.default)

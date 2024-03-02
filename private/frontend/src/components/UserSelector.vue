@@ -102,7 +102,7 @@
 import { ref, computed } from 'vue'
 import { Cog6ToothIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { useTeamStore } from '@/stores/team'
-import UserAvatar from './UserAvatar.vue'
+import UserAvatar from './ui/UserAvatar.vue'
 
 const team = useTeamStore()
 const model = defineModel<number[]>()
@@ -136,3 +136,4 @@ function save() {
   dialog.value?.close()
 }
 </script>
+./ui/UserAvatar.vue
