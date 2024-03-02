@@ -1,6 +1,8 @@
 <template>
-  Theses (TODO)
+  <div>
+    <PageTitle text="nav.theses" />
+    <p>Theses (TODO)</p>
+  </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

@@ -5,6 +5,7 @@ export default {
   edit: 'Edit',
   delete: 'Delete',
   add: 'Add',
+  dashboard: 'Dashboard',
 
   auth: {
     login: 'Login',
@@ -67,6 +68,8 @@ export default {
       edit: 'Edit',
       delete: 'Delete',
     },
+    editing: 'Editing task {task}',
+    new: 'New task',
   },
   settings: {
     title: 'Settings',

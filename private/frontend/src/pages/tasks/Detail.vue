@@ -5,6 +5,8 @@
     </div>
 
     <div v-else-if="task" class="grid grid-cols-12 gap-x-4">
+      <PageTitle :text="`${task.name} #${task.id}`" />
+
       <div class="col-span-full flex justify-between">
         <div>
           <h1 class="text-2xl font-bold text-base-content">
@@ -274,6 +276,7 @@
 import Comment from '@/components/Comment.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
+import PageTitle from '@/components/utils/PageTitle.vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'

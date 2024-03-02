@@ -1,19 +1,20 @@
+import PageTitle from '@/components/utils/PageTitle.vue'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import { createPinia } from 'pinia'
-import { useAuthStore } from './stores/auth'
-import { useTeamStore } from './stores/team'
+import App from './App.vue'
 import {
   SUPPORTED_LOCALES,
   datetimeFormats,
+  defaultMessages,
   loadLocaleMessages,
   pluralRules,
   setI18nLanguage,
   setupI18n,
-  defaultMessages,
 } from './i18n'
 import routes from './routes.ts'
-import App from './App.vue'
+import { useAuthStore } from './stores/auth'
+import { useTeamStore } from './stores/team'
 
 import './style.css'
 
@@ -37,6 +38,7 @@ const pinia = createPinia()
 app.use(i18n)
 app.use(pinia)
 app.use(router)
+app.component('PageTitle', PageTitle)
 
 const auth = useAuthStore()
 const team = useTeamStore()

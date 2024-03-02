@@ -1,5 +1,7 @@
 <template>
   <div class="flex justify-center mt-32">
+    <PageTitle text="auth.login" />
+
     <div class="max-w-lg w-full">
       <h1 class="text-3xl mb-4">
         {{ $t('auth.login') }}
@@ -53,10 +55,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import PageTitle from '@/components/utils/PageTitle.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const auth = useAuthStore()

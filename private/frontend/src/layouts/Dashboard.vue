@@ -113,7 +113,9 @@ function logout() {
         <div class="h-20 border-b border-base-content/10 flex items-center">
           <div class="flex items-center justify-between px-6 w-full">
             <router-link to="/">
-              <h1 class="text-xl">Dashboard</h1>
+              <h1 class="text-xl">
+                {{ $t('dashboard') }}
+              </h1>
             </router-link>
 
             <button class="btn btn-ghost btn-square lg:hidden">

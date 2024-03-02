@@ -4,6 +4,8 @@
     class="grid grid-cols-12 gap-x-4 gap-y-4 max-w-7xl mx-auto"
     v-if="!initialLoading"
   >
+    <PageTitle :text="edit ? 'task.editing' : 'task.new'" :task="task.name" />
+
     <div class="col-span-12 xl:col-span-9">
       <label class="form-control w-full">
         <div class="label">
@@ -88,16 +90,15 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-import { ref } from 'vue'
-import UserSelector from '@/components/UserSelector.vue'
 import TagSelector from '@/components/TagSelector.vue'
 import TaskSelector from '@/components/TaskSelector.vue'
-import { useRouter } from 'vue-router'
+import UserSelector from '@/components/UserSelector.vue'
+import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
 import { TaskRequest } from '@/types'
-import { onMounted } from 'vue'
 import DatePicker from '@vuepic/vue-datepicker'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import '@vuepic/vue-datepicker/dist/main.css'
 

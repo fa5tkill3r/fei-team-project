@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>Incidents</h1>
+    <PageTitle text="nav.incidents" />
+    <p>Incidents (TODO)</p>
   </div>
 </template>
 
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>

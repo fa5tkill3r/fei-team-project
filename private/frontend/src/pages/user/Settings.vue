@@ -1,5 +1,7 @@
 <template>
   <div>
+    <PageTitle text="nav.settings" />
+
     <h1 class="text-2xl font-bold">{{ $t('settings.title') }}</h1>
 
     <div class="flex items-center gap-2 mt-2">
@@ -17,8 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from 'vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const i18n = useI18n()

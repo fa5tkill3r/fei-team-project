@@ -46,6 +46,8 @@ onMounted(() => {
 
 <template>
   <div>
+    <PageTitle text="nav.tasks" />
+
     <div>
       <h1 class="font-bold text-2xl">{{ $t('main.tasks') }}</h1>
 

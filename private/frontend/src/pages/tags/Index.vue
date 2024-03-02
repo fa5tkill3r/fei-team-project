@@ -1,5 +1,7 @@
 <template>
   <div>
+    <PageTitle text="tags.title" />
+
     <h1 class="text-2xl font-bold">{{ $t('tags.title') }}</h1>
 
     <div v-if="initialLoading" class="mt-4">
