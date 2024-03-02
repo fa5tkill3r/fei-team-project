@@ -69,7 +69,19 @@ const routes = [
     path: '/incidents',
     name: 'incidents',
     component: () => import('./pages/incidents/Index.vue'),
-  }
+  },
+  // theses
+  {
+    path: '/theses',
+    name: 'theses',
+    component: () => import('./pages/theses/Index.vue'),
+  },
+  // library
+  {
+    path: '/library',
+    name: 'library',
+    component: () => import('./pages/library/Index.vue'),
+  },
 ]
 
 export default routes

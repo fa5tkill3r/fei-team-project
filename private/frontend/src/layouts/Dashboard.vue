@@ -3,9 +3,13 @@ import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team.ts'
 import {
+  ArrowTopRightOnSquareIcon,
+  BeakerIcon,
+  BookOpenIcon,
   BriefcaseIcon,
   Cog6ToothIcon,
   MoonIcon,
+  QuestionMarkCircleIcon,
   ShieldExclamationIcon,
   SunIcon,
   UserIcon,
@@ -34,20 +38,13 @@ function logout() {
         <label for="drawer" class="btn btn-square btn-ghost lg:hidden">
           <Bars3Icon class="w-6 h-6" />
         </label>
-        <div class="flex-none hidden md:block">
-          <input
-            type="text"
-            :placeholder="$t('nav.search')"
-            class="input input-bordered w-full max-w-xs"
-          />
-        </div>
 
         <div class="flex-1">
-          <ul class="menu menu-horizontal m-auto gap-2 hidden md:flex">
+          <!-- <ul class="menu menu-horizontal m-auto gap-2 hidden md:flex">
             <li><a>Link</a></li>
             <li><a>Link</a></li>
             <li><a>Link</a></li>
-          </ul>
+          </ul> -->
         </div>
 
         <div class="flex-none">
@@ -168,6 +165,25 @@ function logout() {
               <ShieldExclamationIcon class="w-5 h-5" />
               {{ $t('nav.incidents') }}
             </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'theses' }">
+              <BeakerIcon class="w-5 h-5" />
+              {{ $t('nav.theses') }}
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'library' }">
+              <BookOpenIcon class="w-5 h-5" />
+              {{ $t('nav.library') }}
+            </router-link>
+          </li>
+          <li>
+            <a href="#">
+              <QuestionMarkCircleIcon class="w-5 h-5" />
+              {{ $t('nav.wiki') }}
+              <ArrowTopRightOnSquareIcon class="w-5 h-5" />
+            </a>
           </li>
 
           <div class="divider"></div>

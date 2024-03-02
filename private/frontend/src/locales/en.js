@@ -19,6 +19,9 @@ export default {
     profile: 'Profile',
     settings: 'Settings',
     logout: 'Logout',
+    theses: 'Theses',
+    library: 'Library',
+    wiki: 'Wiki',
   },
   main: {
     tasks: 'Tasks',
