@@ -8,19 +8,13 @@
 
     <div v-else>
       <div class="mt-4">
-        <div class="mb-3 flex justify-between">
+        <div class="mb-3">
           <input
             type="text"
             class="input input-bordered"
             :placeholder="$t('tags.search')"
             v-model="query"
           />
-
-          <div>
-            <button class="btn btn-primary" @click="dialogOpen = true">
-              {{ $t('add') }}
-            </button>
-          </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -28,25 +22,27 @@
             <thead>
               <tr>
                 <th class="text-sm font-normal bg-base-200" colspan="2">
-                  {{ $t('tags.count', { count: tags.length }) }}
+                  {{ $t('tags.count', { count: filteredTags.length }) }}
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="tag in tags" :key="tag.id">
+              <tr v-for="tag in filteredTags" :key="tag.id">
                 <td>
                   <TagLabel :name="tag.name" :color="tag.color" />
                 </td>
                 <td class="flex justify-end gap-1">
                   <button
-                    class="btn btn-sm btn-outline btn-warning"
+                    class="btn btn-sm btn-ghost btn-square"
                     @click="edit(tag)"
                   >
-                    {{ $t('edit') }}
+                    <PencilIcon class="h-5 w-5" />
                   </button>
-                  <!-- TODO: implement delete -->
-                  <button class="btn btn-sm btn-outline btn-error">
-                    {{ $t('delete') }}
+                  <button
+                    class="btn btn-sm btn-ghost btn-square text-error"
+                    @click="remove(tag)"
+                  >
+                    <TrashIcon class="h-5 w-5" />
                   </button>
                 </td>
               </tr>
@@ -56,16 +52,53 @@
       </div>
     </div>
 
-    <TagDialog v-model="dialogOpen" :edit="editing" @update="updateTag" />
+    <div class="fixed bottom-6 right-6">
+      <button
+        class="btn btn-circle btn-lg btn-primary"
+        @click="dialogOpen = true"
+      >
+        <PlusIcon class="w-6 h-6" />
+      </button>
+    </div>
+
+    <TagDialog v-model="dialogOpen" :edit="toEdit" @update="updateTag" />
+
+    <Modal v-model="dialogDeleteOpen">
+      <div class="modal-box">
+        <h1 class="text-lg font-bold mb-2">{{ $t('tags.delete_title') }}</h1>
+        <i18n-t keypath="tags.delete_confirm" tag="p">
+          <TagLabel
+            :name="toDelete?.name || ''"
+            :color="toDelete?.color || ''"
+          />
+        </i18n-t>
+
+        <div class="flex justify-end gap-2 mt-6">
+          <button class="btn btn-primary" @click="dialogDeleteOpen = false">
+            {{ $t('cancel') }}
+          </button>
+          <LoadingButton
+            class="btn btn-error w-20"
+            @click="deleteTag(toDelete)"
+            :loading="deleteLoading"
+          >
+            {{ $t('delete') }}
+          </LoadingButton>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script lang="ts" setup>
 import TagDialog from '@/components/TagDialog.vue'
+import LoadingButton from '@/components/ui/LoadingButton.vue'
+import Modal from '@/components/ui/Modal.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import { useAuthStore } from '@/stores/auth'
 import { Tag } from '@/types'
-import { onMounted, ref, watch } from 'vue'
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/vue/24/solid'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const auth = useAuthStore()
 const initialLoading = ref(true)
@@ -73,16 +106,46 @@ const tags = ref<Tag[]>([])
 const query = ref('')
 
 const dialogOpen = ref(false)
-const editing = ref<Tag | null>(null)
+const dialogDeleteOpen = ref(false)
+const deleteLoading = ref(false)
+const toEdit = ref<Tag | null>(null)
+const toDelete = ref<Tag | null>(null)
+
+const filteredTags = computed(() => {
+  return tags.value.filter((tag) => {
+    return tag.name.toLowerCase().includes(query.value.toLowerCase())
+  })
+})
 
 watch(dialogOpen, (value) => {
   if (!value) {
-    editing.value = null
+    toEdit.value = null
   }
 })
 
 function edit(tag: Tag) {
-  editing.value = tag
+  toEdit.value = tag
+}
+
+function remove(tag: Tag) {
+  toDelete.value = tag
+  dialogDeleteOpen.value = true
+}
+
+function deleteTag(tag: Tag | null) {
+  if (!tag) return
+
+  deleteLoading.value = true
+  auth.client
+    .delete(`tags/${tag.id}`)
+    .json()
+    .then(() => {
+      tags.value = tags.value.filter((t) => t.id !== tag.id)
+    })
+    .finally(() => {
+      deleteLoading.value = false
+      dialogDeleteOpen.value = false
+    })
 }
 
 function updateTag(tag: Tag) {

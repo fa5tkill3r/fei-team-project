@@ -81,5 +81,7 @@ export default {
     preview: 'Tag preview',
     add_title: 'Add tag',
     edit_title: 'Edit tag',
+    delete_title: 'Delete tag',
+    delete_confirm: "Are you sure you want to delete the {0} tag?",
   },
 }
