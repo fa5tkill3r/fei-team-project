@@ -13,6 +13,7 @@ import {
   ShieldExclamationIcon,
   SunIcon,
   UserIcon,
+  CogIcon,
 } from '@heroicons/vue/24/outline'
 import { Bars3Icon, PlusIcon } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
@@ -186,6 +187,12 @@ function logout() {
               {{ $t('nav.wiki') }}
               <ArrowTopRightOnSquareIcon class="w-5 h-5" />
             </a>
+          </li>
+          <li v-if="teamStore.me">
+            <router-link :to="{ name: 'admin' }">
+              <CogIcon class="w-5 h-5" />
+              {{ $t('nav.admin_panel') }}
+            </router-link>
           </li>
 
           <div class="divider"></div>

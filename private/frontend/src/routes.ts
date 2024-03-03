@@ -82,6 +82,12 @@ const routes = [
     name: 'library',
     component: () => import('./pages/library/Index.vue'),
   },
+  // admin
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('./pages/admin/Index.vue'),
+  },
 ]
 
 export default routes

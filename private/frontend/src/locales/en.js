@@ -23,6 +23,7 @@ export default {
     theses: 'Theses',
     library: 'Library',
     wiki: 'Wiki',
+    admin_panel: 'Admin panel',
   },
   main: {
     tasks: 'Tasks',
