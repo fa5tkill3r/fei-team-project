@@ -6,6 +6,7 @@ export interface User {
   created_at: string
   updated_at: string
   avatar?: string
+  role: Role
 }
 
 export interface Team {
@@ -45,4 +46,21 @@ export interface Tag {
   id: number
   name: string
   color: string
+}
+
+export interface Role {
+  id: number
+  name: string
+  slug: string
+  task_access: boolean
+  task_create: boolean
+  task_delete: boolean
+  user_access: boolean
+  user_add: boolean
+  role_access: boolean
+  role_add: boolean
+  role_delete: boolean
+  team_info: boolean
+  created_at: string
+  updated_at: string
 }

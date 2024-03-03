@@ -33,5 +33,12 @@ export const useTeamStore = defineStore('team', () => {
     current.value = teams.value.find((t) => t.id === teamId)
   }
 
-  return { teams, current, members, selectTeam, loadTeams }
+  function getMe() {
+    if (authStore.user) {
+      return current.value?.users.find((u) => u.id === authStore.user?.id)
+    }
+    return null;
+  }
+
+  return { teams, current, members, selectTeam, loadTeams, getMe }
 })
