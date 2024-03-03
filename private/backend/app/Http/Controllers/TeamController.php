@@ -79,7 +79,7 @@ class TeamController extends Controller
         $team = Team::findOrFail($id);
         $user = User::findOrFail(request()->get('user_id'));
 
-        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+        $role = Role::find($team->users()->findOrFail($this->user->id)->pivot->role_id);
 
         if ($role->user_add == 0) {
             return response()->json(['error' => 'Dont have permissions to add user'], 403);
@@ -98,10 +98,10 @@ class TeamController extends Controller
         $team = Team::findOrFail($id);
         $user = User::findOrFail(request()->get('user_id'));
 
-        $role = $team->users()->findOrFail($this->user->id)->pivot->role;
+        $role = Role::find($team->users()->findOrFail($this->user->id)->pivot->role_id);
 
         if ($role->user_remove == 0) {
-            return response()->json(['error' => 'Dont have permissions to add user'], 403);
+            return response()->json(['error' => 'Dont have permissions to remove user'], 403);
         }
 
         $team->users()->detach($user);
