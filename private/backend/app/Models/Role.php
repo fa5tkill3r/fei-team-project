@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Role Model
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -16,11 +16,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $task_delete
  * @property boolean $user_access
  * @property boolean $user_add
+ * @property boolean $user_remove
  * @property boolean $role_access
  * @property boolean $role_add
  * @property boolean $role_delete
  * @property boolean $team_info
- * 
+ *
  * @method BelongsToMany users()
  * @method BelongsToMany teams()
  */
@@ -36,6 +37,7 @@ class Role extends Model
         'task_delete',
         'user_access',
         'user_add',
+        'user_remove',
         'role_access',
         'role_add',
         'role_delete',
@@ -47,6 +49,7 @@ class Role extends Model
         'task_delete' => 'boolean',
         'user_access' => 'boolean',
         'user_add' => 'boolean',
+        'user_remove' => 'boolean',
         'role_access' => 'boolean',
         'role_add' => 'boolean',
         'role_delete' => 'boolean',

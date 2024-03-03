@@ -57,6 +57,7 @@ export interface Role {
   task_delete: boolean
   user_access: boolean
   user_add: boolean
+  user_remove: boolean
   role_access: boolean
   role_add: boolean
   role_delete: boolean
