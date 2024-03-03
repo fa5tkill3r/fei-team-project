@@ -15,7 +15,7 @@ class TeamResource extends JsonResource
             'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'users' => UserResource::collection($this->whenLoaded('users')),
+            'users' => UserTeamResource::collection($this->whenLoaded('users')),          
             'tasks' => TaskResource::collection($this->whenLoaded('tasks')),
         ];
     }
