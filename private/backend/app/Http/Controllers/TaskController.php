@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Task;
 use App\Models\Incident;
-use App\Models\TaskResponse;
+Use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -55,12 +55,17 @@ class TaskController extends Controller
             'description' => $request->description ?? '',
         ]);
 
-        if ($request->incident_id != null) {
+        if ($request->incident_id != null) { 
             $incident = Incident::findOrFail($request->incident_id);
             $task->incident()->associate($incident);
         }
 
         $users = $request->users ? $request->users : [];
+
+        $team = request('team_id') ? Team::find(request('team_id')) : null;
+        if ($team){
+            $users[] = $team->users()->pluck('id');
+        }
 
         foreach ($users as $user) {
             $task->users()->attach($user);

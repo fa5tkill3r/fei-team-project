@@ -114,7 +114,7 @@ onMounted(() => {
             <div>
               <span class="flex items-center gap-1">
                 <ChatBubbleBottomCenterTextIcon class="w-5 h-5" />
-                TODO
+                {{task.comments_count}}
               </span>
             </div>
           </div>

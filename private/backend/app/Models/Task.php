@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $deadline
  * @property string $description
  * @property string $severity
- * @property boolean $is_resolved
  * @property boolean $is_closed
  * @property string $resolution
  * @property int $created_by_id
@@ -30,7 +29,6 @@ class Task extends Model
         'deadline',
         'description',
         'severity',
-        'is_resolved',
         'is_closed',
         'resolution',
         'created_by_id',
@@ -79,5 +77,23 @@ class Task extends Model
     public function responses()
     {
         return $this->hasMany(TaskResponse::class);
+    }
+
+    public function getStatus()
+    {
+        if ($this->is_closed) {
+            return 'closed';
+        }
+
+        if($this->users()->count() === 0) {
+            return 'new';
+        }
+
+        return 'in_progress';
+    }
+
+    public function getCommentsCount()
+    {
+        return $this->comments()->count();
     }
 }

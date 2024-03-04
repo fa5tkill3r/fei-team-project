@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->foreignId('parent_id')->nullable()->constrained('tasks')->onDelete('cascade');
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('incident_id')->nullable();
-            $table->boolean('is_resolved')->default(false);
             $table->boolean('is_closed')->default(false);
             $table->text('resolution')->nullable();
             $table->timestamps();
