@@ -62,9 +62,8 @@ class TaskController extends Controller
 
         $users = $request->users ? $request->users : [];
 
-        $team = request('team_id') ? Team::find(request('team_id')) : null;
-        if ($team){
-            $users[] = $team->users()->pluck('id');
+        if(request('all_users')) {
+            $users = $team->users()->get()->pluck('id');
         }
 
         foreach ($users as $user) {
@@ -77,7 +76,7 @@ class TaskController extends Controller
             $task->tags()->attach($tag);
         }
 
-        $task = $team->tasks()->with(['users', 'tags', 'responses', 'responses.user'])->findOrFail($task->id);
+        $task->load(['users', 'tags', 'responses', 'responses.user']);
 
         return new TaskResource($task);
     }
@@ -113,6 +112,10 @@ class TaskController extends Controller
         $task->update($request->except(['users', 'tags', 'parent']));
 
         $users = $request->users ? $request->users : [];
+        if(request('all_users')) {
+            $users = $team->users()->get()->pluck('id');
+        }
+
         $task->users()->sync($users);
 
         $tags = $request->tags ? $request->tags : [];
