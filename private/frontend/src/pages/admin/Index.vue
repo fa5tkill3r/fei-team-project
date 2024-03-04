@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useTeamStore } from '@/stores/team.ts'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
-import { Team, User } from '@/types.ts'
+import { User } from '@/types.ts'
 
 const teamStore = useTeamStore()
 const auth = useAuthStore()
-const me = computed(() => teamStore.getMe())
 const removeLoading = ref(false)
 
 function removeUser(id: number) {
@@ -46,7 +45,7 @@ function removeUser(id: number) {
             <!--            <button class="btn btn-ghost">Edit</button>-->
             <button
               :disabled="removeLoading"
-              v-if="me?.role.user_add"
+              v-if="teamStore.me?.role.user_add"
               class="btn btn-ghost"
               @click="removeUser(member.id)"
             >
