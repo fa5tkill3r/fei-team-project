@@ -23,6 +23,7 @@ export interface Task {
   description: string
   users: User[]
   tags: Tag[]
+  status: string
   severity: string
   created_at: string
   deadline?: string
@@ -38,6 +39,7 @@ export interface TaskRequest {
   users: number[]
   tags: number[]
   severity: string
+  is_closed?: boolean
   deadline?: string
   parent?: number
 }

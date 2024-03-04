@@ -9,11 +9,13 @@
 
       <div class="col-span-full flex justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-base-content">
+          <h1 class="text-2xl font-bold text-base-content mb-1">
             {{ task.name }}
             <span class="text-base-content/65">#{{ task.id }}</span>
           </h1>
           <div class="label-text">
+            <TaskStatus :task="task" />
+            ·
             <span class="font-bold mr-1">
               {{ task.created_by.first_name }}
               {{ task.created_by.last_name }}
@@ -135,18 +137,22 @@
             </div>
           </div>
           <div class="mt-3 flex gap-2 justify-end">
-            <button class="btn">{{ $t('task.close') }} (TODO)</button>
-            <button
+            <LoadingButton
+              class="btn btn-primary"
+              :disabled="task.status === 'closed'"
+              :loading="closeLoading"
+              @click="closeTask"
+            >
+              {{ $t('task.close') }}
+            </LoadingButton>
+
+            <LoadingButton
               class="btn btn-success"
-              :disabled="addCommentLoading || comment === ''"
+              :loading="addCommentLoading"
               @click="addComment"
             >
-              <span
-                v-if="addCommentLoading"
-                class="loading loading-spinner"
-              ></span>
               {{ $t('task.comment.add') }}
-            </button>
+            </LoadingButton>
           </div>
         </div>
       </div>
@@ -274,13 +280,15 @@
 
 <script setup lang="ts">
 import Comment from '@/components/Comment.vue'
+import TaskStatus from '@/components/TaskStatus.vue'
+import LoadingButton from '@/components/ui/LoadingButton.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
 import PageTitle from '@/components/utils/PageTitle.vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
-import { Task } from '@/types'
+import { Task, TaskRequest } from '@/types'
 import { PencilIcon, TrashIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -297,6 +305,7 @@ const loading = ref(false)
 const comments = ref<any[]>([])
 const comment = ref<string>('')
 const addCommentLoading = ref(false)
+const closeLoading = ref(false)
 
 const description = computed(() => {
   const raw = task.value?.description
@@ -363,6 +372,32 @@ function addComment() {
     })
     .finally(() => {
       addCommentLoading.value = false
+    })
+}
+
+function closeTask() {
+  if (!task.value) {
+    return
+  }
+
+  closeLoading.value = true
+
+  const currentTask: TaskRequest = {
+    ...task.value,
+    users: task.value.users.map((u) => u.id),
+    tags: task.value.tags.map((t) => t.id),
+    parent: task.value.parent?.id,
+    is_closed: true,
+  }
+
+  auth.client
+    .put(currentTask, `tasks/${team.current?.id}/${route.params.id}`)
+    .res()
+    .then(() => {
+      task.value!.status = 'closed'
+    })
+    .finally(() => {
+      closeLoading.value = false
     })
 }
 
