@@ -7,7 +7,6 @@ import forPublicImage from '../assets/group_22.png'
 import forStudentsImage from '../assets/group_23.png'
 
 import Header from '../components/Header.astro'
-import Post from '../components/Post.astro'
 import Card from '../components/Card.astro'
 import Footer from '../components/Footer.astro'
 
@@ -87,35 +86,7 @@ const posts = await getPostsByLanguage(astroI18n.locale)
       </div>
     </section>
 
-    <section class="mt-14 mb-20" aria-labelledby="csirt-news">
-      <h2 class="text-primary font-bold text-2xl text-center" id="csirt-news">
-        {t('news')}
-      </h2>
-
-      {
-        !posts.length && (
-          <p class="text-center max-w-xl mx-auto mt-7">
-            {t('content.news.empty')}
-          </p>
-        )
-      }
-
-      {
-        !!posts.length && (
-          <div class="grid grid-cols-2 gap-4 my-6">
-            {posts.flatMap((post) =>
-              post.translations.map((translation) => (
-                <Post
-                  title={translation.title}
-                  body={translation.content}
-                  href={`/news/${post.slug}`}
-                />
-              )),
-            )}
-          </div>
-        )
-      }
-    </section>
+    <div class="mb-16"></div>
   </main>
   <Footer />
 </Layout>

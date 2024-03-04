@@ -1,0 +1,41 @@
+---
+import { astroI18n, t, l } from 'astro-i18n'
+import { getPostsByLanguage } from '../../lib/data'
+
+import Layout from '../../layouts/Layout.astro'
+import Footer from '../../components/Footer.astro'
+import Post from '../../components/Post.astro'
+
+const posts = await getPostsByLanguage(astroI18n.locale)
+---
+
+<Layout title={`CSIRT | ${t('nav.items.activity')}`}>
+  <main class="max-w-4xl mx-auto px-2 mt-4">
+    {
+      !posts.length && (
+        <p class="text-center max-w-xl mx-auto mt-7">
+          {t('content.news.empty')}
+        </p>
+      )
+    }
+
+    {
+      !!posts.length && (
+        <div class="flex flex-col">
+          {posts.flatMap((post) =>
+            post.translations.map((translation) => (
+              <div class="mb-5">
+                <Post
+                  title={translation.title}
+                  body={translation.content}
+                  href={`/news/${post.slug}`}
+                />
+              </div>
+            )),
+          )}
+        </div>
+      )
+    }
+  </main>
+  <Footer/>
+</Layout>
