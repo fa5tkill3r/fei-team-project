@@ -29,6 +29,7 @@ export interface Task {
   deadline?: string
   created_by: User
   parent?: Task
+  comments_count: number
   children: Task[]
   all_users: boolean
 }
@@ -42,6 +43,7 @@ export interface TaskRequest {
   is_closed?: boolean
   deadline?: string
   parent?: number
+  all_users?: boolean
 }
 
 export interface Tag {
