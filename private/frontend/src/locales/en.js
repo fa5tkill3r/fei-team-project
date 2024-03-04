@@ -37,6 +37,7 @@ export default {
     assignees: 'Assignees',
     select_assignees: 'Select assignees',
     tags: 'Tags',
+    all_users: 'Asign all team users',
     no_tags: 'No tags',
     create: 'Create',
     edit: 'Edit',

@@ -73,9 +73,16 @@
       <TagSelector v-model="task.tags" />
 
       <div class="divider my-0"></div>
-
-      <UserSelector v-model="task.users" />
-
+      <div>
+        <UserSelector v-model="task.users" />
+        <div class="form-control">
+          <label class="label cursor-pointer">
+            <span class="label-text">{{ $t('task.all_users') }}</span> 
+            <input v-model="task.all_users" type="checkbox" class="checkbox" />
+          </label>
+        </div>
+      </div>
+        
       <div class="divider my-0"></div>
 
       <TaskSelector v-model="task.parent" :task-id="id" />
@@ -115,6 +122,7 @@ const task = ref<TaskRequest>({
   tags: [],
   severity: 'low',
   parent: undefined,
+  all_users: false,
 })
 
 function loadTask() {

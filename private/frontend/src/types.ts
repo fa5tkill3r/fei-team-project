@@ -29,6 +29,7 @@ export interface Task {
   created_by: User
   parent?: Task
   children: Task[]
+  all_users: boolean
 }
 
 export interface TaskRequest {

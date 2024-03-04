@@ -26,6 +26,7 @@ export default {
     select_assignees: 'Vybrať priradených',
     tags: 'Tagy',
     no_tags: 'Žiadne tagy',
+    all_users: 'Priradiť všetkých členov tímu',
     create: 'Vytvoriť',
     edit: 'Upraviť',
     save: 'Uložiť',
