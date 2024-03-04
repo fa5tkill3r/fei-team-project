@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
+import TaskStatus from '@/components/TaskStatus.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team.ts'
 import { Task } from '@/types'
@@ -78,11 +79,12 @@ onMounted(() => {
           class="bg-base-300 p-6 rounded-lg"
           :to="{ name: 'task-detail', params: { id: task.id } }"
         >
-          <div class="mb-2">
+          <div class="mb-2 flex justify-between">
             <p class="font-semibold text-xl">{{ task.name }}</p>
           </div>
 
           <div v-if="task.tags" class="flex gap-1 mb-4 flex-wrap">
+            <TaskStatus :task="task" />
             <TagLabel
               v-for="tag in task.tags"
               :key="tag.id"
@@ -114,7 +116,7 @@ onMounted(() => {
             <div>
               <span class="flex items-center gap-1">
                 <ChatBubbleBottomCenterTextIcon class="w-5 h-5" />
-                {{task.comments_count}}
+                {{ task.comments_count }}
               </span>
             </div>
           </div>

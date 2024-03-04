@@ -30,6 +30,11 @@ export default {
     list: 'List view',
   },
   task: {
+    status: {
+      new: 'New',
+      in_progress: 'In progress',
+      closed: 'Closed',
+    },
     title: 'Title',
     title_placeholder: 'Add title here...',
     description: 'Description',
@@ -86,6 +91,6 @@ export default {
     add_title: 'Add tag',
     edit_title: 'Edit tag',
     delete_title: 'Delete tag',
-    delete_confirm: "Are you sure you want to delete the {0} tag?",
+    delete_confirm: 'Are you sure you want to delete the {0} tag?',
   },
 }
