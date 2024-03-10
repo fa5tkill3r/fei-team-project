@@ -40,6 +40,8 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = res.user
     }
 
+    let timerId: ReturnType<typeof setTimeout> | undefined;
+
     if (timerId) {
       clearTimeout(timerId)
     }
