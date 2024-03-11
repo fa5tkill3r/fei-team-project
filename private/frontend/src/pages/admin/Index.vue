@@ -10,9 +10,6 @@ const teamStore = useTeamStore()
 const auth = useAuthStore()
 const removeLoading = ref(false)
 
-const users = ref<User[]>(teamStore.current?.users ?? [])
-console.log(users.value)
-
 function removeUser(id: number) {
   auth.client
     .json({ user_id: id })

@@ -9,6 +9,7 @@ const users = ref<User[]>([])
 const dialog = ref<HTMLDialogElement | null>(null)
 const query = ref('')
 const selectedPeople = ref<(User)[]>([])
+const input = ref<HTMLInputElement | null>(null)
 
 const emit = defineEmits(['addUsers'])
 
@@ -59,6 +60,8 @@ function addUsers() {
 function addSelectedUser(user: User) {
   selectedPeople.value.push(user)
   query.value = ''
+
+  input.value?.focus()
 }
 
 getUsers()
@@ -75,7 +78,11 @@ getUsers()
       {{ $t('user_search.title') }}
     </button>
     <dialog class="modal" ref="dialog">
-      <div class="modal-box flex flex-col max-h-full">
+      <form
+        method="dialog"
+        class="modal-box flex flex-col max-h-full"
+        @submit.prevent="addUsers"
+      >
         <div class="modal-header">
           <div class="flex justify-end items-center">
             <button class="btn btn-square btn-ghost" @click="closeDialog">
@@ -87,7 +94,9 @@ getUsers()
             <UserPlusIcon class="w-8 h-8" />
           </div>
         </div>
+
         <div class="modal-body">
+
           <div v-if="selectedPeople">
             <div
               v-for="person in selectedPeople"
@@ -110,6 +119,8 @@ getUsers()
           </div>
 
           <input
+            ref="input"
+            autofocus
             type="text"
             class="input input-bordered w-full my-2"
             :placeholder="$t('user_search.search_placeholder')"
@@ -132,6 +143,7 @@ getUsers()
         </div>
         <div class="modal-bottom">
           <button
+            type="submit"
             class="btn btn-sm btn-success w-full"
             @click="addUsers"
             :disabled="selectedPeople.length === 0"
@@ -139,7 +151,7 @@ getUsers()
             <slot name="button-text">{{ $t('user_search.selected_add') }}</slot>
           </button>
         </div>
-      </div>
+      </form>
       <form method="dialog" class="modal-backdrop">
         <button>close</button>
       </form>
