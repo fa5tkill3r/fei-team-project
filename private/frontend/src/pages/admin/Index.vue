@@ -6,7 +6,6 @@ import { User } from '@/types.ts'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
 import UserSearch from '@/components/UserSearch.vue'
 import Modal from '@/components/ui/Modal.vue'
-import TagLabel from '@/components/ui/Tag.vue'
 
 const teamStore = useTeamStore()
 const auth = useAuthStore()
@@ -80,9 +79,8 @@ function addUser(users: User[]) {
         </td>
         <td>{{ member.role.name }}</td>
         <td>
-          <!--            <button class="btn btn-ghost">Edit</button>-->
           <button
-            :disabled="removeLoading"
+            :disabled="removeLoading || member.id === teamStore.me?.id"
             v-if="teamStore.me?.role.user_add"
             class="btn btn-ghost"
             @click="removeUser(member.id)"
