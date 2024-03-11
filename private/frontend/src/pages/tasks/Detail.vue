@@ -38,6 +38,7 @@
           <router-link
             class="btn btn-square btn-ghost btn-sm"
             :to="{ name: 'task-edit', params: { id: task.id } }"
+            :disabled="isClosed ? true : undefined"
           >
             <PencilIcon class="w-5 h-5" />
           </router-link>
@@ -113,6 +114,7 @@
           <div v-for="comment in comments">
             <Comment
               :comment="comment"
+              :task="task"
               @deleteComment="deleteComment"
               @editComment="editComment"
             />
@@ -131,6 +133,7 @@
               <textarea
                 class="textarea textarea-bordered w-full"
                 :placeholder="$t('task.comment.placeholder')"
+                :disabled="isClosed"
                 v-model="comment"
                 v-on:keydown.ctrl.enter="addComment"
               ></textarea>
@@ -139,16 +142,16 @@
           <div class="mt-3 flex gap-2 justify-end">
             <LoadingButton
               class="btn btn-primary"
-              :disabled="task.status === 'closed'"
               :loading="closeLoading"
-              @click="closeTask"
+              @click="toggleTaskClosed"
             >
-              {{ $t('task.close') }}
+              {{ isClosed ? $t('task.reopen') : $t('task.close') }}
             </LoadingButton>
 
             <LoadingButton
               class="btn btn-success"
               :loading="addCommentLoading"
+              :disabled="isClosed"
               @click="addComment"
             >
               {{ $t('task.comment.add') }}
@@ -170,7 +173,10 @@
           <div>
             {{
               task.deadline
-                ? $d(new Date(task.deadline), 'short')
+                ? $d(new Date(task.deadline), 'short') +
+                  ' (' +
+                  formatDistance(task.deadline) +
+                  ')'
                 : $t('task.no_deadline')
             }}
           </div>
@@ -306,6 +312,7 @@ const comments = ref<any[]>([])
 const comment = ref<string>('')
 const addCommentLoading = ref(false)
 const closeLoading = ref(false)
+const isClosed = computed(() => task.value?.status === 'closed')
 
 const description = computed(() => {
   const raw = task.value?.description
@@ -360,6 +367,10 @@ function deleteTask() {
 }
 
 function addComment() {
+  if (isClosed.value) {
+    return
+  }
+
   addCommentLoading.value = true
 
   auth.client
@@ -375,7 +386,7 @@ function addComment() {
     })
 }
 
-function closeTask() {
+function toggleTaskClosed() {
   if (!task.value) {
     return
   }
@@ -387,14 +398,14 @@ function closeTask() {
     users: task.value.users.map((u) => u.id),
     tags: task.value.tags.map((t) => t.id),
     parent: task.value.parent?.id,
-    is_closed: true,
+    is_closed: task.value.status === 'closed' ? false : true,
   }
 
   auth.client
     .put(currentTask, `tasks/${team.current?.id}/${route.params.id}`)
-    .res()
-    .then(() => {
-      task.value!.status = 'closed'
+    .json()
+    .then(({ data }: any) => {
+      task.value!.status = data.status
     })
     .finally(() => {
       closeLoading.value = false
@@ -402,6 +413,10 @@ function closeTask() {
 }
 
 function deleteComment(id: number) {
+  if (isClosed.value) {
+    return
+  }
+
   auth.client
     .delete(`task/${route.params.id}/comments/${id}`)
     .res()
@@ -411,6 +426,10 @@ function deleteComment(id: number) {
 }
 
 function editComment(args: any) {
+  if (isClosed.value) {
+    return
+  }
+
   const { id, text } = args
   console.log(id, text)
   auth.client

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { useFormatDistance } from '@/composables/useFormatDistance.ts'
+import { Task } from '@/types'
 import { EllipsisHorizontalIcon } from '@heroicons/vue/24/solid'
 import { computed, ref, watch } from 'vue'
 import UserAvatar from './ui/UserAvatar.vue'
 
 const props = defineProps<{
   comment: any
+  task: Task
 }>()
 
 const formatDistance = useFormatDistance()
@@ -14,6 +16,7 @@ const deleteLoading = ref(false)
 const editLoading = ref(false)
 const edit = ref<boolean>(false)
 const editText = ref(comment.value.comment)
+const isTaskClosed = computed(() => props.task.status === 'closed')
 
 const emit = defineEmits<{
   editComment: [{ id: number; text: string }]
@@ -66,13 +69,14 @@ function editComment() {
             tabindex="0"
             class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
           >
-            <li>
-              <button :disabled="edit" @click="edit = !edit">
+            <li :class="{ disabled: isTaskClosed }">
+              <button :disabled="isTaskClosed || edit" @click="edit = !edit">
                 {{ $t('edit') }}
               </button>
             </li>
-            <li>
+            <li :class="{ disabled: isTaskClosed }">
               <button
+                :disabled="isTaskClosed"
                 :class="deleteLoading ? 'ml-3 loading loading-sm' : ''"
                 @click="deleteComment"
               >

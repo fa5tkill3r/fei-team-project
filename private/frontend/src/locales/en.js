@@ -48,6 +48,7 @@ export default {
     edit: 'Edit',
     save: 'Save',
     close: 'Close',
+    reopen: 'Reopen',
     no_assignees: 'No assignees',
     severity: 'Severity',
     comments: '{count} comments | {count} comment | {count} comments',
