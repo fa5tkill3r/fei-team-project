@@ -220,3 +220,11 @@
 [11-Mar-2024 10:06:13] NOTICE: exiting, bye-bye!
 [11-Mar-2024 10:07:28] NOTICE: fpm is running, pid 299
 [11-Mar-2024 10:07:28] NOTICE: ready to handle connections
+[11-Mar-2024 10:18:42] NOTICE: Terminating ...
+[11-Mar-2024 10:18:42] NOTICE: exiting, bye-bye!
+[11-Mar-2024 10:24:27] NOTICE: fpm is running, pid 298
+[11-Mar-2024 10:24:27] NOTICE: ready to handle connections
+[11-Mar-2024 10:25:34] NOTICE: Terminating ...
+[11-Mar-2024 10:25:34] NOTICE: exiting, bye-bye!
+[11-Mar-2024 10:26:05] NOTICE: fpm is running, pid 300
+[11-Mar-2024 10:26:05] NOTICE: ready to handle connections
