@@ -26,7 +26,7 @@ services:
       retries: 5
       start_period: 30s
       start_interval: 1s
-      
+
   public-api:
     build:
       context: ./public
@@ -39,7 +39,7 @@ services:
       # CMS url
       API_URL: 'http://public-directus:8055'
       # private backend url
-      PROXY_API_URL: 'http://nginx:8080'
+      PROXY_API_URL: 'http://nginx:8091'
 
   private-db:
     image: postgres:16
@@ -68,15 +68,6 @@ services:
       DB_DATABASE: tp
       DB_USERNAME: tp
       DB_PASSWORD: tp
-  # TODO: setup frontend build container
-  private-frontend:
-    restart: no
-    ports:
-      - 3000:8081
-    build:
-      context: ./private/frontend
-    volumes:
-      - ./private/frontend/dist:/app/dist
 
   bookstack:
     image: lscr.io/linuxserver/bookstack
@@ -84,7 +75,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - APP_URL=http://localhost/wiki
+      - APP_URL=http://localhost:8090/wiki
       - DB_HOST=bookstack_db
       - DB_PORT=3306
       - DB_USER=bookstack
@@ -104,7 +95,7 @@ services:
       - PUID=1000
       - PGID=1000
       - MYSQL_ROOT_PASSWORD=yourdbpass
-      - TZ=Europe/London
+      - TZ=Europe/Bratislava
       - MYSQL_DATABASE=bookstackapp
       - MYSQL_USER=bookstack
       - MYSQL_PASSWORD=yourdbpass
@@ -113,17 +104,16 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:latest
+    build:
+      context: ./private/frontend
     ports:
       - 8080:8080
       - 8090:8090
-      - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./public/dist:/var/www/public:ro
       - ./private/backend/public:/var/www/private/public:ro
-      - ./private/frontend/dist:/var/www/private/frontend:ro
     depends_on:
-      - public-api
       - private-backend
-      - private-frontend
+      - public-api
+      - bookstack
