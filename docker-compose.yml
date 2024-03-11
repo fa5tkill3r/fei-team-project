@@ -26,6 +26,7 @@ services:
       retries: 5
       start_period: 30s
       start_interval: 1s
+      
   public-api:
     build:
       context: ./public
@@ -70,10 +71,13 @@ services:
   # TODO: setup frontend build container
   private-frontend:
     restart: no
+    ports:
+      - 3000:8081
     build:
       context: ./private/frontend
     volumes:
       - ./private/frontend/dist:/app/dist
+
   bookstack:
     image: lscr.io/linuxserver/bookstack
     container_name: bookstack
@@ -118,7 +122,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./public/dist:/var/www/public:ro
       - ./private/backend/public:/var/www/private/public:ro
-      - ./private/frontend/dist:/var/www/private/frontend:ro  
+      - ./private/frontend/dist:/var/www/private/frontend:ro
     depends_on:
       - public-api
       - private-backend
