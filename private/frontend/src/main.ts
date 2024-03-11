@@ -15,6 +15,8 @@ import {
 import routes from './routes.ts'
 import { useAuthStore } from './stores/auth'
 import { useTeamStore } from './stores/team'
+// @ts-ignore
+import masonry from 'vue-next-masonry'
 
 import './style.css'
 
@@ -38,6 +40,7 @@ const pinia = createPinia()
 app.use(i18n)
 app.use(pinia)
 app.use(router)
+app.use(masonry)
 app.component('PageTitle', PageTitle)
 
 const auth = useAuthStore()

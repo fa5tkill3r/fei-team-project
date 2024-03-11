@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import TaskStatus from '@/components/TaskStatus.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
-import TaskStatus from '@/components/TaskStatus.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team.ts'
 import { Task } from '@/types'
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 import {
-  EllipsisHorizontalIcon,
   ListBulletIcon,
   PlusIcon,
   Squares2X2Icon,
@@ -17,6 +16,7 @@ import { onMounted, ref, watch } from 'vue'
 const auth = useAuthStore()
 const teamStore = useTeamStore()
 const tasks = ref<Task[]>([])
+const viewType = ref('board')
 
 function loadTasks(team: any = null) {
   auth.client
@@ -53,30 +53,22 @@ onMounted(() => {
       <h1 class="font-bold text-2xl">{{ $t('main.tasks') }}</h1>
 
       <div class="join mt-4">
-        <button class="btn join-item">
+        <button class="btn join-item" @click="viewType = 'board'">
           <Squares2X2Icon class="w-5 h-5" />
           {{ $t('main.board') }}
         </button>
-        <button class="btn join-item">
+        <button class="btn join-item" @click="viewType = 'list'">
           <ListBulletIcon class="w-5 h-5" />
           {{ $t('main.list') }}
         </button>
       </div>
     </div>
 
-    <div class="grid grid-cols-4 gap-6 mt-6">
-      <div v-for="_ in 1" class="flex flex-col gap-4">
-        <div class="flex justify-between items-center">
-          <h2>{{ $t('main.tasks') }}</h2>
-
-          <button class="btn btn-square btn-ghost">
-            <EllipsisHorizontalIcon class="w-5 h-5" />
-          </button>
-        </div>
-
+    <div class="flex flex-col mt-4">
+      <masonry v-if="viewType === 'board'" :cols="4" :gutter="15">
         <router-link
           v-for="task in tasks"
-          class="bg-base-300 p-6 rounded-lg"
+          class="block bg-base-300 p-6 rounded-lg mb-4"
           :to="{ name: 'task-detail', params: { id: task.id } }"
         >
           <div class="mb-2 flex justify-between">
@@ -121,6 +113,61 @@ onMounted(() => {
             </div>
           </div>
         </router-link>
+      </masonry>
+
+      <div v-if="viewType === 'list'">
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <thead>
+              <tr>
+                <th>{{ $t('task.title') }}</th>
+                <th>{{ $t('task.header_status') }}</th>
+                <th>{{ $t('task.assignees') }}</th>
+                <th>{{ $t('task.header_comments') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="task in tasks" :key="task.id" class="h-14">
+                <td>
+                  <router-link
+                    :to="{ name: 'task-detail', params: { id: task.id } }"
+                  >
+                    {{ task.name }}
+                  </router-link>
+                </td>
+                <td>
+                  <TaskStatus :task="task" />
+                </td>
+                <td class="py-2">
+                  <div class="avatar-group -space-x-6 rtl:space-x-reverse">
+                    <UserAvatar
+                      v-for="person in task.users.slice(0, 3)"
+                      class="border-base-100"
+                      :key="person.id"
+                      :user="person"
+                      size="sm"
+                    />
+
+                    <div
+                      v-if="task.users.length > 3"
+                      class="avatar placeholder border-base-100"
+                    >
+                      <div class="w-8 text-sm bg-base-200">
+                        <span> +{{ task.users.length - 3 }} </span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="flex items-center gap-1">
+                    <ChatBubbleBottomCenterTextIcon class="w-5 h-5" />
+                    {{ task.comments_count }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

@@ -35,6 +35,8 @@ export default {
       in_progress: 'In progress',
       closed: 'Closed',
     },
+    header_status: 'Status',
+    header_comments: 'Comments',
     title: 'Title',
     title_placeholder: 'Add title here...',
     description: 'Description',
