@@ -90,6 +90,7 @@ Route::group([
 ], function () {
     Route::resource('teams', TeamController::class);
     Route::delete('teams/{id}/user', TeamController::class . '@removeUser');
+    Route::post('teams/{id}/user', TeamController::class . '@addUser');
     Route::resource('incidents', IncidentsController::class);
     Route::resource('roles', RoleController::class)->only(['index', 'store']);
     Route::resource('tags', TagController::class);

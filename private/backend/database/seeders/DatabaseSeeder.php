@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             DB::table('user_team')->insert([
                 'team_id' => 1,
                 'user_id' => $user->id,
-                'role_id' => 1,
+                'role_id' => 2,
             ]);
         }
 

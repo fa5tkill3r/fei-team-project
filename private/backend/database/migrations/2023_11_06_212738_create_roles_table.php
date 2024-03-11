@@ -21,13 +21,13 @@ return new class extends Migration
 
             $table->boolean('user_access')->default(false);
             $table->boolean('user_add')->default(false);
-            
+
             $table->boolean('role_access')->default(false);
             $table->boolean('role_add')->default(false);
             $table->boolean('role_delete')->default(false);
 
             $table->boolean('team_info')->default(false);
-            
+
             $table->timestamps();
         });
 
@@ -42,6 +42,20 @@ return new class extends Migration
             'role_access' => true,
             'role_add' => true,
             'role_delete' => true,
+            'team_info' => true,
+        ]);
+
+        DB::table('roles')->insert([
+            'name' => 'Member',
+            'slug' => 'member',
+            'task_access' => true,
+            'task_create' => true,
+            'task_delete' => false,
+            'user_access' => true,
+            'user_add' => false,
+            'role_access' => false,
+            'role_add' => false,
+            'role_delete' => false,
             'team_info' => true,
         ]);
     }

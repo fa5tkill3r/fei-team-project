@@ -77,7 +77,7 @@ class TeamController extends Controller
     public function addUser($id, Request $request): TeamResource
     {
         $team = Team::findOrFail($id);
-        $user = User::findOrFail(request()->get('user_id'));
+        $users = User::whereIn('id', $request->get('users'))->get();
 
         $role = Role::find($team->users()->findOrFail($this->user->id)->pivot->role_id);
 
@@ -85,7 +85,13 @@ class TeamController extends Controller
             return response()->json(['error' => 'Dont have permissions to add user'], 403);
         }
 
-        $team->users()->attach($this->user, ['role_id' => $request->get('role_id')]);
+
+        if ($users->count() == 0) {
+            return response()->json(['error' => 'No users to add'], 400);
+        }
+
+        $memberRole = Role::where('slug', 'member')->first();
+        $team->users()->attach($users, ['role_id' => $memberRole->id]);
 
         $team = Team::with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])
             ->findOrFail($team->id);
