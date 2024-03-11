@@ -11,7 +11,6 @@ export default {
     login: 'Login',
     password: 'Password',
     remember: 'Remember me',
-    login: 'Login',
   },
   nav: {
     tasks: 'Tasks',
@@ -87,5 +86,10 @@ export default {
     edit_title: 'Edit tag',
     delete_title: 'Delete tag',
     delete_confirm: "Are you sure you want to delete the {0} tag?",
+  },
+  user_search: {
+    title: 'Add people',
+    search_placeholder: 'Search by full name...',
+    selected_add: 'Add selected users',
   },
 }
