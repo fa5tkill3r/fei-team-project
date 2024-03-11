@@ -32,9 +32,9 @@ function removeUserConfirm(id: number) {
     .catch((err) => {
       console.log(err)
     }).finally(() => {
-      removeLoading.value = false
-      userRemoveDialog.value = false
-      userToBeRemoved.value = null
+    removeLoading.value = false
+    userRemoveDialog.value = false
+    userToBeRemoved.value = null
   })
 }
 
@@ -66,9 +66,9 @@ function addUser(users: User[]) {
     <table class="table w-full">
       <thead>
       <tr>
-        <th>Member</th>
-        <th>Role</th>
-        <th>Actions</th>
+        <th> {{ $t('admin_panel.member') }}</th>
+        <th> {{ $t('admin_panel.role') }}</th>
+        <th> {{ $t('admin_panel.actions') }}</th>
       </tr>
       </thead>
       <tbody>
@@ -85,7 +85,7 @@ function addUser(users: User[]) {
             class="btn btn-ghost"
             @click="removeUser(member.id)"
           >
-            Remove
+            {{ $t('remove') }}
           </button>
         </td>
       </tr>

@@ -96,6 +96,8 @@ export default {
   admin_panel: {
     remove_user: 'Remove user',
     remove_user_description: 'Are you sure you want to remove the user {0} from the team?',
-
+    member: 'Member',
+    role: 'Role',
+    actions: 'Actions',
   }
 }
