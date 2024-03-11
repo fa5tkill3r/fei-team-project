@@ -34,7 +34,9 @@ function removeUserConfirm(id: number) {
       console.log(err)
     }).finally(() => {
       removeLoading.value = false
-    })
+      userRemoveDialog.value = false
+      userToBeRemoved.value = null
+  })
 }
 
 function addUser(users: User[]) {
@@ -64,31 +66,31 @@ function addUser(users: User[]) {
     </div>
     <table class="table w-full">
       <thead>
-        <tr>
-          <th>Member</th>
-          <th>Role</th>
-          <th>Actions</th>
-        </tr>
+      <tr>
+        <th>Member</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="member in teamStore.current?.users">
-          <td class="flex items-center gap-2">
-            <UserAvatar size="md" :user="member" />
-            <span>{{ member.first_name }} {{ member.last_name }}</span>
-          </td>
-          <td>{{ member.role.name }}</td>
-          <td>
-            <!--            <button class="btn btn-ghost">Edit</button>-->
-            <button
-              :disabled="removeLoading"
-              v-if="teamStore.me?.role.user_add"
-              class="btn btn-ghost"
-              @click="removeUser(member.id)"
-            >
-              Remove
-            </button>
-          </td>
-        </tr>
+      <tr v-for="member in teamStore.current?.users">
+        <td class="flex items-center gap-2">
+          <UserAvatar size="md" :user="member" />
+          <span>{{ member.first_name }} {{ member.last_name }}</span>
+        </td>
+        <td>{{ member.role.name }}</td>
+        <td>
+          <!--            <button class="btn btn-ghost">Edit</button>-->
+          <button
+            :disabled="removeLoading"
+            v-if="teamStore.me?.role.user_add"
+            class="btn btn-ghost"
+            @click="removeUser(member.id)"
+          >
+            Remove
+          </button>
+        </td>
+      </tr>
       </tbody>
     </table>
     <div>
@@ -97,18 +99,20 @@ function addUser(users: User[]) {
           <h1 class="text-xl">{{ $t('admin_panel.remove_user') }}</h1>
           <i18n-t keypath="admin_panel.remove_user_description" tag="p">
             <b class="text-error">{{ userToBeRemoved?.first_name }} {{ userToBeRemoved?.last_name }}</b>
-          </i18n-t><!--          <p>Are you sure you want to remove <b class="text-error">{{ userToBeRemoved?.first_name }} {{ userToBeRemoved?.last_name }}</b> from the team?</p>-->
+          </i18n-t>
           <div class="flex justify-end gap-2">
             <button
               class="btn btn-ghost"
+              :disabled="removeLoading"
               @click="removeLoading = false"
             >
               {{ $t('cancel') }}
             </button>
             <button
               class="btn btn-error"
-              @click="removeLoading = false"
+              @click="removeUserConfirm(userToBeRemoved!.id)"
             >
+              <span v-if="removeLoading" class="loading spinner spinner-white" />
               {{ $t('remove') }}
             </button>
           </div>

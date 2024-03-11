@@ -97,7 +97,9 @@ getUsers()
 
         <div class="modal-body">
 
-          <div v-if="selectedPeople">
+          <div v-if="selectedPeople"
+            class="flex flex-col gap-1"
+          >
             <div
               v-for="person in selectedPeople"
               :key="person.id"
