@@ -80,8 +80,8 @@ function addUser(users: User[]) {
         <td>{{ member.role.name }}</td>
         <td>
           <button
-            :disabled="removeLoading || member.id === teamStore.me?.id"
-            v-if="teamStore.me?.role.user_add"
+            :disabled="removeLoading"
+            v-if="teamStore.me?.role.user_add && member.id !== teamStore.me?.id"
             class="btn btn-ghost"
             @click="removeUser(member.id)"
           >
