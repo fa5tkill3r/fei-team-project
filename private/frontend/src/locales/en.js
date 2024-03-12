@@ -2,6 +2,7 @@ export default {
   yes: 'Yes',
   no: 'No',
   cancel: 'Cancel',
+  remove: 'Remove',
   edit: 'Edit',
   delete: 'Delete',
   add: 'Add',
@@ -11,7 +12,6 @@ export default {
     login: 'Login',
     password: 'Password',
     remember: 'Remember me',
-    login: 'Login',
   },
   nav: {
     tasks: 'Tasks',
@@ -23,6 +23,7 @@ export default {
     theses: 'Theses',
     library: 'Library',
     wiki: 'Wiki',
+    admin_panel: 'Admin panel',
   },
   main: {
     tasks: 'Tasks',
@@ -96,4 +97,16 @@ export default {
     delete_title: 'Delete tag',
     delete_confirm: 'Are you sure you want to delete the {0} tag?',
   },
+  user_search: {
+    title: 'Add people',
+    search_placeholder: 'Search by full name...',
+    selected_add: 'Add selected users',
+  },
+  admin_panel: {
+    remove_user: 'Remove user',
+    remove_user_description: 'Are you sure you want to remove the user {0} from the team?',
+    member: 'Member',
+    role: 'Role',
+    actions: 'Actions',
+  }
 }
