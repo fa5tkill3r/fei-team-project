@@ -2,7 +2,7 @@
 import { useTeamStore } from '@/stores/team.ts'
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
-import { User } from '@/types.ts'
+import { Role, User } from '@/types.ts'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
 import UserSearch from '@/components/UserSearch.vue'
 import Modal from '@/components/ui/Modal.vue'
@@ -12,6 +12,8 @@ const auth = useAuthStore()
 const removeLoading = ref(false)
 const userRemoveDialog = ref(false)
 const userToBeRemoved = ref<User | null>(null)
+
+const roles = ref<Role[]>([])
 
 function removeUser(id: number) {
   userRemoveDialog.value = true
@@ -50,6 +52,21 @@ function addUser(users: User[]) {
       console.log(err)
     })
 }
+
+function getRoles() {
+  auth.client
+    .get('roles')
+    .json()
+    .then(({ data }: any) => {
+
+      roles.value = data as Role[]
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+getRoles()
 </script>
 
 <template>
@@ -91,6 +108,29 @@ function addUser(users: User[]) {
       </tr>
       </tbody>
     </table>
+    <h1 class="text-xl">Manage roles</h1>
+    <table class="table w-full">
+      <thead>
+      <tr>
+        <th> {{ $t('admin_panel.role') }}</th>
+        <th> {{ $t('admin_panel.permissions') }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="role in roles">
+        <td>{{ role.name }}</td>
+        <td>
+          <ul>
+            <li v-for="(permission, i) in role.permissions">
+              {{ permission }} {{ i }}
+            </li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+
     <div>
       <Modal v-model="userRemoveDialog">
         <div class="modal-box flex flex-col">
