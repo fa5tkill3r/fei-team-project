@@ -56,7 +56,7 @@ function addUser(users: User[]) {
   <div>
     <h1 class="text-xl">Manage access</h1>
     <div
-      v-if="teamStore.me?.role.user_add"
+      v-if="teamStore.me?.role.permissions.user_add"
       class="flex justify-end">
       <UserSearch
         :ignore-users="teamStore.current?.users"
@@ -81,7 +81,7 @@ function addUser(users: User[]) {
         <td>
           <button
             :disabled="removeLoading"
-            v-if="teamStore.me?.role.user_add && member.id !== teamStore.me?.id"
+            v-if="teamStore.me?.role.permissions.user_add && member.id !== teamStore.me?.id"
             class="btn btn-ghost"
             @click="removeUser(member.id)"
           >
