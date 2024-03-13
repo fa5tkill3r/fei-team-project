@@ -109,5 +109,9 @@ export default {
     member: 'Member',
     role: 'Role',
     actions: 'Actions',
+    roles: {
+      add: 'Add role',
+      manage: 'Manage roles',
+    }
   }
 }

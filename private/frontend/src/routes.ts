@@ -88,6 +88,12 @@ const routes = [
     name: 'admin',
     component: () => import('./pages/admin/Index.vue'),
   },
+  // admin add role
+  {
+    path: '/admin/role/add',
+    name: 'admin-role-add',
+    component: () => import('./pages/admin/AddRole.vue'),
+  },
 ]
 
 export default routes

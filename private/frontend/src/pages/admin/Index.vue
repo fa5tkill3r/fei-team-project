@@ -108,7 +108,15 @@ getRoles()
       </tr>
       </tbody>
     </table>
-    <h1 class="text-xl">Manage roles</h1>
+
+    <div class="divider my-4"></div>
+
+    <h1 class="text-xl">{{ $t('admin_panel.roles.manage') }}</h1>
+    <div class="flex justify-end">
+      <router-link :to="{ name: 'admin-role-add' }" class="btn btn-sm btn-success">
+        {{ $t('admin_panel.roles.add') }}
+      </router-link>
+    </div>
     <table class="table w-full">
       <thead>
       <tr>
