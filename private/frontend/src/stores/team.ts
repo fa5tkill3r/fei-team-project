@@ -5,7 +5,7 @@ import { Team, User } from '@/types'
 
 export const useTeamStore = defineStore('team', () => {
   const authStore = useAuthStore()
-  const current = ref<Team | undefined>()
+  const current = ref<Team | null>(null)
   const teams = ref<Team[]>([])
   const members = computed<User[]>(() => current?.value?.users ?? [])
   const me = computed<User | null>(() => current?.value?.users.find((u) => u.id === authStore.user?.id) ?? null)
@@ -22,7 +22,7 @@ export const useTeamStore = defineStore('team', () => {
   }
 
   function loadTeams() {
-    return getTeams().then((teams) => {
+    return getTeams().then((teams: Team[]) => {
       if (teams.length > 0) {
         current.value = teams[0]
       }
@@ -30,7 +30,7 @@ export const useTeamStore = defineStore('team', () => {
   }
 
   function selectTeam(teamId: number) {
-    current.value = teams.value.find((t) => t.id === teamId)
+    current.value = teams.value.find((t) => t.id === teamId) ?? null
   }
 
   return { teams, current, members, me, selectTeam, loadTeams }

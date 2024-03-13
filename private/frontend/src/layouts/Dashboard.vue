@@ -126,13 +126,13 @@ function logout() {
         </div>
 
         <div
-          v-if="teamStore.current"
           class="collapse collapse-arrow bg-base-200 rounded-none"
           @click="showTeams = !showTeams"
         >
           <input type="checkbox" v-model="showTeams" />
           <div class="collapse-title text-xl font-medium">
-            {{ teamStore.current.name }}
+            <span v-if="teamStore?.current?.name">{{ teamStore.current!.name }}</span>
+            <span v-else>{{ $t('nav.no_team_selected') }}</span>
           </div>
           <div class="collapse-content space-y-2">
             <div class="w-full">
@@ -147,7 +147,7 @@ function logout() {
             <div v-for="team in teamStore.teams" class="w-full">
               <button
                 class="btn btn-sm btn-block"
-                :class="{ 'btn-accent': team.id === teamStore.current.id }"
+                :class="{ 'btn-accent': team.id === teamStore?.current?.id }"
                 @click="teamStore.selectTeam(team.id)"
               >
                 {{ team.name }}

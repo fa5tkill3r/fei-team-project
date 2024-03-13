@@ -24,6 +24,7 @@ export default {
     library: 'Library',
     wiki: 'Wiki',
     admin_panel: 'Admin panel',
+    no_team_selected: 'No team selected',
   },
   main: {
     tasks: 'Tasks',

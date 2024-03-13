@@ -3,8 +3,10 @@ import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import { AlertType, useAlertStore } from '@/stores/alert.ts'
 import { useRouter } from 'vue-router'
+import { useTeamStore } from '@/stores/team.ts'
 
 const auth = useAuthStore()
+const teamStore = useTeamStore()
 const alertStore = useAlertStore()
 const router = useRouter()
 
@@ -29,6 +31,7 @@ function createTeam() {
     .json()
     .then(() => {
       alertStore.addAlert('Team created', AlertType.SUCCESS)
+      teamStore.loadTeams()
 
       router.push({ name: 'home' })
     })
