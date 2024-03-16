@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Dropdown from '@/components/ui/Dropdown.vue'
+import DropdownButton from '@/components/ui/dropdown/DropdownButton.vue'
+import DropdownLink from '@/components/ui/dropdown/DropdownLink.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team.ts'
@@ -8,12 +11,11 @@ import {
   BookOpenIcon,
   BriefcaseIcon,
   Cog6ToothIcon,
+  CogIcon,
   MoonIcon,
   QuestionMarkCircleIcon,
   ShieldExclamationIcon,
-  SunIcon,
-  UserIcon,
-  CogIcon,
+  SunIcon
 } from '@heroicons/vue/24/outline'
 import { Bars3Icon, PlusIcon } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
@@ -60,39 +62,31 @@ function logout() {
             <MoonIcon class="swap-off w-8 h-8" />
           </label>
 
-          <div class="dropdown dropdown-end">
-            <UserAvatar
-              v-if="auth.user"
-              :user="auth.user"
-              size="md"
-              tabindex="0"
-              role="button"
-              class="btn btn-ghost btn-circle"
-            />
-            <ul
-              tabindex="0"
-              class="mt-2 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52"
-            >
-              <li class="disabled">
-                <a>
-                  <UserIcon class="w-5 h-5" />
-                  {{ $t('nav.profile') }}
-                </a>
-              </li>
-              <li>
-                <router-link :to="{ name: 'user-settings' }">
-                  <Cog6ToothIcon class="w-5 h-5" />
-                  {{ $t('nav.settings') }}
-                </router-link>
-              </li>
-              <div class="divider my-0"></div>
-              <li>
-                <button @click="logout">
-                  {{ $t('nav.logout') }}
-                </button>
-              </li>
-            </ul>
-          </div>
+          <Dropdown class="menu-sm">
+            <template #button>
+              <UserAvatar
+                v-if="auth.user"
+                :user="auth.user"
+                size="md"
+                tabindex="0"
+                role="button"
+                class="btn btn-ghost btn-circle"
+              />
+            </template>
+
+            <!-- <MenuButton disabled>
+              <UserIcon class="w-5 h-5" />
+              {{ $t('nav.profile') }}
+            </MenuButton> -->
+            <DropdownLink :to="{ name: 'user-settings' }">
+              <Cog6ToothIcon class="w-5 h-5" />
+              {{ $t('nav.settings') }}
+            </DropdownLink>
+            <div class="divider my-0"></div>
+            <DropdownButton @click="logout">
+              {{ $t('nav.logout') }}
+            </DropdownButton>
+          </Dropdown>
         </div>
       </div>
 
@@ -131,7 +125,9 @@ function logout() {
         >
           <input type="checkbox" v-model="showTeams" />
           <div class="collapse-title text-xl font-medium">
-            <span v-if="teamStore?.current?.name">{{ teamStore.current!.name }}</span>
+            <span v-if="teamStore?.current?.name">{{
+              teamStore.current!.name
+            }}</span>
             <span v-else>{{ $t('nav.no_team_selected') }}</span>
           </div>
           <div class="collapse-content space-y-2">

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import TaskStatus from '@/components/TaskStatus.vue'
+import Dropdown from '@/components/ui/Dropdown.vue'
+import DropdownButton from '@/components/ui/dropdown/DropdownButton.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { debounce } from '@/lib/utils'
@@ -8,6 +10,7 @@ import { useTeamStore } from '@/stores/team.ts'
 import { Task } from '@/types'
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 import {
+  ChevronDownIcon,
   ListBulletIcon,
   PlusIcon,
   Squares2X2Icon,
@@ -70,9 +73,16 @@ onMounted(() => {
 
       <div class="mt-4 flex gap-2 max-w-6xl">
         <div class="join w-full">
-          <button class="btn join-item">
-            {{ $t('task.filters') }}
-          </button>
+          <Dropdown class="left-0 menu-sm">
+            <template #button>
+              <button class="btn join-item w-28">
+                {{ $t('task.filters') }}
+                <ChevronDownIcon class="w-4 h-4" />
+              </button>
+            </template>
+
+            <DropdownButton>TODO</DropdownButton>
+          </Dropdown>
           <input
             v-model="query"
             type="text"
