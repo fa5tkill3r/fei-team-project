@@ -68,6 +68,7 @@ export default {
     select_parent: 'Select parent',
     no_description: 'No description provided',
     manage_tags: 'Manage tags',
+    filters: 'Filters',
     delete_confirmation: {
       title: 'Delete task?',
       content: 'Are you sure you want to delete this task?',

@@ -2,6 +2,7 @@
 import TaskStatus from '@/components/TaskStatus.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
+import { debounce } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team.ts'
 import { Task } from '@/types'
@@ -17,11 +18,13 @@ const auth = useAuthStore()
 const teamStore = useTeamStore()
 const tasks = ref<Task[]>([])
 const viewType = ref('board')
+const query = ref('')
 
 function loadTasks(team: any = null) {
   auth.client
     .query({
-      team: team?.id,
+      team: team?.id ?? teamStore.current?.id,
+      query: query.value,
     })
     .get('tasks')
     .json()
@@ -32,6 +35,8 @@ function loadTasks(team: any = null) {
       console.log(err)
     })
 }
+
+const loadTasksDebounced = debounce(loadTasks, 400)
 
 watch(
   () => teamStore.current,
@@ -61,6 +66,24 @@ onMounted(() => {
           <ListBulletIcon class="w-5 h-5" />
           {{ $t('main.list') }}
         </button>
+      </div>
+
+      <div class="mt-4 flex gap-2 max-w-6xl">
+        <div class="join w-full">
+          <button class="btn join-item">
+            {{ $t('task.filters') }}
+          </button>
+          <input
+            v-model="query"
+            type="text"
+            class="input input-bordered w-full join-item"
+            @input="loadTasksDebounced"
+          />
+        </div>
+
+        <router-link :to="{ name: 'tags' }" class="btn">
+          {{ $t('task.manage_tags') }}
+        </router-link>
       </div>
     </div>
 

@@ -47,7 +47,13 @@
         </div>
 
         <div class="text-right">
-          <button type="submit" class="btn btn-primary">{{ $t('auth.login') }}</button>
+          <LoadingButton
+            type="submit"
+            class="btn btn-primary w-18"
+            :loading="loading"
+          >
+            {{ $t('auth.login') }}
+          </LoadingButton>
         </div>
       </form>
     </div>
@@ -55,6 +61,7 @@
 </template>
 
 <script lang="ts" setup>
+import LoadingButton from '@/components/ui/LoadingButton.vue'
 import PageTitle from '@/components/utils/PageTitle.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
@@ -67,12 +74,14 @@ const team = useTeamStore()
 const email = ref('')
 const password = ref('')
 const remember = ref(false)
+const loading = ref(false)
 
 function login() {
   if (!email.value || !password.value) {
     return
   }
 
+  loading.value = true
   auth
     .login(email.value, password.value, remember.value)
     .then(team.loadTeams)
@@ -81,6 +90,9 @@ function login() {
     })
     .catch((err) => {
       console.log(err)
+    })
+    .finally(() => {
+      loading.value = false
     })
 }
 </script>

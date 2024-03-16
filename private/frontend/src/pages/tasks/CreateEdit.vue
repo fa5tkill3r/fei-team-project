@@ -31,9 +31,13 @@
       </label>
 
       <div class="text-right hidden lg:block">
-        <button type="submit" class="btn btn-primary mt-4" :disabled="loading">
+        <LoadingButton
+          type="submit"
+          class="btn btn-primary mt-4"
+          :loading="loading"
+        >
           {{ $t('task.save') }}
-        </button>
+        </LoadingButton>
       </div>
     </div>
 
@@ -77,21 +81,25 @@
         <UserSelector v-model="task.users" />
         <div class="form-control">
           <label class="label cursor-pointer">
-            <span class="label-text">{{ $t('task.all_users') }}</span> 
+            <span class="label-text">{{ $t('task.all_users') }}</span>
             <input v-model="task.all_users" type="checkbox" class="checkbox" />
           </label>
         </div>
       </div>
-        
+
       <div class="divider my-0"></div>
 
       <TaskSelector v-model="task.parent" :task-id="id" />
     </div>
 
     <div class="col-span-12 xl:col-span-9 text-right lg:hidden">
-      <button type="submit" class="btn btn-primary mt-4" :disabled="loading">
+      <LoadingButton
+        type="submit"
+        class="btn btn-primary mt-4"
+        :loading="loading"
+      >
         {{ $t('task.save') }}
-      </button>
+      </LoadingButton>
     </div>
   </form>
 </template>
@@ -100,6 +108,7 @@
 import TagSelector from '@/components/TagSelector.vue'
 import TaskSelector from '@/components/TaskSelector.vue'
 import UserSelector from '@/components/UserSelector.vue'
+import LoadingButton from '@/components/ui/LoadingButton.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
 import { TaskRequest } from '@/types'

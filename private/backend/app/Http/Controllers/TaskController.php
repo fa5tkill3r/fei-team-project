@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Task;
 use App\Models\Incident;
-Use App\Models\Team;
+use App\Search\SearchLexer;
+use App\Search\TokenType;
 use Illuminate\Http\Request;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -26,6 +27,7 @@ class TaskController extends Controller
         if ($team) {
             return $this->getByTeam($team);
         }
+
         $tasks = Task::with(['users', 'tags', 'responses'])->get();
 
         return TaskResource::collection($tasks);
@@ -34,6 +36,42 @@ class TaskController extends Controller
     private function getByTeam($teamId): AnonymousResourceCollection
     {
         $team = $this->user->teams()->findOrFail($teamId);
+
+        $search = request()->get('query');
+        if ($search) {
+            $lexer = new SearchLexer($search);
+            $tokens = $lexer->tokenize();
+            $query = $team->tasks()->with(['users', 'tags', 'responses']);
+            $str = '';
+
+            foreach ($tokens as $token) {
+                if ($token->type == TokenType::STRING) {
+                    $str .= $token->value . ' ';
+                    continue;
+                }
+
+                $query = match ($token->type) {
+                    TokenType::STATUS => $query->where('is_closed', match ($token->value) {
+                        'closed' => true,
+                        default => false,
+                    }),
+                    TokenType::TAG => $query->whereHas('tags', fn($q) => $q->where('name', $token->value)),
+                    default => $query,
+                };
+            }
+
+            $str = trim($str);
+            if ($str) {
+                $query = $query->where('name', 'like', "%$str%")
+                    ->orWhere('description', 'like', "%$str%");
+            }
+
+//            dd($query->toSql(), $query->getBindings());
+
+            $filtered = $query->get();
+
+            return TaskResource::collection($filtered);
+        }
 
         $tasks = $team->tasks()->with(['users', 'tags', 'responses'])->get();
         return TaskResource::collection($tasks);
@@ -55,14 +93,14 @@ class TaskController extends Controller
             'description' => $request->description ?? '',
         ]);
 
-        if ($request->incident_id != null) { 
+        if ($request->incident_id != null) {
             $incident = Incident::findOrFail($request->incident_id);
             $task->incident()->associate($incident);
         }
 
         $users = $request->users ? $request->users : [];
 
-        if(request('all_users')) {
+        if (request('all_users')) {
             $users = $team->users()->get()->pluck('id');
         }
 
@@ -112,7 +150,7 @@ class TaskController extends Controller
         $task->update($request->except(['users', 'tags', 'parent']));
 
         $users = $request->users ? $request->users : [];
-        if(request('all_users')) {
+        if (request('all_users')) {
             $users = $team->users()->get()->pluck('id');
         }
 

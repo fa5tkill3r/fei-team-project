@@ -121,3 +121,17 @@ export function rgbToHsl(r: number, g: number, b: number) {
 
   return [h * 360, s * 100, l * 100]
 }
+
+export function debounce(fn: (..._: any) => void, wait: number) {
+  let timer: number | undefined
+  return function (...args: any[]) {
+    if (timer) {
+      clearTimeout(timer) // clear any pre-existing timer
+    }
+    // @ts-ignore
+    const context = this // get the current context
+    timer = setTimeout(() => {
+      fn.apply(context, args) // call the function if time expires
+    }, wait)
+  }
+}
