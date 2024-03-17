@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdditionalInfoIncidentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
@@ -102,6 +103,18 @@ Route::group([
     Route::delete('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@destroy');
 
     Route::apiResource('task/{taskId}/comments', TaskCommentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+
+});
+
+Route::group([
+    'prefix' => 'incident-info',
+    'middleware' => ['auth'],
+], function () {
+    Route::get("/{id}", AdditionalInfoIncidentController::class . "@show");
+    Route::put("/{id}", AdditionalInfoIncidentController::class . "@update");
+    Route::delete("/{id}", AdditionalInfoIncidentController::class . "@destroy");
+    Route::post("/", AdditionalInfoIncidentController::class . "@store");
+    Route::get("/enum-values", AdditionalInfoIncidentController::class . "@getEnumValues");
 });
 
 
