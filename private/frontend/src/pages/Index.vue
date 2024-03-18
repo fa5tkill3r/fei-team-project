@@ -1,29 +1,42 @@
 <script setup lang="ts">
 import TaskStatus from '@/components/TaskStatus.vue'
 import Dropdown from '@/components/ui/Dropdown.vue'
-import DropdownButton from '@/components/ui/dropdown/DropdownButton.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
+import DropdownButton from '@/components/ui/dropdown/DropdownButton.vue'
+import DropdownLink from '@/components/ui/dropdown/DropdownLink.vue'
 import { debounce } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team.ts'
 import { Task } from '@/types'
+import { MenuItem } from '@headlessui/vue'
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 import {
+  ArrowTopRightOnSquareIcon,
   ChevronDownIcon,
   ListBulletIcon,
   PlusIcon,
   Squares2X2Icon,
 } from '@heroicons/vue/24/solid'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
 const teamStore = useTeamStore()
+const loading = ref(true)
 const tasks = ref<Task[]>([])
 const viewType = ref('board')
-const query = ref('')
+const query = ref((route.query.q as string | null) ?? '')
+const filters = computed(() => [
+  { label: 'open', value: 'is:open' },
+  { label: 'closed', value: 'is:closed' },
+  { label: 'your', value: 'assignee:@me' },
+])
 
 function loadTasks(team: any = null) {
+  loading.value = true
   auth.client
     .query({
       team: team?.id ?? teamStore.current?.id,
@@ -37,6 +50,9 @@ function loadTasks(team: any = null) {
     .catch((err) => {
       console.log(err)
     })
+    .finally(() => {
+      loading.value = false
+    })
 }
 
 const loadTasksDebounced = debounce(loadTasks, 400)
@@ -45,6 +61,14 @@ watch(
   () => teamStore.current,
   (team) => {
     loadTasks(team)
+  },
+)
+
+watch(
+  () => route.query,
+  () => {
+    query.value = (route.query.q as string | null) ?? ''
+    loadTasks()
   },
 )
 
@@ -81,8 +105,27 @@ onMounted(() => {
               </button>
             </template>
 
-            <DropdownButton>TODO</DropdownButton>
+            <DropdownLink
+              v-for="filter in filters"
+              :key="filter.label"
+              :to="{ name: 'home', query: { q: filter.value } }"
+            >
+              {{ $t(`task.filter.${filter.label}`) }}
+            </DropdownLink>
+            <DropdownButton disabled>Other?</DropdownButton>
+            <!-- <DropdownLink href="/" target="_blank">
+              {{ $t('task.filter_help') }}
+              <ArrowTopRightOnSquareIcon class="w-4 h-4" />
+            </DropdownLink> -->
+
+            <MenuItem as="li">
+              <a href="https://heroicons.com/outline" target="_blank">
+                {{ $t('task.filter_help') }}
+                <ArrowTopRightOnSquareIcon class="w-4 h-4" />
+              </a>
+            </MenuItem>
           </Dropdown>
+
           <input
             v-model="query"
             type="text"
@@ -97,7 +140,11 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="flex flex-col mt-4">
+    <div v-if="loading" class="flex justify-center w-full mt-4">
+      <div class="loading"></div>
+    </div>
+
+    <div v-else-if="tasks.length" class="flex flex-col mt-4">
       <masonry v-if="viewType === 'board'" :cols="4" :gutter="15">
         <router-link
           v-for="task in tasks"
@@ -202,6 +249,10 @@ onMounted(() => {
           </table>
         </div>
       </div>
+    </div>
+
+    <div v-else class="flex justify-center w-full mt-4">
+      <p>{{ $t('task.no_tasks') }}</p>
     </div>
 
     <div class="fixed bottom-6 right-6">

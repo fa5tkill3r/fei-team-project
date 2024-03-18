@@ -69,6 +69,13 @@ export default {
     no_description: 'No description provided',
     manage_tags: 'Manage tags',
     filters: 'Filters',
+    filter: {
+      open: 'Open tasks',
+      closed: 'Closed tasks',
+      your: 'Your tasks',
+    },
+    no_tasks: 'No tasks',
+    filter_help: 'View filter syntax',
     delete_confirmation: {
       title: 'Delete task?',
       content: 'Are you sure you want to delete this task?',

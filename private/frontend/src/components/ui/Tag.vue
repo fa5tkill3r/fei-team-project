@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { hexToRgb, rgbToHsl } from '@/lib/utils'
-import { computed, defineProps, toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 
 const props = defineProps<{
   name: string
