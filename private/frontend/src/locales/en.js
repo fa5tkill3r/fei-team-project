@@ -112,6 +112,18 @@ export default {
     roles: {
       add: 'Add role',
       manage: 'Manage roles',
+      permissions: {
+        task_access: 'Task access',
+        task_create: 'Task creation',
+        task_delete: 'Task edition',
+        user_access: 'User access',
+        user_add: 'User creation',
+        user_remove: 'User deletion',
+        role_access: 'Role access',
+        role_add: 'Role creation',
+        role_delete: 'Role deletion',
+        team_info: 'Team info',
+      }
     }
   }
 }
