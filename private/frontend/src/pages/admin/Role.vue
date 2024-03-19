@@ -26,6 +26,14 @@ function addOrUpdateRole() {
     newRole[permission] = true
   })
 
+  categories.value.forEach((category) => {
+    category.permissions.forEach((permission) => {
+      if (!permissions.value.includes(permission)) {
+        newRole[permission] = false
+      }
+    })
+  })
+
   const promise = route.params.id
     ? auth.client
       .json(newRole)
