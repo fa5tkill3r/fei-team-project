@@ -17,9 +17,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $user_access
  * @property boolean $user_add
  * @property boolean $user_remove
- * @property boolean $role_access
- * @property boolean $role_add
- * @property boolean $role_delete
  * @property boolean $team_info
  *
  * @method BelongsToMany users()
@@ -38,9 +35,6 @@ class Role extends Model
         'user_access',
         'user_add',
         'user_remove',
-        'role_access',
-        'role_add',
-        'role_delete',
         'team_info',
     ];
    protected $casts = [

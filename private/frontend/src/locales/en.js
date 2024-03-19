@@ -119,9 +119,6 @@ export default {
         user_access: 'User access',
         user_add: 'User creation',
         user_remove: 'User deletion',
-        role_access: 'Role access',
-        role_add: 'Role creation',
-        role_delete: 'Role deletion',
         team_info: 'Team info',
       }
     }
