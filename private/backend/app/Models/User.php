@@ -19,6 +19,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $avatar
  * @property string $remember_token
  * @property string $remember_token_expires_at
+ * @property boolean $super_admin
  */
 class User extends Authenticatable implements JWTSubject
 {

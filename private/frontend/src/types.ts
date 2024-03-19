@@ -7,6 +7,7 @@ export interface User {
   updated_at: string
   avatar?: string
   role: Role
+  super_admin: boolean
 }
 
 export interface Team {

@@ -188,7 +188,7 @@ function logout() {
               <ArrowTopRightOnSquareIcon class="w-5 h-5" />
             </a>
           </li>
-          <li v-if="teamStore.me && teamStore.me!.role.permissions.role_access">
+          <li v-if="teamStore.me && teamStore.me!.role.permissions.user_access">
             <router-link :to="{ name: 'admin' }">
               <CogIcon class="w-5 h-5" />
               {{ $t('nav.admin_panel') }}
