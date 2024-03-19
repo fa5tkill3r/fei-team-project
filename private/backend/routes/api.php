@@ -92,7 +92,7 @@ Route::group([
     Route::delete('teams/{id}/user', TeamController::class . '@removeUser');
     Route::post('teams/{id}/user', TeamController::class . '@addUser');
     Route::resource('incidents', IncidentsController::class);
-    Route::resource('roles', RoleController::class)->only(['index', 'store']);
+    Route::resource('roles', RoleController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('tags', TagController::class);
 
     Route::get('task/{taskId}/responses', TaskResponseController::class . '@index');
