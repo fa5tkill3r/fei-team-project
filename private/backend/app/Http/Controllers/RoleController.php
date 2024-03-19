@@ -26,7 +26,7 @@ class RoleController extends Controller
         if ($this->user->super_admin == 0) {
             return response()->json(['error' => 'Dont have permissions to create role'], 403);
         }
-        
+
         $role = Role::create($request->all());
 
         return response()->json([
@@ -52,6 +52,20 @@ class RoleController extends Controller
 
         return response()->json([
             'role' => $role,
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        if ($this->user->super_admin == 0) {
+            return response()->json(['error' => 'Dont have permissions to delete role'], 403);
+        }
+
+        $role = Role::findOrFail($id);
+        $role->delete();
+
+        return response()->json([
+            'message' => 'Role deleted successfully',
         ]);
     }
 }
