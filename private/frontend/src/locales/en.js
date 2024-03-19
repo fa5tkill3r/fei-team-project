@@ -104,14 +104,18 @@ export default {
     selected_add: 'Add selected users',
   },
   admin_panel: {
+    users: 'Users',
     remove_user: 'Remove user',
     remove_user_description: 'Are you sure you want to remove the user {0} from the team?',
     member: 'Member',
     role: 'Role',
     actions: 'Actions',
     roles: {
+      roles: 'Roles',
       add: 'Add role',
-      manage: 'Manage roles',
+      edit: 'Edit role',
+      name: 'Role name: ',
+      assigned_permissions: 'Assigned permissions',
       permissions: {
         task_access: 'Task access',
         task_create: 'Task creation',

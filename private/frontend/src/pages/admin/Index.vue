@@ -71,7 +71,7 @@ getRoles()
 
 <template>
   <div>
-    <h1 class="text-xl">Manage access</h1>
+    <h1 class="text-xl">{{ $t('admin_panel.users') }}</h1>
     <div
       v-if="teamStore.me?.role.permissions.user_add"
       class="flex justify-end">
@@ -111,9 +111,9 @@ getRoles()
 
     <div class="divider my-4"></div>
 
-    <h1 class="text-xl">{{ $t('admin_panel.roles.manage') }}</h1>
+    <h1 class="text-xl">{{ $t('admin_panel.roles.roles') }}</h1>
     <div class="flex justify-end">
-      <router-link :to="{ name: 'admin-role-add' }" class="btn btn-sm btn-success">
+      <router-link :to="{ name: 'role-add' }" class="btn btn-sm btn-success">
         {{ $t('admin_panel.roles.add') }}
       </router-link>
     </div>
@@ -121,7 +121,10 @@ getRoles()
       <thead>
       <tr>
         <th> {{ $t('admin_panel.role') }}</th>
-        <th> {{ $t('admin_panel.permissions') }}</th>
+        <th> {{ $t('admin_panel.roles.assigned_permissions') }}</th>
+        <th
+          v-if="teamStore.me?.super_admin"
+        > {{ $t('admin_panel.actions') }}</th>
       </tr>
       </thead>
       <tbody>
@@ -129,10 +132,21 @@ getRoles()
         <td>{{ role.name }}</td>
         <td>
           <ul>
-            <li v-for="(permission, i) in role.permissions">
-              {{ permission }} {{ i }}
+            <li v-for="(permission, i) in role.permissions" :key="i">
+              <span v-if="permission">{{ $t('admin_panel.roles.permissions.' + i) }} </span>
             </li>
           </ul>
+        </td>
+        <td
+          v-if="teamStore.me?.super_admin"
+          class="flex gap-2"
+        >
+          <router-link
+            :to="{ name: 'role-edit', params: { id: role.id } }"
+            class="btn btn-ghost"
+          >
+            {{ $t('edit') }}
+          </router-link>
         </td>
       </tr>
       </tbody>
