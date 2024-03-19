@@ -91,8 +91,14 @@ const routes = [
   // admin add role
   {
     path: '/admin/role/add',
-    name: 'admin-role-add',
-    component: () => import('./pages/admin/AddRole.vue'),
+    name: 'role-add',
+    component: () => import('./pages/admin/Role.vue'),
+  },
+  // admin edit role
+  {
+    path: '/admin/role/:id',
+    name: 'role-edit',
+    component: () => import('./pages/admin/Role.vue'),
   },
 ]
 

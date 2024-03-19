@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth.ts'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const role = ref<string>('')
 const permissions = ref<string[]>([])
@@ -9,6 +9,7 @@ const permissions = ref<string[]>([])
 
 const auth = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 const categories = ref<Category[]>([])
 
 interface Category {
@@ -16,7 +17,7 @@ interface Category {
   permissions: string[]
 }
 
-function addRole() {
+function addOrUpdateRole() {
   const newRole: { [key: string]: any } = {
     name: role.value,
     slug: role.value.toLowerCase(),
@@ -25,15 +26,42 @@ function addRole() {
     newRole[permission] = true
   })
 
-  auth.client
-    .json(newRole)
-    .post(null, 'roles')
-    .json()
+  const promise = route.params.id
+    ? auth.client
+      .json(newRole)
+      .put(null,'roles/' + route.params.id)
+    : auth.client
+      .json(newRole)
+      .post( null, 'roles')
+
+  promise.json()
     .then(() => {
       router.push({ name: 'admin' })
     })
-    .catch((err) => {
-      console.log(err)
+
+  // auth.client
+  //   .json(newRole)
+  //   .post(null, 'roles')
+  //   .json()
+  //   .then(() => {
+  //     router.push({ name: 'admin' })
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //   })
+}
+
+function getRole() {
+  auth.client
+    .get('roles/' + route.params.id)
+    .json()
+    .then((res: any) => {
+      role.value = res.role.name
+      for (const [key, value] of Object.entries(res.role)) {
+        if (value === true) {
+          permissions.value.push(key)
+        }
+      }
     })
 }
 
@@ -55,38 +83,36 @@ function initCategories() {
     'user_add',
     'user_remove',
   ])
-  createCategory('Roles', [
-    'role_access',
-    'role_add',
-    'role_delete',
-  ])
   createCategory('Team', [
     'team_info',
   ])
 }
 
 initCategories()
+getRole()
+
 </script>
 
 <template>
   <div>
-    <h1 class="text-xl font-bold">{{ $t('admin_panel.roles.add') }}</h1>
-    <form @submit.prevent="addRole">
-      <div class="flex flex-col sm:flex-row">
-        <div class="flex-grow flex-row gap-5">
-          <label>
-            Role name:
-          </label>
-          <input
-            type="text"
-            class="input input-bordered w-full sm:w-fit"
-            v-model="role"
-          />
-          <button class="btn btn-primary w-full sm:w-fit" type="submit">
-            {{ $t('admin_panel.roles.add') }}
-          </button>
-        </div>
-
+    <h1 class="text-xl font-bold">
+      <span v-if="!route.params.id">{{ $t('admin_panel.roles.add') }}</span>
+      <span v-else>{{ $t('admin_panel.roles.edit') }}</span>
+    </h1>
+    <form @submit.prevent="addOrUpdateRole">
+      <div class="flex flex-col sm:flex-row gap-1 justify-center items-center">
+        <label>
+          {{ $t('admin_panel.roles.name') }}
+        </label>
+        <input
+          type="text"
+          class="input input-bordered flex-grow"
+          v-model="role"
+        />
+        <button class="btn btn-primary w-full sm:w-fit" type="submit">
+          <span v-if="!route.params.id">{{ $t('admin_panel.roles.add') }}</span>
+          <span v-else>{{ $t('admin_panel.roles.edit') }}</span>
+        </button>
       </div>
 
 
