@@ -6,10 +6,40 @@ use App\Models\Role;
 use App\Models\Task;
 use App\Models\Incident;
 use App\Search\SearchLexer;
+use App\Search\Token;
 use App\Search\TokenType;
 use Illuminate\Http\Request;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
+function getFirstName(string $name): string
+{
+    $pos = strpos($name, '.');
+    return $pos === false ? $name : substr($name, 0, $pos);
+}
+
+function getLastName(string $name): string|null
+{
+    $pos = strpos($name, '.');
+    return $pos === false ? null : substr($name, $pos + 1);
+}
+
+function getUserQuery($q, Token $token, $user)
+{
+    if ($token->value === '@me') {
+        return $q->where('task_user.id', $user->id);
+    }
+
+    $firstName = getFirstName($token->value);
+    $lastName = getLastName($token->value);
+    $temp = $q->where('first_name', 'like', "%$firstName%");
+
+    if ($lastName) {
+        $temp = $temp->where('last_name', 'like', "%$lastName%");
+    }
+
+    return $temp;
+}
 
 class TaskController extends Controller
 {
@@ -33,41 +63,47 @@ class TaskController extends Controller
         return TaskResource::collection($tasks);
     }
 
+    private function searchTasks($team, $search)
+    {
+        $lexer = new SearchLexer($search);
+        $tokens = $lexer->tokenize();
+        $query = $team->tasks()->with(['users', 'tags', 'responses']);
+        $str = '';
+
+        foreach ($tokens as $token) {
+            if ($token->type == TokenType::STRING) {
+                $str .= $token->value . ' ';
+                continue;
+            }
+
+            $query = match ($token->type) {
+                TokenType::STATUS => $query->where('is_closed', match ($token->value) {
+                    'closed' => true,
+                    default => false,
+                }),
+                TokenType::TAG => $query->whereHas('tags', fn($q) => $q->where('name', $token->value)),
+                TokenType::ASSIGNEE => $query->whereHas('users', fn($q) => getUserQuery($q, $token, $this->user)),
+                default => $query,
+            };
+        }
+
+        $str = trim($str);
+        if ($str) {
+            $query = $query->where('name', 'like', "%$str%")
+                ->orWhere('description', 'like', "%$str%");
+        }
+
+        return $query;
+    }
+
     private function getByTeam($teamId): AnonymousResourceCollection
     {
         $team = $this->user->teams()->findOrFail($teamId);
 
         $search = request()->get('query');
         if ($search) {
-            $lexer = new SearchLexer($search);
-            $tokens = $lexer->tokenize();
-            $query = $team->tasks()->with(['users', 'tags', 'responses']);
-            $str = '';
-
-            foreach ($tokens as $token) {
-                if ($token->type == TokenType::STRING) {
-                    $str .= $token->value . ' ';
-                    continue;
-                }
-
-                $query = match ($token->type) {
-                    TokenType::STATUS => $query->where('is_closed', match ($token->value) {
-                        'closed' => true,
-                        default => false,
-                    }),
-                    TokenType::TAG => $query->whereHas('tags', fn($q) => $q->where('name', $token->value)),
-                    default => $query,
-                };
-            }
-
-            $str = trim($str);
-            if ($str) {
-                $query = $query->where('name', 'like', "%$str%")
-                    ->orWhere('description', 'like', "%$str%");
-            }
-
+            $query = $this->searchTasks($team, $search);
 //            dd($query->toSql(), $query->getBindings());
-
             $filtered = $query->get();
 
             return TaskResource::collection($filtered);

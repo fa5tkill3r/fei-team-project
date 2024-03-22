@@ -3,7 +3,6 @@ import TaskStatus from '@/components/TaskStatus.vue'
 import Dropdown from '@/components/ui/Dropdown.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
-import DropdownButton from '@/components/ui/dropdown/DropdownButton.vue'
 import DropdownLink from '@/components/ui/dropdown/DropdownLink.vue'
 import { debounce } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth'
@@ -55,7 +54,12 @@ function loadTasks(team: any = null) {
     })
 }
 
-const loadTasksDebounced = debounce(loadTasks, 400)
+function loadTasksAndUpdateQuery() {
+  router.replace({ query: { q: query.value || undefined } })
+  loadTasks()
+}
+
+const loadTasksDebounced = debounce(loadTasksAndUpdateQuery, 400)
 
 watch(
   () => teamStore.current,
@@ -108,15 +112,12 @@ onMounted(() => {
             <DropdownLink
               v-for="filter in filters"
               :key="filter.label"
-              :to="{ name: 'home', query: { q: filter.value } }"
+              :to="{ name: 'home', query: { q: filter.value }, replace: true }"
             >
               {{ $t(`task.filter.${filter.label}`) }}
             </DropdownLink>
-            <DropdownButton disabled>Other?</DropdownButton>
-            <!-- <DropdownLink href="/" target="_blank">
-              {{ $t('task.filter_help') }}
-              <ArrowTopRightOnSquareIcon class="w-4 h-4" />
-            </DropdownLink> -->
+
+            <div class="divider my-0"></div>
 
             <MenuItem as="li">
               <a href="https://heroicons.com/outline" target="_blank">

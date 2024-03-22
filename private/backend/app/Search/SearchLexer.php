@@ -50,14 +50,12 @@ class SearchLexer
             $ch = $this->peek();
         }
 
-        if ($ch === 't') {
-            return $this->tryTokenizeTag();
-        }
-        if ($ch == 'i') {
-            return $this->tryTokenizeStatus();
-        }
-
-        return $this->tokenizeString();
+        return match ($ch) {
+            't' => $this->tryTokenizeTag(),
+            'i' => $this->tryTokenizeStatus(),
+            'a' => $this->tryTokenizeAssignee(),
+            default => $this->tokenizeString(),
+        };
     }
 
     private function readN(int $n): string
@@ -119,29 +117,31 @@ class SearchLexer
         return new Token(TokenType::STRING, $str);
     }
 
-    private function tryTokenizeTag(): ?Token
+    private function tryTokenizePrefix(string $prefix, TokenType $type): ?Token
     {
-        $word = $this->readN(4);
+        $word = $this->readN(strlen($prefix));
 
-        if ($word !== 'tag:') {
+        if ($word !== $prefix) {
             $this->position -= strlen($word);
             return $this->tokenizeString();
         }
 
-        $tag = $this->readUntilWhitespace();
-        return new Token(TokenType::TAG, $tag);
+        $value = $this->readUntilWhitespace();
+        return new Token($type, $value);
+    }
+
+    private function tryTokenizeTag(): ?Token
+    {
+        return $this->tryTokenizePrefix('tag:', TokenType::TAG);
     }
 
     private function tryTokenizeStatus(): ?Token
     {
-        $word = $this->readN(3);
+        return $this->tryTokenizePrefix('is:', TokenType::STATUS);
+    }
 
-        if ($word !== 'is:') {
-            $this->position -= strlen($word);
-            return $this->tryTokenizeTag();
-        }
-
-        $status = $this->readUntilWhitespace();
-        return new Token(TokenType::STATUS, $status);
+    private function tryTokenizeAssignee(): ?Token
+    {
+        return $this->tryTokenizePrefix('assignee:', TokenType::ASSIGNEE);
     }
 }
