@@ -24,21 +24,25 @@ function getLastName(string $name): string|null
     return $pos === false ? null : substr($name, $pos + 1);
 }
 
-function getUserQuery($q, Token $token, $user)
+function searchByName($q, Token $token, $user)
 {
-    if ($token->value === '@me') {
+    $name = $token->value;
+
+    if ($name === '@me') {
         return $q->where('task_user.id', $user->id);
     }
 
-    $firstName = getFirstName($token->value);
-    $lastName = getLastName($token->value);
-    $temp = $q->where('first_name', 'like', "%$firstName%");
+    if (strchr($name, '.')) {
+        $firstName = getFirstName($token->value);
+        $lastName = getLastName($token->value);
 
-    if ($lastName) {
-        $temp = $temp->where('last_name', 'like', "%$lastName%");
+        return $q
+            ->where('first_name', 'like', "%$firstName%")
+            ->where('last_name', 'like', "%$lastName%");
     }
 
-    return $temp;
+    return $q->where('first_name', 'like', "%$name%")
+        ->orWhere('last_name', 'like', "%$name%");
 }
 
 class TaskController extends Controller
@@ -82,7 +86,7 @@ class TaskController extends Controller
                     default => false,
                 }),
                 TokenType::TAG => $query->whereHas('tags', fn($q) => $q->where('name', $token->value)),
-                TokenType::ASSIGNEE => $query->whereHas('users', fn($q) => getUserQuery($q, $token, $this->user)),
+                TokenType::ASSIGNEE => $query->whereHas('users', fn($q) => searchByName($q, $token, $this->user)),
                 default => $query,
             };
         }
