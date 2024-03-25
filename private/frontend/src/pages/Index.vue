@@ -3,19 +3,19 @@ import TaskStatus from '@/components/TaskStatus.vue'
 import Dropdown from '@/components/ui/Dropdown.vue'
 import TagLabel from '@/components/ui/Tag.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
+import DropdownButton from '@/components/ui/dropdown/DropdownButton.vue'
 import DropdownLink from '@/components/ui/dropdown/DropdownLink.vue'
 import { debounce } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team.ts'
 import { Task } from '@/types'
-import { MenuItem } from '@headlessui/vue'
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/vue/24/outline'
 import {
-  ArrowTopRightOnSquareIcon,
   ChevronDownIcon,
   ListBulletIcon,
   PlusIcon,
   Squares2X2Icon,
+  XMarkIcon,
 } from '@heroicons/vue/24/solid'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -25,6 +25,7 @@ const route = useRoute()
 const auth = useAuthStore()
 const teamStore = useTeamStore()
 const loading = ref(true)
+const filterHelpOpen = ref(false)
 const tasks = ref<Task[]>([])
 const viewType = ref('board')
 const query = ref((route.query.q as string | null) ?? '')
@@ -100,7 +101,7 @@ onMounted(() => {
       </div>
 
       <div class="mt-4 flex gap-2 max-w-6xl">
-        <div class="join w-full">
+        <div class="join w-full relative">
           <Dropdown class="left-0 menu-sm">
             <template #button>
               <button class="btn join-item w-28">
@@ -119,12 +120,9 @@ onMounted(() => {
 
             <div class="divider my-0"></div>
 
-            <MenuItem as="li">
-              <a href="https://heroicons.com/outline" target="_blank">
-                {{ $t('task.filter_help') }}
-                <ArrowTopRightOnSquareIcon class="w-4 h-4" />
-              </a>
-            </MenuItem>
+            <DropdownButton @click="filterHelpOpen = true">
+              {{ $t('task.filter_help') }}
+            </DropdownButton>
           </Dropdown>
 
           <input
@@ -133,6 +131,20 @@ onMounted(() => {
             class="input input-bordered w-full join-item"
             @input="loadTasksDebounced"
           />
+
+          <div
+            v-if="filterHelpOpen"
+            class="absolute top-12 mt-2 bg-base-200 rounded-lg p-4 w-full z-10"
+          >
+            <p v-html="$t('task.filter_docs')"></p>
+
+            <button
+              class="btn btn-sm absolute top-0 right-0 mt-2 mr-2"
+              @click="filterHelpOpen = false"
+            >
+              <XMarkIcon class="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         <router-link :to="{ name: 'tags' }" class="btn">

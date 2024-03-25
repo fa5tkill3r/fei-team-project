@@ -29,7 +29,7 @@ function searchByName($q, Token $token, $user)
     $name = $token->value;
 
     if ($name === '@me') {
-        return $q->where('task_user.id', $user->id);
+        return $q->where('task_user.user_id', $user->id);
     }
 
     if (strchr($name, '.')) {
@@ -107,7 +107,7 @@ class TaskController extends Controller
         $search = request()->get('query');
         if ($search) {
             $query = $this->searchTasks($team, $search);
-//            dd($query->toSql(), $query->getBindings());
+            // dd($query->toSql(), $query->getBindings());
             $filtered = $query->get();
 
             return TaskResource::collection($filtered);

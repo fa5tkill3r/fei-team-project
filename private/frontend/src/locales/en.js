@@ -69,6 +69,12 @@ export default {
     no_description: 'No description provided',
     manage_tags: 'Manage tags',
     filters: 'Filters',
+    filter_docs: `Available filters:<br>
+                  <ul>
+                    <li><b>is</b> - filter by status (e.g. is:open, is:closed)<br></li>
+                    <li><b>assignee</b> - filter by assignee (e.g. assignee:@me, assignee:name)<br></li>
+                    <li><b>tag</b> - filter by tag (e.g. tag:bug)<br></li>
+                  </ul>`,
     filter: {
       open: 'Open tasks',
       closed: 'Closed tasks',
