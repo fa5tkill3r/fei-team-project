@@ -3,7 +3,6 @@
     name: string
     surname: string
     email: string
-    title: string
     description: string
     images?: FileList
   }
@@ -12,7 +11,6 @@
     name: '',
     surname: '',
     email: '',
-    title: '',
     description: '',
   }
 
@@ -22,7 +20,6 @@
     data.append('name', form.name)
     data.append('surname', form.surname)
     data.append('email', form.email)
-    data.append('title', form.title)
     data.append('description', form.description)
 
     if (form.images) {
@@ -85,19 +82,6 @@
         placeholder="Type here"
         class="input input-bordered w-full max-w-xs"
         bind:value={form.email}
-      />
-    </div>
-
-    <div class="form-control w-full max-w-xs">
-      <label class="label" for="title">
-        <span class="label-text">Title</span>
-      </label>
-      <input
-        id="title"
-        type="text"
-        placeholder="Type here"
-        class="input input-bordered w-full max-w-xs"
-        bind:value={form.title}
       />
     </div>
 
