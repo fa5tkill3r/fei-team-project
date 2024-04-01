@@ -72,3 +72,28 @@ export interface Role {
   updated_at: string
   created_at: string
 }
+
+export interface Incident {
+  id: number
+  title: string
+  description: string
+  name: string
+  email: string
+  surname: string
+  type: string
+  created_at: string
+  updated_at: string
+}
+
+export interface IncidentDetail {
+  id: number
+  attacked_service: string
+  attack_severity: string
+  attack_solution: string
+  attack_description: string
+  attack_vector:string
+  attack_category:string
+  attack_type:string
+  security_measures:string
+  notes:string
+}

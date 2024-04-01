@@ -49,4 +49,12 @@ export default {
       content: 'Ste si istý, že chcete vymazať túto úlohu?',
     }
   },
+
+  incidents: {
+    filter: {
+      new: 'Nové incidenty',
+      in_progress: 'Incidenty v riešení',
+      closed: 'Uzavreté incidenty',
+    },
+  }
 }

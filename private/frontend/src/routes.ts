@@ -70,6 +70,11 @@ const routes = [
     name: 'incidents',
     component: () => import('./pages/incidents/Index.vue'),
   },
+  {
+    path: '/incidents/:id',
+    name: 'incident-detail',
+    component: () => import('./pages/incidents/Detail.vue'),
+  },
   // theses
   {
     path: '/theses',

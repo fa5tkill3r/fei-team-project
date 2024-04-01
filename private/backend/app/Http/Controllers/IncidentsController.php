@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class IncidentsController extends Controller
 {
-    public function index() :AnonymousResourceCollection
+    public function index()
     {
         return response()->json([
             'data' => Incident::all(),
@@ -33,7 +33,7 @@ class IncidentsController extends Controller
         if ($request->hasFile('images')) {
 
             foreach ($request->file('images') as $image) {
-                $originalName = $image->getClientOriginalName();                
+                $originalName = $image->getClientOriginalName();
                 $imagePath = $image->storeAs('images', $originalName, 'public');
                 $imageModel = new IncidentImage();
                 $imageModel->image = basename($imagePath);

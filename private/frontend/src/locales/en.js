@@ -123,5 +123,13 @@ export default {
     member: 'Member',
     role: 'Role',
     actions: 'Actions',
+  },
+
+  incidents: {
+    filter: {
+      new: 'New incidents',
+      in_progress: 'In progress incidents',
+      closed: 'Closed incidents',
+    },
   }
 }
