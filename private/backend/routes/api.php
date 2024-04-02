@@ -71,6 +71,8 @@ Route::group([
     Route::post("/{teamId}/{taskId}/unassign-user", TaskController::class . "@unassignUser");
 });
 
+Route::post('/incidents', IncidentsController::class . "@store");
+
 Route::group([
     'prefix' => 'incidents',
     'middleware' => ['auth'],
@@ -92,9 +94,12 @@ Route::group([
     Route::resource('teams', TeamController::class);
     Route::delete('teams/{id}/user', TeamController::class . '@removeUser');
     Route::post('teams/{id}/user', TeamController::class . '@addUser');
-    Route::resource('incidents', IncidentsController::class);
     Route::resource('roles', RoleController::class)->only(['index', 'store']);
     Route::resource('tags', TagController::class);
+
+    Route::get('incidents/{id}', IncidentsController::class . '@show');
+    Route::put('incidents/{id}', IncidentsController::class . '@update');
+    Route::delete('incidents/{id}', IncidentsController::class . '@destroy');
 
     Route::get('task/{taskId}/responses', TaskResponseController::class . '@index');
     Route::post('task/{taskId}/responses', TaskResponseController::class . '@store');

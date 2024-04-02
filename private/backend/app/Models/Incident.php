@@ -9,7 +9,7 @@ use Validator;
 
 /**
  * Incident Model
- * 
+ *
  * @property int $id
  * @property string $title
  * @property string $description
@@ -17,8 +17,6 @@ use Validator;
  * @property string $email
  * @property string $surname
  * @property string $type
- * 
- * @method HasMany images()
  */
 class Incident extends Model
 {
@@ -34,14 +32,13 @@ class Incident extends Model
     ];
 
     protected $rules = [
-        'title' => 'required|string',
         'description' => 'required|string',
         'name' => 'required|string',
         'email' => 'required|string',
         'surname' => 'required|string',
         'type' => 'nullable|string',
     ];
-    
+
     public function validate($data)
     {
         return Validator::make($data, $this->rules);

@@ -21,7 +21,6 @@ class IncidentsController extends Controller
     {
         $data = $request->all();
         $validator = (new Incident())->validate($data);
-        $incident = Incident::create($request->all());
 
         if ($validator->fails()) {
             return response()->json([
@@ -30,8 +29,8 @@ class IncidentsController extends Controller
             ], 400);
         }
 
+        $incident = Incident::create(array_merge($request->all(), ['title' => 'Unknown incident 123']));
         if ($request->hasFile('images')) {
-
             foreach ($request->file('images') as $image) {
                 $originalName = $image->getClientOriginalName();
                 $imagePath = $image->storeAs('images', $originalName, 'public');

@@ -14,7 +14,11 @@
     description: '',
   }
 
+  const prefix = import.meta.env.PUBLIC_API_URL || ''
+
   function reportIncident() {
+    // TODO: validation
+
     const data = new FormData()
 
     data.append('name', form.name)
@@ -28,9 +32,12 @@
       }
     }
 
-    fetch('/api/incidents', {
+    fetch(prefix + '/api/incidents/', {
       method: 'POST',
       body: data,
+      headers: {
+        Accept: 'application/json',
+      },
     })
       .then((res) => res.json())
       .then((res) => {
