@@ -6,6 +6,9 @@ import { Role, User } from '@/types.ts'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
 import UserSearch from '@/components/UserSearch.vue'
 import Modal from '@/components/ui/Modal.vue'
+import Select from '@/components/Select.vue'
+
+const test = ref<number | null>(null)
 
 const teamStore = useTeamStore()
 const auth = useAuthStore()
@@ -94,7 +97,13 @@ getRoles()
           <UserAvatar size="md" :user="member" />
           <span>{{ member.first_name }} {{ member.last_name }}</span>
         </td>
-        <td>{{ member.role.name }}</td>
+        <td>
+          <Select
+            v-model="test"
+            :people="teamStore.current?.users"
+          />
+        </td>
+        <!--        <td>{{ member.role.name }}</td>-->
         <td>
           <button
             :disabled="removeLoading"
@@ -124,7 +133,8 @@ getRoles()
         <th> {{ $t('admin_panel.roles.assigned_permissions') }}</th>
         <th
           v-if="teamStore.me?.super_admin"
-        > {{ $t('admin_panel.actions') }}</th>
+        > {{ $t('admin_panel.actions') }}
+        </th>
       </tr>
       </thead>
       <tbody>
