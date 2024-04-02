@@ -118,18 +118,34 @@ export default {
     selected_add: 'Add selected users',
   },
   admin_panel: {
+    users: 'Users',
     remove_user: 'Remove user',
     remove_user_description: 'Are you sure you want to remove the user {0} from the team?',
     member: 'Member',
     role: 'Role',
     actions: 'Actions',
   },
-
   incidents: {
     filter: {
       new: 'New incidents',
       in_progress: 'In progress incidents',
       closed: 'Closed incidents',
     },
+    roles: {
+      roles: 'Roles',
+      add: 'Add role',
+      edit: 'Edit role',
+      name: 'Role name: ',
+      assigned_permissions: 'Assigned permissions',
+      permissions: {
+        task_access: 'Task access',
+        task_create: 'Task creation',
+        task_delete: 'Task edition',
+        user_access: 'User access',
+        user_add: 'User creation',
+        user_remove: 'User deletion',
+        team_info: 'Team info',
+      }
+    }
   }
 }

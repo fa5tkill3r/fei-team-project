@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+        $this->user = auth()->user();
+    }
+
     public function index()
     {
         return RoleResource::collection(Role::all());
@@ -15,6 +23,10 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        if ($this->user->super_admin == 0) {
+            return response()->json(['error' => 'Dont have permissions to create role'], 403);
+        }
+
         $role = Role::create($request->all());
 
         return response()->json([
@@ -29,4 +41,31 @@ class RoleController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        if ($this->user->super_admin == 0) {
+            return response()->json(['error' => 'Dont have permissions to update role'], 403);
+        }
+
+        $role = Role::findOrFail($id);
+        $role->update($request->all());
+
+        return response()->json([
+            'role' => $role,
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        if ($this->user->super_admin == 0) {
+            return response()->json(['error' => 'Dont have permissions to delete role'], 403);
+        }
+
+        $role = Role::findOrFail($id);
+        $role->delete();
+
+        return response()->json([
+            'message' => 'Role deleted successfully',
+        ]);
+    }
 }

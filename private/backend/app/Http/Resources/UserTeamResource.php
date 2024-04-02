@@ -22,6 +22,7 @@ class UserTeamResource extends JsonResource
             "email" => $this->email,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
+            "super_admin" => $this->super_admin,
             "avatar" => $this->avatar ? asset('storage/' . $this->avatar) : null,
             "role" => new RoleResource(Role::find($this->pivot->role_id)),        ];
     }

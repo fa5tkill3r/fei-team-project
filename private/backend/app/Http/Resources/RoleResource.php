@@ -22,9 +22,6 @@ class RoleResource extends JsonResource
                 'user_access' => $this->user_access,
                 'user_add' => $this->user_add,
                 'user_remove' => $this->user_remove,
-                'role_access' => $this->role_access,
-                'role_add' => $this->role_add,
-                'role_delete' => $this->role_delete,
                 'team_info' => $this->team_info,
             ],
         ];

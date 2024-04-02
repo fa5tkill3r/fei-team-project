@@ -94,7 +94,9 @@ Route::group([
     Route::resource('teams', TeamController::class);
     Route::delete('teams/{id}/user', TeamController::class . '@removeUser');
     Route::post('teams/{id}/user', TeamController::class . '@addUser');
-    Route::resource('roles', RoleController::class)->only(['index', 'store']);
+    Route::put('teams/{id}/user', TeamController::class . '@updateUserRole');
+    Route::resource('incidents', IncidentsController::class);
+    Route::resource('roles', RoleController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('tags', TagController::class);
 
     Route::get('incidents/{id}', IncidentsController::class . '@show');
