@@ -117,4 +117,26 @@ class TeamController extends Controller
 
         return TeamResource::make($team);
     }
+
+    public function updateUserRole($id, Request $request): TeamResource
+    {
+        $team = Team::findOrFail($id);
+        $user = User::findOrFail(request()->get('user_id'));
+
+        $updater = $team->users()->findOrFail($this->user->id);
+
+
+        if ($updater->super_admin == 0) {
+            return response()->json(['error' => 'Dont have permissions to update user'], 403);
+        }
+
+        $role = Role::findOrFail(request()->get('role_id'));
+
+        $team->users()->updateExistingPivot($user->id, ['role_id' => $role->id]);
+
+        $team = Team::with(['users', 'tasks', 'tasks.users', 'tasks.tags', 'tasks.responses', 'tasks.responses.user'])
+            ->findOrFail($team->id);
+
+        return TeamResource::make($team);
+    }
 }
