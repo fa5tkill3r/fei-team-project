@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,7 @@ var (
 	g errgroup.Group
 )
 
+// add allowed api paths here (without leading slash!)
 var allowedApiPaths = map[string]bool{
 	"/api/incidents": true,
 }
@@ -49,6 +51,7 @@ func apiRouter() http.Handler {
 	r := gin.New()
 	r.Any("/*proxyPath", func(c *gin.Context) {
 		path := c.Param("proxyPath")
+		path = strings.TrimRight(path, "/")
 
 		if _, ok := allowedApiPaths[path]; !ok {
 			c.Status(404)
@@ -67,6 +70,14 @@ func apiRouter() http.Handler {
 			req.URL.Scheme = remote.Scheme
 			req.URL.Host = remote.Host
 			req.URL.Path = path
+		}
+
+		proxy.ModifyResponse = func(resp *http.Response) error {
+			if resp.Header.Get("Access-Control-Allow-Origin") == "" {
+				resp.Header.Set("Access-Control-Allow-Origin", "*")
+			}
+
+			return nil
 		}
 
 		proxy.ServeHTTP(c.Writer, c.Request)

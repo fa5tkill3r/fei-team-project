@@ -71,19 +71,20 @@ Route::group([
     Route::post("/{teamId}/{taskId}/unassign-user", TaskController::class . "@unassignUser");
 });
 
-Route::post('/incidents', IncidentsController::class . "@store");
-
 Route::group([
     'prefix' => 'incidents',
     'middleware' => ['auth'],
 ], function () {
-    // Route::get("/", IncidentsController::class ."@index");
-    // Route::get("/{id}", IncidentsController::class ."@show");
-    // Route::put("/{id}", IncidentsController::class ."@update");
-    // Route::delete("/{id}", IncidentsController::class ."@destroy");
-    Route::get('type/{type}', IncidentsController::class . "@getIncidentsByType");
+    Route::get("/", IncidentsController::class . "@index");
+    Route::get('/{id}', IncidentsController::class . '@show');
+    Route::put('/{id}', IncidentsController::class . '@update');
+    Route::delete('/{id}', IncidentsController::class . '@destroy');
+
+    Route::get('/type/{type}', IncidentsController::class . "@getIncidentsByType");
     Route::get("/{id}/images", IncidentsController::class . "@getImages");
 });
+
+Route::post('incidents', IncidentsController::class . "@store");
 
 Route::resource('thesis', ThesisController::class);
 
@@ -95,13 +96,8 @@ Route::group([
     Route::delete('teams/{id}/user', TeamController::class . '@removeUser');
     Route::post('teams/{id}/user', TeamController::class . '@addUser');
     Route::put('teams/{id}/user', TeamController::class . '@updateUserRole');
-    Route::resource('incidents', IncidentsController::class);
     Route::resource('roles', RoleController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::resource('tags', TagController::class);
-
-    Route::get('incidents/{id}', IncidentsController::class . '@show');
-    Route::put('incidents/{id}', IncidentsController::class . '@update');
-    Route::delete('incidents/{id}', IncidentsController::class . '@destroy');
 
     Route::get('task/{taskId}/responses', TaskResponseController::class . '@index');
     Route::post('task/{taskId}/responses', TaskResponseController::class . '@store');
@@ -110,7 +106,6 @@ Route::group([
     Route::delete('task/{taskId}/responses/{responseId}', TaskResponseController::class . '@destroy');
 
     Route::apiResource('task/{taskId}/comments', TaskCommentController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
-
 });
 
 Route::group([
@@ -123,7 +118,3 @@ Route::group([
     Route::post("/", AdditionalInfoIncidentController::class . "@store");
     Route::get("/enum-values", AdditionalInfoIncidentController::class . "@getEnumValues");
 });
-
-
-
-
