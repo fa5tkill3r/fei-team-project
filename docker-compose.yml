@@ -18,14 +18,12 @@ services:
       DB_CLIENT: 'sqlite3'
       DB_FILENAME: '/directus/database/data.db'
       WEBSOCKETS_ENABLED: 'true'
-    # TODO: fix, takes too long for some reason
     healthcheck:
-      test: "node -e \"const http = require('http'); const options = { hostname: 'localhost', port: 8055, path: '/server/health', method: 'GET', timeout: 1000 }; const req = http.request(options, (res) => { if (res.statusCode === 200) { process.exit(0); } else { process.exit(1); } }); req.on('error', () => process.exit(1)); req.end();\""
-      interval: 2m
-      timeout: 1s
-      retries: 5
-      start_period: 30s
-      start_interval: 1s
+      test: wget --no-verbose --tries=1 --spider http://localhost:8055/server/health || exit 1
+      start_period: 15s
+      interval: 15s
+      timeout: 15s
+      retries: 3
 
   public-api:
     build:
