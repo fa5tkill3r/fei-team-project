@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdditionalInfoIncidentController;
 use App\Http\Controllers\IncidentCategoryController;
+use App\Http\Controllers\IncidentTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
@@ -123,10 +124,21 @@ Route::group([
 
 Route::group([
     'prefix' => 'incident-categories',
-//    'middleware' => ['auth'],
+    'middleware' => ['auth'],
 ], function () {
     Route::get("/", IncidentCategoryController::class . "@index");
     Route::post("/", IncidentCategoryController::class . "@store");
     Route::put("/{id}", IncidentCategoryController::class . "@update");
     Route::delete("/{id}", IncidentCategoryController::class . "@destroy");
+});
+
+
+Route::group([
+    'prefix' => 'incident-types',
+//    'middleware' => ['auth'],
+], function () {
+    Route::get("/", IncidentTypeController::class . "@index");
+    Route::post("/", IncidentTypeController::class . "@store");
+    Route::put("/{id}", IncidentTypeController::class . "@update");
+    Route::delete("/{id}", IncidentTypeController::class . "@destroy");
 });
