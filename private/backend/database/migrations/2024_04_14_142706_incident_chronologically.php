@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('incident_chronologically', function (Blueprint $table) {
+        Schema::create('incident_chronologically', function (Blueprint $table) {
             $table->text('description');
             $table->dateTime('date');
             $table->foreignIdFor(\App\Models\AdditionalIncidentInfo::class)->index();

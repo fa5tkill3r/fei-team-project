@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdditionalInfoIncidentController;
 use App\Http\Controllers\IncidentCategoryController;
+use App\Http\Controllers\IncidentChronologicallyController;
+use App\Http\Controllers\IncidentSolutionsController;
 use App\Http\Controllers\IncidentTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -135,10 +137,32 @@ Route::group([
 
 Route::group([
     'prefix' => 'incident-types',
-//    'middleware' => ['auth'],
+    'middleware' => ['auth'],
 ], function () {
     Route::get("/", IncidentTypeController::class . "@index");
     Route::post("/", IncidentTypeController::class . "@store");
     Route::put("/{id}", IncidentTypeController::class . "@update");
     Route::delete("/{id}", IncidentTypeController::class . "@destroy");
+});
+
+Route::group([
+    'prefix' => 'incident-solutions',
+    'middleware' => ['auth'],
+], function () {
+    Route::get("/{incidentId}", IncidentSolutionsController::class . "@index");
+    Route::post("/{incidentId}", IncidentSolutionsController::class . "@store");
+    Route::get("/{incidentId}/{solutionId}", IncidentSolutionsController::class . "@show");
+    Route::put("/{incidentId}/{solutionId}", IncidentSolutionsController::class . "@update");
+    Route::delete("/{incidentId}/{solutionId}", IncidentSolutionsController::class . "@destroy");
+});
+
+Route::group([
+    'prefix' => 'incident-chronologically',
+    'middleware' => ['auth'],
+], function () {
+    Route::get("/{incidentId}", IncidentChronologicallyController::class . "@index");
+    Route::post("/{incidentId}", IncidentChronologicallyController::class . "@store");
+    Route::get("/{incidentId}/{incidentChronologicallyId}", IncidentChronologicallyController::class . "@show");
+    Route::put("/{incidentId}/{incidentChronologicallyId}", IncidentChronologicallyController::class . "@update");
+    Route::delete("/{incidentId}/{incidentChronologicallyId}", IncidentChronologicallyController::class . "@destroy");
 });
