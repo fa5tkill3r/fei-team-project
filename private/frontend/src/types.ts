@@ -81,6 +81,7 @@ export interface Incident {
   type: string
   created_at: string
   updated_at: string
+  images: string[]
 }
 
 export interface IncidentDetail {
@@ -89,9 +90,9 @@ export interface IncidentDetail {
   attack_severity: string
   attack_solution: string
   attack_description: string
-  attack_vector:string
-  attack_category:string
-  attack_type:string
-  security_measures:string
-  notes:string
+  attack_vector: string
+  attack_category: string
+  attack_type: string
+  security_measures: string
+  notes: string
 }

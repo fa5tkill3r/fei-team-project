@@ -7,6 +7,7 @@ export default {
   delete: 'Delete',
   add: 'Add',
   dashboard: 'Dashboard',
+  filters: 'Filters',
 
   auth: {
     login: 'Login',
@@ -30,6 +31,7 @@ export default {
     tasks: 'Tasks',
     board: 'Board view',
     list: 'List view',
+    incidents: 'Incidents',
   },
   task: {
     status: {
@@ -68,7 +70,6 @@ export default {
     select_parent: 'Select parent',
     no_description: 'No description provided',
     manage_tags: 'Manage tags',
-    filters: 'Filters',
     filter_docs: `Available filters:<br>
                   <ul>
                     <li><b>is</b> - filter by status (e.g. is:open, is:closed)<br></li>
@@ -120,7 +121,8 @@ export default {
   admin_panel: {
     users: 'Users',
     remove_user: 'Remove user',
-    remove_user_description: 'Are you sure you want to remove the user {0} from the team?',
+    remove_user_description:
+      'Are you sure you want to remove the user {0} from the team?',
     member: 'Member',
     role: 'Role',
     actions: 'Actions',
@@ -145,7 +147,12 @@ export default {
         user_add: 'User creation',
         user_remove: 'User deletion',
         team_info: 'Team info',
-      }
-    }
-  }
+      },
+    },
+    reporter: 'Reporter',
+    reported_at: 'reported {distance}',
+    title: 'Title',
+    description: 'Description',
+    reported: 'Reported',
+  },
 }

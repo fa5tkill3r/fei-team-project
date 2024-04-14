@@ -29,7 +29,8 @@ class IncidentsController extends Controller
             ], 400);
         }
 
-        $incident = Incident::create(array_merge($request->all(), ['title' => 'Unknown incident 123']));
+        $incident = Incident::create(array_merge($request->all(), ['title' => 'Unknown incident']));
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $originalName = $image->getClientOriginalName();
@@ -49,8 +50,15 @@ class IncidentsController extends Controller
 
     public function show($id)
     {
+        $incident = Incident::findOrFail($id);
+        $incident->load('images');
+
+        foreach ($incident->images as $i => $image) {
+            $incident->images[$i] = $image->url;
+        }
+
         return response()->json([
-            'data' => Incident::find($id),
+            'data' => $incident,
         ]);
     }
 

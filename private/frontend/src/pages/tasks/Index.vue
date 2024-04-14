@@ -105,7 +105,7 @@ onMounted(() => {
           <Dropdown class="left-0 menu-sm">
             <template #button>
               <button class="btn join-item w-28">
-                {{ $t('task.filters') }}
+                {{ $t('filters') }}
                 <ChevronDownIcon class="w-4 h-4" />
               </button>
             </template>

@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('./pages/Index.vue'),
+    component: () => import('./pages/tasks/Index.vue'),
   },
   // auth
   {
@@ -69,6 +69,11 @@ const routes = [
     path: '/incidents',
     name: 'incidents',
     component: () => import('./pages/incidents/Index.vue'),
+  },
+  {
+    path: '/incidents/create',
+    name: 'incidents-create',
+    component: () => import('./pages/incidents/CreateEdit.vue'),
   },
   {
     path: '/incidents/:id',
