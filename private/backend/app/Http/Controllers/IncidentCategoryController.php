@@ -30,4 +30,43 @@ class IncidentCategoryController extends Controller
 
         return response()->json(['message' => 'Category created successfully'], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $category = IncidentCategory::find($id);
+
+        if(!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+
+        $user = auth()->user();
+
+        if(!$user?->super_admin) {
+            return response()->json(['message' => 'You do not have permission to update a category'], 403);
+        }
+
+        $category->name = $request->name;
+        $category->save();
+
+        return response()->json(['message' => 'Category updated successfully'], 200);
+    }
+
+    public function destroy($id)
+    {
+        $category = IncidentCategory::find($id);
+
+        if(!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+
+        $user = auth()->user();
+
+        if(!$user?->super_admin) {
+            return response()->json(['message' => 'You do not have permission to delete a category'], 403);
+        }
+
+        $category->delete();
+
+        return response()->json(['message' => 'Category deleted successfully'], 200);
+    }
 }
