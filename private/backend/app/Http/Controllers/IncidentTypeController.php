@@ -28,7 +28,7 @@ class IncidentTypeController extends Controller
         $type->name = $request->name;
         $type->save();
 
-        return response()->json(['message' => 'Type created successfully'], 201);
+        return response()->json(['data' => $type], 201);
     }
 
     public function update(Request $request, $id)

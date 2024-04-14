@@ -8,6 +8,9 @@ export default {
   add: 'Add',
   dashboard: 'Dashboard',
   filters: 'Filters',
+  confirmation: 'Confirmation',
+  save: 'Save',
+  create: 'Create',
 
   auth: {
     login: 'Login',
@@ -126,6 +129,16 @@ export default {
     member: 'Member',
     role: 'Role',
     actions: 'Actions',
+    name: 'Name',
+    id: 'ID',
+    edit: 'Edit',
+    delete: 'Delete',
+    manage_incident_categories: 'Manage incident categories',
+    manage_incident_types: 'Manage incident types',
+    incident_categories: 'Incident categories',
+    incident_types: 'Incident types',
+    delete_category: "Are you sure you want to delete the category '{0}'?",
+    create_category: 'Create category',
   },
   incidents: {
     filter: {
@@ -154,5 +167,6 @@ export default {
     title: 'Title',
     description: 'Description',
     reported: 'Reported',
+    no_incidents: 'No incidents',
   },
 }
