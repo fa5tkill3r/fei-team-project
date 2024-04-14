@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdditionalInfoIncidentController;
+use App\Http\Controllers\IncidentCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
@@ -117,4 +118,13 @@ Route::group([
     Route::delete("/{id}", AdditionalInfoIncidentController::class . "@destroy");
     Route::post("/", AdditionalInfoIncidentController::class . "@store");
     Route::get("/enum-values", AdditionalInfoIncidentController::class . "@getEnumValues");
+});
+
+
+Route::group([
+    'prefix' => 'incident-categories',
+//    'middleware' => ['auth'],
+], function () {
+    Route::get("/", IncidentCategoryController::class . "@index");
+    Route::post("/", IncidentCategoryController::class . "@store");
 });

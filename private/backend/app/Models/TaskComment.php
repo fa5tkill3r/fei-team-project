@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * TaskComment Model
- * 
+ *
  * @property int $id
  * @property string $comment
  * @property int $user_id
  * @property int $task_id
- * 
+ *
  * @method BelongsTo task()
  * @method BelongsTo user()
- * 
+ *
  */
 class TaskComment extends Model
 {
@@ -27,6 +27,7 @@ class TaskComment extends Model
         'comment',
         'user_id',
         'task_id',
+        'show_in_report'
     ];
 
     public function task()

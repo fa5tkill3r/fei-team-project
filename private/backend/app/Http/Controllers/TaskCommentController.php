@@ -31,6 +31,7 @@ class TaskCommentController extends Controller
         $comment = $task->comments()->create([
             'user_id' => $this->user->id,
             'comment' => $request->comment,
+            'show_in_report' => $request->show_in_report ?? false,
         ]);
 
         return TaskCommentResource::make($comment);
