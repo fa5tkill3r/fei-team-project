@@ -127,4 +127,6 @@ Route::group([
 ], function () {
     Route::get("/", IncidentCategoryController::class . "@index");
     Route::post("/", IncidentCategoryController::class . "@store");
+    Route::put("/{id}", IncidentCategoryController::class . "@update");
+    Route::delete("/{id}", IncidentCategoryController::class . "@destroy");
 });
