@@ -16,7 +16,10 @@ use Validator;
  * @property string $name
  * @property string $email
  * @property string $surname
+ * @property string $phone_number
  * @property string $type
+ * @property string $ais_id
+ * @property string $department
  */
 class Incident extends Model
 {
@@ -26,9 +29,14 @@ class Incident extends Model
         'title',
         'description',
         'name',
+        'ais_id',
         'email',
         'surname',
         'type',
+        'phone_number',
+        'department',
+        //TODO: pridat automaticke dopnanie
+        'source'
     ];
 
     protected $rules = [

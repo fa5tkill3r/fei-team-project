@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('email');
             $table->string('surname');
             $table->string('type')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('department')->nullable();
+            $table->string('ais_id')->nullable();
+            $table->string('source')->nullable();
             $table->timestamps();
         });
     }
