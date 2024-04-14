@@ -18,9 +18,11 @@ class AdditionalIncidentInfo extends Model
         'attack_solution',
         'attack_description',
         'attack_vector',
+        'predicated_attack_severity',
         'attack_category',
         'attack_type',
         'security_measures',
+        'description_of_damage',
         'notes'
     ];
 
@@ -35,8 +37,4 @@ class AdditionalIncidentInfo extends Model
         return ['low', 'medium', 'high'];
     }
 
-    public static function getAttackCategoryValues()
-    {
-        return ['attack', 'abuse', 'fraud', 'missusage'];
-    }
 }

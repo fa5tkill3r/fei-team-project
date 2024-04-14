@@ -14,7 +14,7 @@ class IncidentSolution extends Model
     public $fillable = [
         'name',
         'description',
-        'name_of_creator',
+        'name_of_responsible_person',
         'deadline'
     ];
 

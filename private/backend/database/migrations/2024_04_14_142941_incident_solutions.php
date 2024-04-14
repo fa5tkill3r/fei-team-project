@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('incident_solutions', function (Blueprint $table) {
             $table->string('name');
             $table->text('description');
-            $table->string('name_of_creator');
+            $table->string('name_of_responsible_person');
             $table->DateTime('deadline');
             $table->foreignIdFor(\App\Models\AdditionalIncidentInfo::class)->index();
             $table->timestamps();

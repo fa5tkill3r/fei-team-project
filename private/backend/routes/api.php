@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdditionalInfoIncidentController;
 use App\Http\Controllers\IncidentCategoryController;
 use App\Http\Controllers\IncidentChronologicallyController;
+use App\Http\Controllers\IncidentReportPDFGenerator;
 use App\Http\Controllers\IncidentSolutionsController;
 use App\Http\Controllers\IncidentTypeController;
 use Illuminate\Http\Request;
@@ -166,3 +167,5 @@ Route::group([
     Route::put("/{incidentId}/{incidentChronologicallyId}", IncidentChronologicallyController::class . "@update");
     Route::delete("/{incidentId}/{incidentChronologicallyId}", IncidentChronologicallyController::class . "@destroy");
 });
+
+Route::get('generate-pdf/{incidentId}', IncidentReportPDFGenerator::class. '@generatePDF');
