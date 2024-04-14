@@ -110,6 +110,16 @@ const routes = [
     name: 'role-edit',
     component: () => import('./pages/admin/Role.vue'),
   },
+  {
+    path: '/admin/incidents/categories',
+    name: 'incident-categories',
+    component: () => import('./pages/admin/IncidentCategories.vue'),
+  },
+  {
+    path: '/admin/incidents/types',
+    name: 'incident-types',
+    component: () => import('./pages/admin/IncidentTypes.vue'),
+  },
 ]
 
 export default routes

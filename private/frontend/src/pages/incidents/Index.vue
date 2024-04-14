@@ -165,7 +165,7 @@ onMounted(() => {
     </div>
 
     <div v-else class="flex justify-center w-full mt-4">
-      <p>{{ $t('incident.no_incidents') }}</p>
+      <p>{{ $t('incidents.no_incidents') }}</p>
     </div>
 
     <div class="fixed bottom-6 right-6">

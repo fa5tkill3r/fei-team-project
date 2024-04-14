@@ -14,13 +14,13 @@ class IncidentCategoryController extends Controller
 
     public function store(Request $request)
     {
-        if(!$request->name) {
+        if (!$request->name) {
             return response()->json(['message' => 'Name is required'], 400);
         }
 
         $user = auth()->user();
 
-        if(!$user?->super_admin) {
+        if (!$user?->super_admin) {
             return response()->json(['message' => 'You do not have permission to create a category'], 403);
         }
 
@@ -28,20 +28,20 @@ class IncidentCategoryController extends Controller
         $category->name = $request->name;
         $category->save();
 
-        return response()->json(['message' => 'Category created successfully'], 201);
+        return response()->json(['data' => $category], 201);
     }
 
     public function update(Request $request, $id)
     {
         $category = IncidentCategory::find($id);
 
-        if(!$category) {
+        if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
 
         $user = auth()->user();
 
-        if(!$user?->super_admin) {
+        if (!$user?->super_admin) {
             return response()->json(['message' => 'You do not have permission to update a category'], 403);
         }
 
@@ -55,13 +55,13 @@ class IncidentCategoryController extends Controller
     {
         $category = IncidentCategory::find($id);
 
-        if(!$category) {
+        if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
 
         $user = auth()->user();
 
-        if(!$user?->super_admin) {
+        if (!$user?->super_admin) {
             return response()->json(['message' => 'You do not have permission to delete a category'], 403);
         }
 

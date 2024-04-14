@@ -96,3 +96,17 @@ export interface IncidentDetail {
   security_measures: string
   notes: string
 }
+
+export interface IncidentCategory {
+  id: number
+  name: string
+  created_at: string
+  updated_at: string
+}
+
+export interface IncidentType {
+  id: number
+  name: string
+  created_at: string
+  updated_at: string
+}

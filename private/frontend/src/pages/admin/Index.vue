@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useTeamStore } from '@/stores/team.ts'
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth.ts'
-import { Role, User } from '@/types.ts'
-import UserAvatar from '@/components/ui/UserAvatar.vue'
+import Select from '@/components/Select.vue'
 import UserSearch from '@/components/UserSearch.vue'
 import Modal from '@/components/ui/Modal.vue'
-import Select from '@/components/Select.vue'
+import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { AlertType, useAlertStore } from '@/stores/alert.ts'
+import { useAuthStore } from '@/stores/auth.ts'
+import { useTeamStore } from '@/stores/team.ts'
+import { Role, User } from '@/types.ts'
+import { ref } from 'vue'
 
 const teamStore = useTeamStore()
 const auth = useAuthStore()
@@ -94,6 +94,15 @@ getRoles()
 
 <template>
   <div>
+    <div class="flex mb-3 gap-2">
+      <router-link :to="{ name: 'incident-categories' }" class="btn">
+        {{ $t('admin_panel.manage_incident_categories') }}
+      </router-link>
+      <router-link :to="{ name: 'incident-types' }" class="btn">
+        {{ $t('admin_panel.manage_incident_types') }}
+      </router-link>
+    </div>
+
     <h1 class="text-xl">{{ $t('admin_panel.users') }}</h1>
     <div
       v-if="teamStore.me?.role.permissions.user_add"
