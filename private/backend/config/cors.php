@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173'],
+    'allowed_origins' => ['http://localhost:5173', 'http://localhost:4321'],
     'supports_credentials' => true, // Allow credentials (cookies, authorization headers)
 
 

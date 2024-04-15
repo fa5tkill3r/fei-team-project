@@ -14,6 +14,15 @@
             <span class="text-base-content/65">#{{ incident.id }}</span>
           </h1>
         </div>
+
+        <div>
+          <a
+            :href="`http://localhost:8000/api/generate-pdf/${incident.id}`"
+            class="btn btn-sm btn-ghost btn-square"
+          >
+            <DocumentArrowDownIcon class="w-5 h-5" />
+          </a>
+        </div>
       </div>
 
       <div class="divider mt-1 mb-3 col-span-full"></div>
@@ -54,7 +63,13 @@
                 :imgs="incident.images"
                 :index="galleryIndex"
                 @hide="galleryVisible = false"
-              ></vue-easy-lightbox>
+              >
+                <template #loading>
+                  <div class="absolute top-[50%]">
+                    <div class="loading loading-spinner"></div>
+                  </div>
+                </template>
+              </vue-easy-lightbox>
 
               <div v-for="(image, i) in incident.images">
                 <img
@@ -76,15 +91,20 @@
           <div>{{ incident.email }}</div>
         </div>
 
+        <div>TODO: add additional info</div>
+
         <button class="btn mt-3" @click="showCreateTask = true">
           Create task from incident
+        </button>
+        <button class="btn mt-1" @click="showInfoDialog = true">
+          Add info
         </button>
       </div>
     </div>
   </div>
 
   <BasicTaskCreateDialog v-model="showCreateTask" />
-  <IncidentDetailDialog v-model="showDialog" />
+  <IncidentDetailDialog v-model="showInfoDialog" />
 </template>
 
 <script setup lang="ts">
@@ -94,6 +114,7 @@ import PageTitle from '@/components/utils/PageTitle.vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
 import { useAuthStore } from '@/stores/auth'
 import { Incident } from '@/types'
+import { DocumentArrowDownIcon } from '@heroicons/vue/24/solid'
 import { onMounted, ref, watch } from 'vue'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import { useRoute } from 'vue-router'
@@ -105,7 +126,7 @@ const formatDistance = useFormatDistance()
 
 const loading = ref(true)
 const closeLoading = ref(false)
-const showDialog = ref(false)
+const showInfoDialog = ref(false)
 const showCreateTask = ref(false)
 const galleryVisible = ref(false)
 const galleryIndex = ref(0)
