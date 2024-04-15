@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdditionalIncidentInfo;
 use Illuminate\Http\Request;
 use App\Models\Incident;
 use App\Models\IncidentImage;
@@ -42,6 +43,10 @@ class IncidentsController extends Controller
                 $imageModel->save();
             }
         }
+
+        AdditionalIncidentInfo::create([
+            'incident_id' => $incident->id,
+        ]);
 
         return response()->json([
             'data' => $incident,

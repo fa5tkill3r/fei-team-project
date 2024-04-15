@@ -43,13 +43,15 @@ class AdditionalInfoIncidentController extends Controller
 
     public function show($id)
     {
-        $additionalInfo = AdditionalIncidentInfo::where('incident_id', $id)->first();
+        $add_id = AdditionalIncidentInfo::where('incident_id', $id)->first();
+        $additionalInfo = AdditionalIncidentInfo::find($add_id->id);
         return response()->json(['data' => $additionalInfo], 200);
     }
 
     public function destroy($id)
     {
-        $additionalInfo = AdditionalIncidentInfo::find($id);
+        $add_id = AdditionalIncidentInfo::where('incident_id', $id)->first();
+        $additionalInfo = AdditionalIncidentInfo::find($add_id->id);
         $additionalInfo->delete();
         return response()->json(['message' => 'Incident deleted successfully'], 200);
     }

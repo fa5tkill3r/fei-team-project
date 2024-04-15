@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    
+
     public function up(): void
     {
         Schema::create('task_comments', function (Blueprint $table) {
@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('task_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->text('comment');
+            $table->boolean('show_in_report')->default(false);
             $table->timestamps();
         });
     }

@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('incident_solutions', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
             $table->text('description');
             $table->string('name_of_responsible_person');

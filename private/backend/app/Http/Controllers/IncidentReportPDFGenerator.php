@@ -19,25 +19,28 @@ class IncidentReportPDFGenerator extends Controller
 
         $additionalIncidentInfo = AdditionalIncidentInfo::where('incident_id', $incidentId)->first();
 
-        $incidentChronologically = IncidentChronologically::where('additional_incident_info_id', $additionalIncidentInfo->id)->get();
-        $solutions = IncidentSolution::where('additional_incident_info_id', $additionalIncidentInfo->id)->get();
+        $incidentChronologically = IncidentChronologically::where('additional_incident_info_id', $additionalIncidentInfo->id)
+            ->orderBy('date', 'asc')
+            ->get();
+        $solutions = IncidentSolution::where('additional_incident_info_id', $additionalIncidentInfo->id)
+            ->orderBy('deadline', 'asc')
+            ->get();
+
 
         $task = Task::where('incident_id', $incidentId)->first();
-
-        $comments = [];
+        $comments = TaskComment::where('id', 0)->get();
         if($task){
             $comments = TaskComment::where('task_id', $task->id)->where('show_in_report', 1)->get();
         }
-        Pdf::setOption(['dpi' => 150, 'defaultFont' => 'times-new-roman']);
 
         $pdf = PDF::loadView('report', [
             'incident' => $incident,
+            'solutions' => $solutions,
             'additional' => $additionalIncidentInfo,
             'incidentChronologically' => $incidentChronologically,
-            'solutions' => $solutions,
             'comments' => $comments
-            ]);
+            ])->setPaper('a4');
 
-        return $pdf->download('incident-report.pdf');
+        return $pdf->download('incident-report'. $incidentId . '.pdf');
     }
 }
