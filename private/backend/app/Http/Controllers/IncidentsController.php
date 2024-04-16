@@ -34,8 +34,8 @@ class IncidentsController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $originalName = $image->getClientOriginalName();
-                $imagePath = $image->storeAs('images', $originalName, 'public');
+                $hash = md5_file($image);
+                $imagePath = $image->storeAs('images', $hash, 'public');
                 $imageModel = new IncidentImage();
                 $imageModel->image = basename($imagePath);
                 $imageModel->path = $imagePath;
