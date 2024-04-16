@@ -8,6 +8,7 @@ use App\Models\IncidentChronologically;
 use App\Models\IncidentSolution;
 use App\Models\Task;
 use App\Models\TaskComment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -18,6 +19,9 @@ class IncidentReportPDFGenerator extends Controller
         $incident = Incident::findOrFail($incidentId);
 
         $additionalIncidentInfo = AdditionalIncidentInfo::where('incident_id', $incidentId)->first();
+
+        $taker = User::find($additionalIncidentInfo->incident_taken_by);
+        $approver = User::find($additionalIncidentInfo->incident_approved_by);
 
         $incidentChronologically = IncidentChronologically::where('additional_incident_info_id', $additionalIncidentInfo->id)
             ->orderBy('date', 'asc')
@@ -38,7 +42,9 @@ class IncidentReportPDFGenerator extends Controller
             'solutions' => $solutions,
             'additional' => $additionalIncidentInfo,
             'incidentChronologically' => $incidentChronologically,
-            'comments' => $comments
+            'comments' => $comments,
+            'taker' => $taker,
+            'approver' => $approver,
             ])->setPaper('a4');
 
         return $pdf->stream('incident-report'. $incidentId . '.pdf');

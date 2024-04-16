@@ -42,60 +42,116 @@
     .title_top {
         text-align: center;
     }
+
+    table {
+        width: 100%;
+    }
+
+    table > tr {
+        vertical-align: middle;
+    }
+
+    .signatures {
+        position: absolute;
+        bottom: 0;
+    }
 </style>
 <body>
 <h1 class="title_top">Záznam o bezpečnostnom incidente</h1>
-<div>
-    <p><b>Meno incidentu:</b> {{ $incident->name }}</p>
-    <p><b>Číslo bezpečostného incidentu:</b> {{ $incident->id }}</p>
-    <p><b>Dátum a čas vzniku incidentu:</b> {{ $incident->created_at }}</p>
-    <p><b>Dátum a čas nahlásenia incudentu:</b> {{ $incident->description }} ?? aj toto cheme pytat</p>
-</div>
+<table>
+    <tr>
+        <td><b>Meno incidentu:</b> {{ $incident->name }}</td>
+        <td><b>Číslo bezpečostného incidentu:</b> {{ $incident->id }}</td>
+    </tr>
+    <tr>
+        <td><b>Vznik incidentu:</b> {{ $incident->incident_created_at }}</td>
+        <td><b>Nahlásenie incudentu:</b> {{ $incident->created_at }}</td>
+    </tr>
+    <tr>
+        <h4 class="title">Bezpečnostný incident nahlásil:</h4>
+    </tr>
+    <tr>
+        <td><b>Meno:</b> {{ $incident->name }}</td>
+        <td><b>Priezvisko:</b> {{ $incident->surname }}</td>
+    </tr>
+    <tr>
+        <td><b>Email:</b> {{ $incident->email }}</td>
+        <td><b>Telefónne číslo:</b> {{ $incident->phone }}</td>
+    </tr>
 
-<h4 class="title">Bezpečnostný incident nahlásil:</h4>
-<div class="section">
-    <p>Meno: {{ $incident->ais_id }}</p>
-    <p>Pracoviko: {{ $incident->department }}</p>
-    <p>Telefónne číslo: {{ $incident->phone }}</p>
-    <p>Email: {{ $incident->email }}</p>
-</div>
+    <tr>
+        <td><b>Pracovisko:</b> {{ $incident->department }}</td>
+        <td><b>AIS ID:</b> {{ $incident->ais_id }}</td>
+    </tr>
 
-<p><b>Dotknutá služba:</b> {{ $additional->attacked_service }}</p>
-<p><b>Závažnosť bezpečnostného incidentu:</b> {{ $additional->attack_severity }}</p>
-<p><b>Spôspob hlásenia:</b> {{ $incident->source}}</p>
-<p><b>Odhadovaný dopad:</b> {{ $additional->predicated_attack_severity }}</p>
-<p><b>Stručný opis incidentu:</b> {{ $additional->description }}</p>
+    <tr>
+        <td><b>Dotknutá služba:</b> {{ $additional->attacked_service }}</td>
+        <td><b>Závažnosť bezpečnostného incidentu:</b> {{ $additional->attack_severity }}</td>
+    </tr>
+
+    <tr>
+        <td><b>Spôspob hlásenia:</b> {{ $incident->source}}</td>
+        <td><b>Odhadovaný dopad:</b> {{ $additional->predicated_attack_severity }}</td>
+    </tr>
+
+    <tr>
+        <td><b>Kategória bezpečnostného incidentu:</b> {{ $additional->attack_category }}</td>
+    </tr>
+
+    <tr>
+        <td><b>Typ bezpečnostného incidentu:</b> {{ $additional->attack_type }}</td>
+    </tr>
+</table>
+<b>Stručný opis incidentu:</b> {{ $additional->description }}
+
+
 <h4 class="title">Časové údaje bezpečnostného incidentu:</h4>
 
 <div class="section">
     @foreach($incidentChronologically as $ic)
-        <p>{{ $ic->date }} - {{ $ic->description }}</p>
+        {{ $ic->date }} - {{ $ic->description }}
+            <br>
     @endforeach
 </div>
 
 
-<p><b>Popis škôd:</b> {{ $additional->description_of_damage }}</p>
+<b>Popis škôd:</b> {{ $additional->description_of_damage }} <br>
+
 <h4 class="title">Priebeh vyšetrovania:</h4>
 <div class="section">
     @foreach($comments as $comment)
-        <p>{{ $comment->created_at }} - {{ $comment->comment }}</p>
+        {{ $comment->created_at }} - {{ $comment->comment }}
+        @if(!$loop->last)
+            <br>
+        @endif
     @endforeach
 </div>
-<p><b>Kategória bezpečnostného incidentu:</b> {{ $additional->attack_category }}</p>
-<p><b>Typ bezpečnostného incidentu:</b> {{ $additional->attack_type }}</p>
 
 
-<p><b>Poznámky:</b> {{ $additional->notes }}</p>
+
+<b>Poznámky:</b> {{ $additional->notes }} <br>
 
 <h4 class="title">Opatrenia:</h4>
 @foreach($solutions as $sol)
     <div class="solution-block">
-        <p><b>{{ $sol->name }}</b></p>
-        <p>{{ $sol->deadline }} - <b>{{ $sol->name_of_responsible_person }}</b></p>
-        <p>{{ $sol->description }}</p>
+        <b>{{ $sol->name }}</b> <br>
+        {{ $sol->deadline }} - <b>{{ $sol->name_of_responsible_person }}</b><br>
+        {{ $sol->description }}
     </div>
 @endforeach
 
 
+<div class="signatures">
+    <b>Hlásenie o bezpečnostnom incidente prijal: </b> {{ $taker->titles_before }}
+    {{ $taker->first_name }}  {{$taker->last_name}}
+    {{ $taker->titles_after }}<br> <br>
+
+    <b>Navrhované bezpečnostné opatrenia schválil: </b> {{ $approver->titles_before }}
+    {{ $approver->first_name }}  {{$approver->last_name}}
+    {{ $approver->titles_after }}
+
+</div>
+
 </body>
+
 </html>

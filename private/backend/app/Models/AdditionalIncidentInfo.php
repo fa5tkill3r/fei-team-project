@@ -15,15 +15,15 @@ class AdditionalIncidentInfo extends Model
         'recorded_by',
         'attacked_service',
         'attack_severity',
-        'attack_solution',
         'attack_description',
-        'attack_vector',
         'predicated_attack_severity',
         'attack_category',
         'attack_type',
-        'security_measures',
         'description_of_damage',
-        'notes'
+        'notes',
+        'incident_created_at',
+        'incident_taken_by',
+        'incident_approved_by',
     ];
 
     public function incident()
