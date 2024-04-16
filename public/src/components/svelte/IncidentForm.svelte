@@ -7,12 +7,13 @@
     images?: FileList
   }
 
-  let form: IncidentForm = {
+  const defaultForm: IncidentForm = {
     name: '',
     surname: '',
     email: '',
     description: '',
   }
+  let form = {...defaultForm}
 
   const prefix = import.meta.env.PUBLIC_API_URL || ''
 
@@ -42,6 +43,7 @@
       .then((res) => res.json())
       .then((res) => {
         console.log(res)
+        form = {...defaultForm}
         alert('Incident reported successfully!')
       })
       .catch((err) => {

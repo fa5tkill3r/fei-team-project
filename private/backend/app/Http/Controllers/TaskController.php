@@ -155,6 +155,7 @@ class TaskController extends Controller
         }
 
         $task->load(['users', 'tags', 'responses', 'responses.user']);
+        $task->save();
 
         return new TaskResource($task);
     }

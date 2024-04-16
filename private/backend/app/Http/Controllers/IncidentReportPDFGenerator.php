@@ -41,6 +41,6 @@ class IncidentReportPDFGenerator extends Controller
             'comments' => $comments
             ])->setPaper('a4');
 
-        return $pdf->download('incident-report'. $incidentId . '.pdf');
+        return $pdf->stream('incident-report'. $incidentId . '.pdf');
     }
 }

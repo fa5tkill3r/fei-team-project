@@ -34,6 +34,7 @@ export interface Task {
   comments_count: number
   children: Task[]
   all_users: boolean
+  incident_id: number | null
 }
 
 export interface TaskRequest {

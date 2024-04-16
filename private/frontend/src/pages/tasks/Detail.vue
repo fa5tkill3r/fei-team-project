@@ -229,6 +229,28 @@
         <div class="divider my-0"></div>
 
         <div>
+          <div class="text-sm mb-1 label-text">
+            {{ $t('task.incident') }}
+          </div>
+
+          <div>
+            <router-link
+              v-if="task.incident_id"
+              :to="{
+                name: 'incident-detail',
+                params: { id: task.incident_id },
+              }"
+              class="link"
+            >
+              {{ task.incident_id }}
+            </router-link>
+            <span v-else>{{ $t('task.no_incident') }}</span>
+          </div>
+        </div>
+
+        <div class="divider my-0"></div>
+
+        <div>
           <span class="text-sm mb-1 label-text">
             {{ $t('task.parent') }}
           </span>
