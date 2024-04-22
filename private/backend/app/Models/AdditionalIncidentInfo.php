@@ -12,6 +12,7 @@ class AdditionalIncidentInfo extends Model
     public $table = 'incident_additional_info';
 
     public $fillable = [
+        'incident_id',
         'recorded_by',
         'attacked_service',
         'attack_severity',
