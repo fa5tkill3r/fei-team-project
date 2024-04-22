@@ -1,19 +1,19 @@
 <template>
     <form
-      @submit.prevent="saveTask"
+      @submit.prevent="saveIncident"
       class="grid grid-cols-12 gap-x-4 gap-y-4 max-w-7xl mx-auto"
       v-if="!initialLoading"
     >
-      <PageTitle :text="edit ? 'task.editing' : 'task.new'" :task="task.name" />
+      <PageTitle :text="edit ? 'task.editing' : 'task.new'" :task="incident.name" />
 
-      <div class="col-span-12 xl:col-span-9">
+      <div class="col-span-full">
         <label class="form-control w-full">
           <div class="label">
             <span class="label-text">{{ $t('task.title') }}</span>
           </div>
           <input
             type="text"
-            v-model="task.name"
+            v-model="incident.title"
             :placeholder="$t('task.title_placeholder')"
             class="input input-bordered w-full"
           />
@@ -26,11 +26,20 @@
           <textarea
             class="textarea textarea-bordered h-24 text-base"
             :placeholder="$t('task.description_placeholder')"
-            v-model="task.description"
+            v-model="incident.description"
           ></textarea>
         </label>
 
-        <combobox></combobox>
+        <label class="form-control">
+          <div class="label">
+            <span class="label-text">Typ incidentu</span>
+          </div>
+          <combobox
+            v-model="incident.type"
+            :options="incidentTypes.map((i) => ( i ))"
+            placeholder="Vyber typ incidentu"
+          />
+        </label>
 
         <div class="mt-5">
           <span class="text-lg font-semibold">
@@ -45,7 +54,7 @@
             </div>
             <input
               type="text"
-              v-model="task.name"
+              v-model="incident.name"
               placeholder=""
               class="input input-bordered w-full"
             />
@@ -56,7 +65,7 @@
             </div>
             <input
               type="text"
-              v-model="task.name"
+              v-model="incident.surname"
               placeholder=""
               class="input input-bordered w-full"
             />
@@ -68,7 +77,29 @@
             </div>
             <input
               type="text"
-              v-model="task.name"
+              v-model="incident.ais_id"
+              placeholder=""
+              class="input input-bordered w-full"
+            />
+          </label>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Email:</span>
+            </div>
+            <input
+              type="text"
+              v-model="incident.email"
+              placeholder=""
+              class="input input-bordered w-full"
+            />
+          </label>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Telefonne cislo:</span>
+            </div>
+            <input
+              type="text"
+              v-model="incident.phone_number"
               placeholder=""
               class="input input-bordered w-full"
             />
@@ -86,56 +117,56 @@
         </div>
       </div>
 
-      <div class="col-span-12 xl:col-span-3">
-        <label class="form-control">
-          <div class="label">
-            <span class="label-text">{{ $t('task.severity') }}</span>
-          </div>
-          <!-- TODO: add better styles and figure out what values are actually supposed to be here -->
-          <select
-            class="select select-bordered select-sm w-full max-w-xs"
-            v-model="task.severity"
-          >
-            <option>low</option>
-            <option>medium</option>
-            <option>high</option>
-          </select>
-        </label>
+<!--      <div class="col-span-12 xl:col-span-3">-->
+<!--        <label class="form-control">-->
+<!--          <div class="label">-->
+<!--            <span class="label-text">{{ $t('task.severity') }}</span>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; TODO: add better styles and figure out what values are actually supposed to be here &ndash;&gt;-->
+<!--          <select-->
+<!--            class="select select-bordered select-sm w-full max-w-xs"-->
+<!--            v-model="task.severity"-->
+<!--          >-->
+<!--            <option>low</option>-->
+<!--            <option>medium</option>-->
+<!--            <option>high</option>-->
+<!--          </select>-->
+<!--        </label>-->
 
-        <div class="divider my-0"></div>
+<!--        <div class="divider my-0"></div>-->
 
-        <div class="form-control">
-          <div class="label">
-            <span class="label-text">{{ $t('task.deadline') }}</span>
-          </div>
+<!--        <div class="form-control">-->
+<!--          <div class="label">-->
+<!--            <span class="label-text">{{ $t('task.deadline') }}</span>-->
+<!--          </div>-->
 
-          <!-- TODO: add better styles -->
-          <DatePicker
-            v-model="task.deadline"
-            :enable-time-picker="false"
-            auto-apply
-          />
-        </div>
+<!--          &lt;!&ndash; TODO: add better styles &ndash;&gt;-->
+<!--          <DatePicker-->
+<!--            v-model="task.deadline"-->
+<!--            :enable-time-picker="false"-->
+<!--            auto-apply-->
+<!--          />-->
+<!--        </div>-->
 
-        <div class="divider my-0"></div>
+<!--        <div class="divider my-0"></div>-->
 
-        <TagSelector v-model="task.tags" />
+<!--        <TagSelector v-model="task.tags" />-->
 
-        <div class="divider my-0"></div>
-        <div>
-          <UserSelector v-model="task.users" />
-          <div class="form-control">
-            <label class="label cursor-pointer">
-              <span class="label-text">{{ $t('task.all_users') }}</span>
-              <input v-model="task.all_users" type="checkbox" class="checkbox" />
-            </label>
-          </div>
-        </div>
+<!--        <div class="divider my-0"></div>-->
+<!--        <div>-->
+<!--          <UserSelector v-model="task.users" />-->
+<!--          <div class="form-control">-->
+<!--            <label class="label cursor-pointer">-->
+<!--              <span class="label-text">{{ $t('task.all_users') }}</span>-->
+<!--              <input v-model="task.all_users" type="checkbox" class="checkbox" />-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="divider my-0"></div>
+<!--        <div class="divider my-0"></div>-->
 
-        <TaskSelector v-model="task.parent" :task-id="id" />
-      </div>
+<!--        <TaskSelector v-model="task.parent" :task-id="id" />-->
+<!--      </div>-->
 
       <div class="col-span-12 xl:col-span-9 text-right lg:hidden">
         <LoadingButton
@@ -170,14 +201,15 @@
   const team = useTeamStore()
   const loading = ref(false)
   const initialLoading = ref(true)
-  const task = ref<TaskRequest>({
-    name: '',
+  const incident = ref({
+    title: '',
     description: '',
-    users: [],
-    tags: [],
-    severity: 'low',
-    parent: undefined,
-    all_users: false,
+    type: '',
+    name: '',
+    surname: '',
+    ais_id: '',
+    email: '',
+    phone_number: '',
   })
   const incidentTypes = ref<string[]>([])
 
@@ -215,13 +247,28 @@
     loading.value = true
 
     const request = edit
-      ? auth.client.put(task.value, `tasks/${team.current?.id}/${id}`)
-      : auth.client.post(task.value, `tasks/${team.current?.id}`)
+      ? auth.client.put(incident.value, `tasks/${team.current?.id}/${id}`)
+      : auth.client.post(incident.value, `tasks/${team.current?.id}`)
 
     request
       .json()
       .then((res: any) => {
         router.push({ name: 'task-detail', params: { id: res.data.id } })
+      })
+      .finally(() => {
+        loading.value = false
+      })
+  }
+
+  function saveIncident() {
+    const request = edit
+      ? auth.client.put(incident.value, `incidents/${id}`)
+      : auth.client.post(incident.value, `incidents`)
+
+    request
+      .json()
+      .then((res: any) => {
+        router.push({ name: 'incident-detail', params: { id: res.data.id } })
       })
       .finally(() => {
         loading.value = false
