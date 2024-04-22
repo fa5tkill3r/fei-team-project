@@ -11,6 +11,7 @@ use App\Search\TokenType;
 use Illuminate\Http\Request;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Models\AdditionalIncidentInfo;
 
 function getFirstName(string $name): string
 {
@@ -136,6 +137,16 @@ class TaskController extends Controller
         if ($request->incident_id != null) {
             $incident = Incident::findOrFail($request->incident_id);
             $task->incident()->associate($incident);
+            $additionalInfo = AdditionalIncidentInfo::find($incident->id);
+            if ($additionalInfo == null) {
+                AdditionalIncidentInfo::create([
+                    'incident_id' => $incident->id,
+                ]);
+            }
+
+            $additionalInfo->incident_taken_by = $this->user->id;
+            $additionalInfo->save();
+            
         }
 
         $users = $request->users ? $request->users : [];

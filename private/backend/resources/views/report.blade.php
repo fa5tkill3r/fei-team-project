@@ -61,11 +61,11 @@
 <table>
     <tr>
         <td><b>Meno incidentu:</b> {{ $incident->name }}</td>
-        <td><b>Číslo bezpečostného incidentu:</b> {{ $incident->id }}</td>
+        <td><b>Číslo bezpečnostného incidentu:</b> {{ $incident->id }}</td>
     </tr>
     <tr>
         <td><b>Vznik incidentu:</b> {{ $incident->incident_created_at }}</td>
-        <td><b>Nahlásenie incudentu:</b> {{ $incident->created_at }}</td>
+        <td><b>Nahlásenie incidentu:</b> {{ $incident->created_at }}</td>
     </tr>
     <tr>
         <h4 class="title">Bezpečnostný incident nahlásil:</h4>

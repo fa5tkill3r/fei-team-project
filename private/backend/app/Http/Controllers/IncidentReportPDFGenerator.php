@@ -26,6 +26,7 @@ class IncidentReportPDFGenerator extends Controller
         $incidentChronologically = IncidentChronologically::where('additional_incident_info_id', $additionalIncidentInfo->id)
             ->orderBy('date', 'asc')
             ->get();
+
         $solutions = IncidentSolution::where('additional_incident_info_id', $additionalIncidentInfo->id)
             ->orderBy('deadline', 'asc')
             ->get();
