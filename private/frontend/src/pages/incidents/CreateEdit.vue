@@ -5,7 +5,7 @@
       v-if="!initialLoading"
     >
       <PageTitle :text="edit ? 'task.editing' : 'task.new'" :task="task.name" />
-  
+
       <div class="col-span-12 xl:col-span-9">
         <label class="form-control w-full">
           <div class="label">
@@ -18,7 +18,7 @@
             class="input input-bordered w-full"
           />
         </label>
-  
+
         <label class="form-control">
           <div class="label">
             <span class="label-text">{{ $t('task.description') }}</span>
@@ -29,7 +29,52 @@
             v-model="task.description"
           ></textarea>
         </label>
-  
+
+        <combobox></combobox>
+
+        <div class="mt-5">
+          <span class="text-lg font-semibold">
+          Nahlasujuci
+        </span>
+          <div class="divider my-0"></div>
+        </div>
+        <div>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Meno:</span>
+            </div>
+            <input
+              type="text"
+              v-model="task.name"
+              placeholder=""
+              class="input input-bordered w-full"
+            />
+          </label>
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">Priezvisko:</span>
+            </div>
+            <input
+              type="text"
+              v-model="task.name"
+              placeholder=""
+              class="input input-bordered w-full"
+            />
+          </label>
+
+          <label class="form-control w-full">
+            <div class="label">
+              <span class="label-text">AIS ID:</span>
+            </div>
+            <input
+              type="text"
+              v-model="task.name"
+              placeholder=""
+              class="input input-bordered w-full"
+            />
+          </label>
+        </div>
+
         <div class="text-right hidden lg:block">
           <LoadingButton
             type="submit"
@@ -40,7 +85,7 @@
           </LoadingButton>
         </div>
       </div>
-  
+
       <div class="col-span-12 xl:col-span-3">
         <label class="form-control">
           <div class="label">
@@ -56,14 +101,14 @@
             <option>high</option>
           </select>
         </label>
-  
+
         <div class="divider my-0"></div>
-  
+
         <div class="form-control">
           <div class="label">
             <span class="label-text">{{ $t('task.deadline') }}</span>
           </div>
-  
+
           <!-- TODO: add better styles -->
           <DatePicker
             v-model="task.deadline"
@@ -71,11 +116,11 @@
             auto-apply
           />
         </div>
-  
+
         <div class="divider my-0"></div>
-  
+
         <TagSelector v-model="task.tags" />
-  
+
         <div class="divider my-0"></div>
         <div>
           <UserSelector v-model="task.users" />
@@ -86,12 +131,12 @@
             </label>
           </div>
         </div>
-  
+
         <div class="divider my-0"></div>
-  
+
         <TaskSelector v-model="task.parent" :task-id="id" />
       </div>
-  
+
       <div class="col-span-12 xl:col-span-9 text-right lg:hidden">
         <LoadingButton
           type="submit"
@@ -103,7 +148,7 @@
       </div>
     </form>
   </template>
-  
+
   <script setup lang="ts">
   import TagSelector from '@/components/TagSelector.vue'
   import TaskSelector from '@/components/TaskSelector.vue'
@@ -115,9 +160,10 @@
   import DatePicker from '@vuepic/vue-datepicker'
   import { onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  
+
   import '@vuepic/vue-datepicker/dist/main.css'
-  
+  import Combobox from '@/components/ui/Combobox.vue'
+
   const { edit, id } = defineProps<{ edit?: boolean; id?: number }>()
   const router = useRouter()
   const auth = useAuthStore()
@@ -133,7 +179,17 @@
     parent: undefined,
     all_users: false,
   })
-  
+  const incidentTypes = ref<string[]>([])
+
+  function loadIncidentTypes() {
+    auth.client
+      .get(`incident-types/`)
+      .json()
+      .then((res: any) => {
+        incidentTypes.value = res.data.map((i: any) => i.name)
+      })
+  }
+
   function loadTask() {
     initialLoading.value = true
     auth.client
@@ -154,14 +210,14 @@
         initialLoading.value = false
       })
   }
-  
+
   function saveTask() {
     loading.value = true
-  
+
     const request = edit
       ? auth.client.put(task.value, `tasks/${team.current?.id}/${id}`)
       : auth.client.post(task.value, `tasks/${team.current?.id}`)
-  
+
     request
       .json()
       .then((res: any) => {
@@ -171,13 +227,15 @@
         loading.value = false
       })
   }
-  
+
+  loadIncidentTypes()
+
   onMounted(() => {
     if (edit && id) {
       loadTask()
+
     } else {
       initialLoading.value = false
     }
   })
   </script>
-  
