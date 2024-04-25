@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -21,9 +23,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $remember_token_expires_at
  * @property boolean $super_admin
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, LdapAuthenticatable
 {
-    use HasFactory;
+    use HasFactory, AuthenticatesWithLdap;
 
     protected $fillable = [
         "email",
