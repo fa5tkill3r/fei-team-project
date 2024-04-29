@@ -168,5 +168,6 @@ export default {
     description: 'Description',
     reported: 'Reported',
     no_incidents: 'No incidents',
+    create_task: 'Create task',
   },
 }
