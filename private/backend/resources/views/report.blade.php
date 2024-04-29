@@ -52,8 +52,12 @@
     }
 
     .signatures {
+        width: 100%;
         position: absolute;
         bottom: 0;
+    }
+    .content_out_of_table {
+        margin-left: 5px;
     }
 </style>
 <body>
@@ -102,56 +106,83 @@
         <td><b>Typ bezpečnostného incidentu:</b> {{ $additional->attack_type }}</td>
     </tr>
 </table>
-<b>Stručný opis incidentu:</b> {{ $additional->description }}
+<div class="content_out_of_table">
+    <b>Stručný opis incidentu:</b> {{ $additional->description }}
 
 
-<h4 class="title">Časové údaje bezpečnostného incidentu:</h4>
+    <h4 class="title">Časové údaje bezpečnostného incidentu:</h4>
 
-<div class="section">
-    @foreach($incidentChronologically as $ic)
-        {{ $ic->date }} - {{ $ic->description }}
-            <br>
-    @endforeach
-</div>
-
-
-<b>Popis škôd:</b> {{ $additional->description_of_damage }} <br>
-
-<h4 class="title">Priebeh vyšetrovania:</h4>
-<div class="section">
-    @foreach($comments as $comment)
-        {{ $comment->created_at }} - {{ $comment->comment }}
-        @if(!$loop->last)
-            <br>
-        @endif
-    @endforeach
-</div>
-
-
-
-<b>Poznámky:</b> {{ $additional->notes }} <br>
-
-<h4 class="title">Opatrenia:</h4>
-@foreach($solutions as $sol)
-    <div class="solution-block">
-        <b>{{ $sol->name }}</b> <br>
-        {{ $sol->deadline }} - <b>{{ $sol->name_of_responsible_person }}</b><br>
-        {{ $sol->description }}
+    <div class="section">
+        @foreach($incidentChronologically as $ic)
+            {{ $ic->date }} - {{ $ic->description }}
+                <br>
+        @endforeach
     </div>
-@endforeach
 
 
-<div class="signatures">
-    <b>Hlásenie o bezpečnostnom incidente prijal: </b> {{ $taker->titles_before }}
-    {{ $taker->first_name }}  {{$taker->last_name}}
-    {{ $taker->titles_after }}<br> <br>
+    <b>Popis škôd:</b> {{ $additional->description_of_damage }} <br>
 
-    <b>Navrhované bezpečnostné opatrenia schválil: </b> {{ $approver->titles_before }}
-    {{ $approver->first_name }}  {{$approver->last_name}}
-    {{ $approver->titles_after }}
+    <h4 class="title">Priebeh vyšetrovania:</h4>
+    <div class="section">
+        @foreach($comments as $comment)
+            {{ $comment->created_at }} - {{ $comment->comment }}
+            @if(!$loop->last)
+                <br>
+            @endif
+        @endforeach
+    </div>
 
+
+
+    <b>Poznámky:</b> {{ $additional->notes }} <br>
+
+    <h4 class="title">Opatrenia:</h4>
+    @foreach($solutions as $sol)
+        <div class="solution-block">
+            <b>{{ $sol->name }}</b> <br>
+            {{ $sol->deadline }} - <b>{{ $sol->name_of_responsible_person }}</b><br>
+            {{ $sol->description }}
+        </div>
+    @endforeach
+
+
+    <div class="signatures">
+
+        <table>
+            <tr>
+                <td >
+                    <div style="text-align: left">
+                        <b>Hlásenie o bezpečnostnom incidente prijal: </b><br><br><br>
+                    </div>
+
+                    <div style="text-align: center">
+                    ............................................<br>
+
+                        {{ $taker->titles_before }}
+                        {{ $taker->first_name }}
+                        {{$taker->last_name}}
+                        {{ $taker->titles_after }}
+                    </div>
+                </td>
+
+                <td>
+                    <div style="text-align: right">
+                        <b>Navrhované bezpečnostné opatrenia schválil: </b> <br><br><br>
+                    </div>
+                    <div style="text-align: center">
+                    ............................................<br>
+                        {{ $approver->titles_before }}
+                        {{ $approver->first_name }}
+                        {{ $approver->last_name }}
+                        {{ $approver->titles_after }}
+                    </div>
+
+                </td>
+
+            </tr>
+        </table>
+    </div>
 </div>
-
 </body>
 
 </html>
