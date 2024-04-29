@@ -53,8 +53,8 @@ import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
 import { defineModel, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Select from './Select.vue'
 import Modal from './ui/Modal.vue'
+import Select from './ui/Select.vue'
 
 const model = defineModel<boolean>()
 
