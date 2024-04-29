@@ -99,7 +99,7 @@ const props = defineProps({
 })
 
 const queryOption = computed(() => {
-  return query.value === '' ? null : { id: null, name: query.value }
+  return query.value === '' ? null : query.value
 })
 
 let filteredOptions = computed(() =>

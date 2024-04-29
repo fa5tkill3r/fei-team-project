@@ -42,9 +42,18 @@
         </label>
 
         <div class="mt-5">
-          <span class="text-lg font-semibold">
-          Nahlasujuci
-        </span>
+          <div class="flex items-center justify-between">
+            <span class="text-lg font-semibold">
+              Nahlasujuci
+            </span>
+            <button
+              type="button"
+              class="btn btn-outline btn-primary ml-2"
+              @click="fillMe"
+            >
+              Predvyplnit mna
+            </button>
+          </div>
           <div class="divider my-0"></div>
         </div>
         <div>
@@ -187,7 +196,7 @@
   import LoadingButton from '@/components/ui/LoadingButton.vue'
   import { useAuthStore } from '@/stores/auth'
   import { useTeamStore } from '@/stores/team'
-  import { TaskRequest } from '@/types'
+  import { IncidentRequest, TaskRequest } from '@/types'
   import DatePicker from '@vuepic/vue-datepicker'
   import { onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
@@ -201,7 +210,7 @@
   const team = useTeamStore()
   const loading = ref(false)
   const initialLoading = ref(true)
-  const incident = ref({
+  const incident = ref<IncidentRequest>({
     title: '',
     description: '',
     type: '',
@@ -243,24 +252,9 @@
       })
   }
 
-  function saveTask() {
+  function saveIncident() {
     loading.value = true
 
-    const request = edit
-      ? auth.client.put(incident.value, `tasks/${team.current?.id}/${id}`)
-      : auth.client.post(incident.value, `tasks/${team.current?.id}`)
-
-    request
-      .json()
-      .then((res: any) => {
-        router.push({ name: 'task-detail', params: { id: res.data.id } })
-      })
-      .finally(() => {
-        loading.value = false
-      })
-  }
-
-  function saveIncident() {
     const request = edit
       ? auth.client.put(incident.value, `incidents/${id}`)
       : auth.client.post(incident.value, `incidents`)
@@ -273,6 +267,14 @@
       .finally(() => {
         loading.value = false
       })
+  }
+
+  function fillMe() {
+    incident.value.name = auth.user?.first_name || ''
+    incident.value.surname = auth.user?.last_name || ''
+    incident.value.ais_id = ''
+    incident.value.email = auth.user?.email || ''
+    incident.value.phone_number = ''
   }
 
   loadIncidentTypes()

@@ -49,6 +49,17 @@ export interface TaskRequest {
   all_users?: boolean
 }
 
+export interface IncidentRequest {
+  title: string
+  description: string
+  name: string
+  surname: string
+  email: string
+  phone_number: string
+  ais_id: string
+  type: string
+}
+
 export interface Tag {
   id: number
   name: string
