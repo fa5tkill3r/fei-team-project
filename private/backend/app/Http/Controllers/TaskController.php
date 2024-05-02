@@ -146,7 +146,6 @@ class TaskController extends Controller
 
             $additionalInfo->incident_taken_by = $this->user->id;
             $additionalInfo->save();
-            
         }
 
         $users = $request->users ? $request->users : [];
@@ -175,7 +174,7 @@ class TaskController extends Controller
     {
         $team = $this->user->teams()->findOrFail($teamId);
         $task = $team->tasks()
-            ->with(['users', 'tags', 'responses', 'responses.user', 'parent', 'children'])
+            ->with(['users', 'tags', 'responses', 'responses.user', 'parent', 'children', 'incident'])
             ->findOrFail($taskId);
 
         return new TaskResource($task);
@@ -194,9 +193,10 @@ class TaskController extends Controller
 
         $task = $team->tasks()->findOrFail($taskId);
 
-        if ($task->incident != null) {
-            $task->incident->update($request->incident);
-        }
+//        TODO: update incident
+//        if ($task->incident != null) {
+//            $task->incident->update($request->incident);
+//        }
 
         $task->parent_id = $request->parent;
         $task->update($request->except(['users', 'tags', 'parent']));
@@ -211,7 +211,9 @@ class TaskController extends Controller
         $tags = $request->tags ? $request->tags : [];
         $task->tags()->sync($tags);
 
-        $task = $team->tasks()->with(['users', 'tags', 'responses', 'responses.user', 'parent'])->findOrFail($task->id);
+        $task = $team->tasks()
+            ->with(['users', 'tags', 'responses', 'responses.user', 'parent', 'incident'])
+            ->findOrFail($task->id);
 
         return new TaskResource($task);
     }

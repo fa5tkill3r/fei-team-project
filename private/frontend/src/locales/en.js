@@ -73,6 +73,7 @@ export default {
     select_parent: 'Select parent',
     no_description: 'No description provided',
     manage_tags: 'Manage tags',
+    incident: 'Incident',
     filter_docs: `Available filters:<br>
                   <ul>
                     <li><b>is</b> - filter by status (e.g. is:open, is:closed)<br></li>
@@ -162,6 +163,7 @@ export default {
         team_info: 'Team info',
       },
     },
+    task: 'Task',
     reporter: 'Reporter',
     reported_at: 'reported {distance}',
     title: 'Title',

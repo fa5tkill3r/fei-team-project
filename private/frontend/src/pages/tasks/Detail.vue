@@ -235,14 +235,14 @@
 
           <div>
             <router-link
-              v-if="task.incident_id"
+              v-if="task.incident"
               :to="{
                 name: 'incident-detail',
                 params: { id: task.incident_id },
               }"
               class="link"
             >
-              {{ task.incident_id }}
+              {{ task.incident.title }}
             </router-link>
             <span v-else>{{ $t('task.no_incident') }}</span>
           </div>
