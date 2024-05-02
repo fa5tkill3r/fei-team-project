@@ -91,9 +91,37 @@
           <div>{{ incident.email }}</div>
         </div>
 
+        <div class="divider my-0"></div>
+
+        <template v-if="incident.task">
+          <div>
+            <span class="text-sm label-text">
+              {{ $t('incidents.task') }}
+            </span>
+
+            <div>
+              <router-link
+                :to="{
+                  name: 'task-detail',
+                  params: { id: incident.task.id },
+                }"
+                class="link"
+              >
+                {{ incident.task.name }}
+              </router-link>
+            </div>
+          </div>
+
+          <div class="divider my-0"></div>
+        </template>
+
         <div>TODO: add additional info</div>
 
-        <button class="btn mt-3" @click="showCreateTask = true">
+        <button
+          v-if="!incident.task"
+          class="btn mt-3"
+          @click="showCreateTask = true"
+        >
           Create task from incident
         </button>
         <button class="btn mt-1" @click="showInfoDialog = true">

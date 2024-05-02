@@ -56,4 +56,14 @@ class Incident extends Model
     {
         return $this->hasMany(IncidentImage::class);
     }
+
+    public function additionalInfo()
+    {
+        return $this->hasOne(AdditionalIncidentInfo::class);
+    }
+
+    public function task()
+    {
+        return $this->hasOne(Task::class);
+    }
 }

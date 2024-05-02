@@ -19,6 +19,11 @@ export interface Team {
   users: User[]
 }
 
+export interface TaskIncident {
+  id: number
+  title: string
+}
+
 export interface Task {
   id: number
   name: string
@@ -35,6 +40,7 @@ export interface Task {
   children: Task[]
   all_users: boolean
   incident_id: number | null
+  incident: TaskIncident | null
 }
 
 export interface TaskRequest {
@@ -72,6 +78,11 @@ export interface Role {
   created_at: string
 }
 
+export interface IncidentTask {
+  id: number
+  name: string
+}
+
 export interface Incident {
   id: number
   title: string
@@ -83,6 +94,7 @@ export interface Incident {
   created_at: string
   updated_at: string
   images: string[]
+  task: IncidentTask | null
 }
 
 export interface IncidentDetail {

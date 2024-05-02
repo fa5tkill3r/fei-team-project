@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\IncidentResource;
 use App\Models\AdditionalIncidentInfo;
 use Illuminate\Http\Request;
 use App\Models\Incident;
 use App\Models\IncidentImage;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 
 class IncidentsController extends Controller
@@ -48,23 +48,18 @@ class IncidentsController extends Controller
             'incident_id' => $incident->id,
         ]);
 
-        return response()->json([
-            'data' => $incident,
-        ]);
+        return new IncidentResource($incident);
     }
 
     public function show($id)
     {
-        $incident = Incident::findOrFail($id);
-        $incident->load('images');
+        $incident = Incident::with(['images', 'task'])->findOrFail($id);
 
         foreach ($incident->images as $i => $image) {
             $incident->images[$i] = $image->url;
         }
 
-        return response()->json([
-            'data' => $incident,
-        ]);
+        return new IncidentResource($incident);
     }
 
     public function update(Request $request, $id)
@@ -72,9 +67,7 @@ class IncidentsController extends Controller
         $incident = Incident::findOrFail($id);
         $incident->update($request->all());
 
-        return response()->json([
-            'data' => $incident,
-        ]);
+        return new IncidentResource($incident);
     }
 
     public function destroy($id)
@@ -82,9 +75,7 @@ class IncidentsController extends Controller
         $incident = Incident::findOrFail($id);
         $incident->delete();
 
-        return response()->json([
-            'data' => $incident,
-        ]);
+        return new IncidentResource($incident);
     }
 
     public function getIncidentsByType($type)

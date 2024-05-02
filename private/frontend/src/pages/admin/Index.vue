@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Select from '@/components/Select.vue'
 import UserSearch from '@/components/UserSearch.vue'
 import Modal from '@/components/ui/Modal.vue'
+import Select from '@/components/ui/Select.vue'
 import UserAvatar from '@/components/ui/UserAvatar.vue'
 import { AlertType, useAlertStore } from '@/stores/alert.ts'
 import { useAuthStore } from '@/stores/auth.ts'

@@ -46,15 +46,12 @@
         <div class="label">
           <span class="label-text">{{ $t('task.severity') }}</span>
         </div>
-        <!-- TODO: add better styles and figure out what values are actually supposed to be here -->
-        <select
-          class="select select-bordered select-sm w-full max-w-xs"
-          v-model="task.severity"
-        >
-          <option>low</option>
-          <option>medium</option>
-          <option>high</option>
-        </select>
+        <!-- TODO: figure out what values are actually supposed to be here -->
+        <Select
+          :list="['low', 'medium', 'high']"
+          :model-value="task.severity"
+          @change="task.severity = $event"
+        ></Select>
       </label>
 
       <div class="divider my-0"></div>
@@ -69,6 +66,10 @@
           v-model="task.deadline"
           :enable-time-picker="false"
           auto-apply
+          dark
+          hide-input-icon
+          input-class-name="input input-sm input-bordered w-full"
+          menu-class-name=""
         />
       </div>
 
@@ -109,6 +110,7 @@ import TagSelector from '@/components/TagSelector.vue'
 import TaskSelector from '@/components/TaskSelector.vue'
 import UserSelector from '@/components/UserSelector.vue'
 import LoadingButton from '@/components/ui/LoadingButton.vue'
+import Select from '@/components/ui/Select.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useTeamStore } from '@/stores/team'
 import { TaskRequest } from '@/types'
@@ -180,3 +182,13 @@ onMounted(() => {
   }
 })
 </script>
+
+<style>
+.dp__theme_dark {
+  --dp-background-color: oklch(var(--b1));
+  --dp-border-radius: 0.5rem;
+  --dp-border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
+  --dp-menu-border-color: var(--dp-border-color);
+  --dp-text-color: oklch(var(--bc));
+}
+</style>
