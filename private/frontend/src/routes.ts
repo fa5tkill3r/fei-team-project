@@ -2,11 +2,6 @@ import { RouteLocationNormalizedLoaded } from 'vue-router'
 import Empty from './layouts/Empty.vue'
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: () => import('./pages/tasks/Index.vue'),
-  },
   // auth
   {
     path: '/register',
@@ -29,6 +24,11 @@ const routes = [
   // tasks
   {
     path: '/tasks',
+    name: 'home',
+    component: () => import('./pages/tasks/Index.vue'),
+  },
+  {
+    path: '/tasks/create',
     name: 'task-create',
     component: () => import('./pages/tasks/CreateEdit.vue'),
   },

@@ -15,7 +15,7 @@ import {
   MoonIcon,
   QuestionMarkCircleIcon,
   ShieldExclamationIcon,
-  SunIcon
+  SunIcon,
 } from '@heroicons/vue/24/outline'
 import { Bars3Icon, PlusIcon } from '@heroicons/vue/24/solid'
 import { ref } from 'vue'
@@ -154,25 +154,37 @@ function logout() {
 
         <div class="p-4">
           <li>
-            <router-link :to="{ name: 'home' }">
+            <router-link
+              :to="{ name: 'home' }"
+              active-class="bg-base-content/10"
+            >
               <BriefcaseIcon class="w-5 h-5" />
               {{ $t('nav.tasks') }}
             </router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'incidents' }">
+            <router-link
+              :to="{ name: 'incidents' }"
+              active-class="bg-base-content/10"
+            >
               <ShieldExclamationIcon class="w-5 h-5" />
               {{ $t('nav.incidents') }}
             </router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'theses' }">
+            <router-link
+              :to="{ name: 'theses' }"
+              active-class="bg-base-content/10"
+            >
               <BeakerIcon class="w-5 h-5" />
               {{ $t('nav.theses') }}
             </router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'library' }">
+            <router-link
+              :to="{ name: 'library' }"
+              active-class="bg-base-content/10"
+            >
               <BookOpenIcon class="w-5 h-5" />
               {{ $t('nav.library') }}
             </router-link>
@@ -185,7 +197,10 @@ function logout() {
             </a>
           </li>
           <li v-if="teamStore.me && teamStore.me!.role.permissions.user_access">
-            <router-link :to="{ name: 'admin' }">
+            <router-link
+              :to="{ name: 'admin' }"
+              active-class="bg-base-content/10"
+            >
               <CogIcon class="w-5 h-5" />
               {{ $t('nav.admin_panel') }}
             </router-link>
