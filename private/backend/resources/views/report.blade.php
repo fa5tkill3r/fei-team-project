@@ -150,8 +150,8 @@
 
         <table>
             <tr>
-                <td >
-                    <div style="text-align: left">
+                <td style="margin-right: 20px" >
+                    <div style="text-align: center">
                         <b>Hlásenie o bezpečnostnom incidente prijal: </b><br><br><br>
                     </div>
 
@@ -165,8 +165,8 @@
                     </div>
                 </td>
 
-                <td>
-                    <div style="text-align: right">
+                <td style="margin-left: 20px">
+                    <div style="text-align: center">
                         <b>Navrhované bezpečnostné opatrenia schválil: </b> <br><br><br>
                     </div>
                     <div style="text-align: center">
