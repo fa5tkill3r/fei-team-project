@@ -82,6 +82,51 @@
             </div>
           </div>
         </div>
+
+        <div class="divider my-4"></div>
+        <div class="grid grid-cols-12 gap-x-4">
+          <div class="col-span-12 lg:col-span-6">
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-semibold"
+                >{{ $t('incidents.reports') }}
+              </span>
+              <button
+                class="btn btn-outline btn-primary ml-2"
+                @click="showIncidentDialog = true"
+              >
+                {{ $t('incidents.add_report') }}
+              </button>
+            </div>
+
+            <div class="mt-5">
+              <div v-for="report in reports" class="mt-2">
+                <IncidentReport :report="report" />
+              </div>
+            </div>
+          </div>
+          <div class="col-span-12 lg:col-span-6">
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-semibold"
+                >{{ $t('incidents.solutions') }}
+              </span>
+              <button
+                class="btn btn-outline btn-error ml-2"
+                @click="showSolutionDialog = true"
+              >
+                {{ $t('incidents.add_solution') }}
+              </button>
+            </div>
+
+            <div class="mt-5">
+              <div v-for="solution in solutions" class="mt-2">
+                <Solution
+                  :solution="solution"
+                  @delete="deleteIncidentSolution"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="col-span-12 lg:col-span-3 text-base-content">
@@ -133,6 +178,14 @@
 
   <BasicTaskCreateDialog v-model="showCreateTask" />
   <IncidentDetailDialog v-model="showInfoDialog" />
+  <IncidentReportDialog
+    v-model="showIncidentDialog"
+    @reload="loadIncidentReports"
+  />
+  <IncidentSolutionDialog
+    v-model="showSolutionDialog"
+    @reload="loadIncidentSolutions"
+  />
 </template>
 
 <script setup lang="ts">
@@ -141,11 +194,15 @@ import IncidentDetailDialog from '@/components/IncidentDetailDialog.vue'
 import PageTitle from '@/components/utils/PageTitle.vue'
 import { useFormatDistance } from '@/composables/useFormatDistance'
 import { useAuthStore } from '@/stores/auth'
-import { Incident } from '@/types'
+import { Incident, IncidentChronologically, IncidentSolution } from '@/types'
 import { DocumentArrowDownIcon } from '@heroicons/vue/24/solid'
 import { onMounted, ref, watch } from 'vue'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import { useRoute } from 'vue-router'
+import IncidentReport from '@/components/IncidentReport.vue'
+import IncidentReportDialog from '@/components/IncidentReportDialog.vue'
+import Solution from '@/components/Solution.vue'
+import IncidentSolutionDialog from '@/components/IncidentSolutionDialog.vue'
 
 const auth = useAuthStore()
 const route = useRoute()
@@ -155,9 +212,14 @@ const formatDistance = useFormatDistance()
 const loading = ref(true)
 const closeLoading = ref(false)
 const showInfoDialog = ref(false)
+const showIncidentDialog = ref(false)
+const showSolutionDialog = ref(false)
 const showCreateTask = ref(false)
 const galleryVisible = ref(false)
 const galleryIndex = ref(0)
+
+const reports = ref<IncidentChronologically[]>([])
+const solutions = ref<IncidentSolution[]>([])
 
 function loadIncident() {
   incident.value = null
@@ -169,6 +231,42 @@ function loadIncident() {
     })
     .finally(() => {
       loading.value = false
+    })
+}
+
+function loadIncidentReports() {
+  return auth.client
+    .get(`incident-chronologically/${route.params.id}`)
+    .json()
+    .then((res: any) => {
+      reports.value = res.data as IncidentChronologically[]
+    })
+}
+
+function loadIncidentSolutions() {
+  return auth.client
+    .get(`incident-solutions/${route.params.id}`)
+    .json()
+    .then((res: any) => {
+      solutions.value = res.data as IncidentSolution[]
+    })
+}
+
+function deleteIncidentSolution(id: number) {
+  return auth.client
+    .delete(`incident-solutions/${route.params.id}/${id}`)
+    .json()
+    .then(() => {
+      loadIncidentSolutions()
+    })
+}
+
+function deleteIncidentReport(id: number) {
+  return auth.client
+    .delete(`incident-chronologically/${route.params.id}/${id}`)
+    .json()
+    .then(() => {
+      loadIncidentReports()
     })
 }
 
@@ -188,5 +286,7 @@ watch(
 
 onMounted(() => {
   loadIncident()
+  loadIncidentReports()
+  loadIncidentSolutions()
 })
 </script>

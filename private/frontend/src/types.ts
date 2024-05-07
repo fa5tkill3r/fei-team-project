@@ -55,6 +55,17 @@ export interface TaskRequest {
   all_users?: boolean
 }
 
+export interface IncidentRequest {
+  title: string
+  description: string
+  name: string
+  surname: string
+  email: string
+  phone_number: string
+  ais_id: string
+  type: string
+}
+
 export interface Tag {
   id: number
   name: string
@@ -122,4 +133,18 @@ export interface IncidentType {
   name: string
   created_at: string
   updated_at: string
+}
+
+export interface IncidentChronologically {
+  id: number | null
+  description: string
+  date: string
+}
+
+export interface IncidentSolution {
+  id: number | null
+  deadline: string
+  description: string
+  name: string
+  name_of_responsible_person: string
 }
