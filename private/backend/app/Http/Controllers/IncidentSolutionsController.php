@@ -24,7 +24,7 @@ class IncidentSolutionsController extends Controller
         $solution = new IncidentSolution();
         $solution->name = $request->name;
         $solution->description = $request->description;
-        $solution->name_of_creator = $request->name_of_creator;
+        $solution->name_of_responsible_person = $request->name_of_responsible_person;
         $solution->deadline = $request->deadline;
         $solution->additional_incident_info_id = $additionalIncidentInfo->id;
         $solution->save();
@@ -48,7 +48,7 @@ class IncidentSolutionsController extends Controller
         $solution = IncidentSolution::where('additional_incident_info_id', $additionalIncidentInfo->id)->where('id', $solutionId)->first();
         $solution->name = $request->name;
         $solution->description = $request->description;
-        $solution->name_of_creator = $request->name_of_creator;
+        $solution->name_of_responsible_person = $request->name_of_responsible_person;
         $solution->deadline = $request->deadline;
         $solution->save();
 
