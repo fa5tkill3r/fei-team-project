@@ -122,3 +122,17 @@ export interface IncidentType {
   created_at: string
   updated_at: string
 }
+
+export interface IncidentChronologically {
+  id: number | null
+  description: string
+  date: string
+}
+
+export interface IncidentSolution {
+  id: number | null
+  deadline: string
+  description: string
+  name: string
+  name_of_responsible_person: string
+}
