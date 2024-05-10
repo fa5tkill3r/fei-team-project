@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Thesis Model
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $description
@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $students_name
  * @property string $tutors
  * @property string $solution
+ *
  */
 class Thesis extends Model
 {

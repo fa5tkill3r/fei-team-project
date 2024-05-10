@@ -5,6 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
+/**
+ *
+ * AdditionalIncidentInfo ModelF
+ *
+ * @property int $id
+ * @property int $incident_id
+ * @property string $recorded_by
+ * @property string $attacked_service
+ * @property string $attack_severity
+ * @property string $attack_description
+ * @property string $predicated_attack_severity
+ * @property string $attack_category
+ * @property string $attack_type
+ * @property string $description_of_damage
+ * @property string $notes
+ * @property string $incident_created_at
+ * @property string $incident_taken_by
+ * @property string $incident_approved_by
+ * @property Incident $incident
+ *
+ */
 class AdditionalIncidentInfo extends Model
 {
     use HasFactory;

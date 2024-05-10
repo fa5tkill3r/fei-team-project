@@ -85,7 +85,7 @@ class Task extends Model
             return 'closed';
         }
 
-        if($this->users()->count() === 0) {
+        if ($this->users()->count() === 0) {
             return 'new';
         }
 

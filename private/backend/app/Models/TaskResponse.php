@@ -7,14 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * TaskResponse Model
- * 
+ *
  * @property int $id
  * @property string $response
  * @property int $user_id
  * @property int $task_id
- * 
- * @method BelongsTo task()
- * @method BelongsTo user()
  */
 class TaskResponse extends Model
 {

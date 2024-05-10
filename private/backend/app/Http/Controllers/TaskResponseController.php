@@ -21,10 +21,10 @@ class TaskResponseController extends Controller
 
     public function index($taskId): AnonymousResourceCollection
     {
-        
+
         $tasks = $this->user->tasks()->findOrFail($taskId);
 
-        $responses = $tasks->responses()->with(['user', 'task'])->get();     
+        $responses = $tasks->responses()->with(['user', 'task'])->get();
 
         return TaskResponseResource::collection($responses);
     }
@@ -36,10 +36,10 @@ class TaskResponseController extends Controller
         $request->merge(['user_id' => $this->user->id]);
         $request->merge(['task_id' => $task->id]);
         $response = $task->responses()->create($request->all());
-        
-        
+
+
         $response->save();
-        
+
         $response = TaskResponse::with(['user', 'task'])->findOrFail($response->id);
 
         return TaskResponseResource::make($response);
@@ -72,7 +72,7 @@ class TaskResponseController extends Controller
         $task = $this->user->tasks()->findOrFail($taskId);
         $response = $task->responses()->findOrFail($responseId);
         $response->delete();
-        
+
         $response->with(['user', 'task']);
 
 

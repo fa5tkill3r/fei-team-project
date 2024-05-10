@@ -20,7 +20,7 @@ class TagController extends Controller
     public function index(): AnonymousResourceCollection
     {
         return TagResource::collection(Tag::all());
-        
+
     }
 
     public function store(Request $request): TagResource

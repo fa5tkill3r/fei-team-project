@@ -36,7 +36,7 @@ class Incident extends Model
         'phone_number',
         'department',
         //TODO: pridat automaticke dopnanie
-        'source'
+        'F'
     ];
 
     protected $rules = [

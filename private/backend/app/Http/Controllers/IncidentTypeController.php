@@ -14,13 +14,13 @@ class IncidentTypeController extends Controller
 
     public function store(Request $request)
     {
-        if(!$request->name) {
+        if (!$request->name) {
             return response()->json(['message' => 'Name is required'], 400);
         }
 
         $user = auth()->user();
 
-        if(!$user?->super_admin) {
+        if (!$user?->super_admin) {
             return response()->json(['message' => 'You do not have permission to create a type'], 403);
         }
 
@@ -35,13 +35,13 @@ class IncidentTypeController extends Controller
     {
         $type = IncidentType::find($id);
 
-        if(!$type) {
+        if (!$type) {
             return response()->json(['message' => 'Type not found'], 404);
         }
 
         $user = auth()->user();
 
-        if(!$user?->super_admin) {
+        if (!$user?->super_admin) {
             return response()->json(['message' => 'You do not have permission to update a type'], 403);
         }
 
@@ -55,13 +55,13 @@ class IncidentTypeController extends Controller
     {
         $type = IncidentType::find($id);
 
-        if(!$type) {
+        if (!$type) {
             return response()->json(['message' => 'Type not found'], 404);
         }
 
         $user = auth()->user();
 
-        if(!$user?->super_admin) {
+        if (!$user?->super_admin) {
             return response()->json(['message' => 'You do not have permission to delete a type'], 403);
         }
 

@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property int $task_id
  *
- * @method BelongsTo task()
- * @method BelongsTo user()
- *
  */
 class TaskComment extends Model
 {

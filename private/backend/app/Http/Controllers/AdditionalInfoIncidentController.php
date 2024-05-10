@@ -12,7 +12,6 @@ class AdditionalInfoIncidentController extends Controller
     {
         $incident = Incident::find($request->incident_id);
 
-
         $additionalInfo = new AdditionalIncidentInfo();
         $additionalInfo->attacked_service = $request->attacked_service;
         $additionalInfo->attack_severity = $request->attack_severity;

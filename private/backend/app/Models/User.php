@@ -20,6 +20,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property string $remember_token
  * @property string $remember_token_expires_at
  * @property boolean $super_admin
+ * @property string $titles_before
+ * @property string $titles_after
+ *
  */
 class User extends Authenticatable implements JWTSubject
 {

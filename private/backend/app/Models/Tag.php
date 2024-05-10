@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Tag Model
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $color

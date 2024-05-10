@@ -19,8 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $user_remove
  * @property boolean $team_info
  *
- * @method BelongsToMany users()
- * @method BelongsToMany teams()
  */
 class Role extends Model
 {
@@ -37,7 +35,7 @@ class Role extends Model
         'user_remove',
         'team_info',
     ];
-   protected $casts = [
+    protected $casts = [
         'task_access' => 'boolean',
         'task_create' => 'boolean',
         'task_delete' => 'boolean',
