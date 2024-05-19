@@ -261,15 +261,6 @@ function deleteIncidentSolution(id: number) {
     })
 }
 
-function deleteIncidentReport(id: number) {
-  return auth.client
-    .delete(`incident-chronologically/${route.params.id}/${id}`)
-    .json()
-    .then(() => {
-      loadIncidentReports()
-    })
-}
-
 function showImage(index: number) {
   galleryIndex.value = index
   galleryVisible.value = true

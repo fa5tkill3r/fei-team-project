@@ -140,6 +140,21 @@ export default {
     incident_types: 'Incident types',
     delete_category: "Are you sure you want to delete the category '{0}'?",
     create_category: 'Create category',
+    roles: {
+      add: 'Add role',
+      name: 'Role name',
+      roles: 'Roles',
+      assigned_permissions: 'Assigned permissions',
+      permissions: {
+        task_access: 'Task access',
+        task_create: 'Task creation',
+        task_delete: 'Task deletion',
+        user_access: 'User access',
+        user_add: 'User creation',
+        user_remove: 'User deletion',
+        team_info: 'Team info',
+      }
+    }
   },
   incidents: {
     filter: {

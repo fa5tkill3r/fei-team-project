@@ -75,9 +75,9 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import { onMounted, defineModel, ref, computed } from 'vue'
+import { defineModel, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { IncidentChronologically, IncidentSolution } from '@/types'
+import { IncidentSolution } from '@/types'
 import Modal from './ui/Modal.vue'
 import DatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'

@@ -34,7 +34,7 @@
           <div class="label">
             <span class="label-text">Typ incidentu</span>
           </div>
-          <combobox
+          <Combobox
             v-model="incident.type"
             :options="incidentTypes.map((i) => ( i ))"
             placeholder="Vyber typ incidentu"
@@ -102,6 +102,7 @@
               class="input input-bordered w-full"
             />
           </label>
+
           <label class="form-control w-full">
             <div class="label">
               <span class="label-text">Telefonne cislo:</span>
@@ -190,19 +191,14 @@
   </template>
 
   <script setup lang="ts">
-  import TagSelector from '@/components/TagSelector.vue'
-  import TaskSelector from '@/components/TaskSelector.vue'
-  import UserSelector from '@/components/UserSelector.vue'
   import LoadingButton from '@/components/ui/LoadingButton.vue'
   import { useAuthStore } from '@/stores/auth'
   import { useTeamStore } from '@/stores/team'
-  import { IncidentRequest, TaskRequest } from '@/types'
-  import DatePicker from '@vuepic/vue-datepicker'
+  import { IncidentRequest } from '@/types'
   import { onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
 
   import '@vuepic/vue-datepicker/dist/main.css'
-  import Combobox from '@/components/ui/Combobox.vue'
 
   const { edit, id } = defineProps<{ edit?: boolean; id?: number }>()
   const router = useRouter()
@@ -234,17 +230,18 @@
   function loadTask() {
     initialLoading.value = true
     auth.client
-      .get(`tasks/${team.current?.id}/${id}`)
+      .get(`incident/${team.current?.id}/${id}`)
       .json()
       .then((res: any) => {
-        task.value = {
-          name: res.data.name,
+        incident.value = {
+          title: res.data.title,
           description: res.data.description,
-          severity: res.data.severity,
-          deadline: res.data.deadline,
-          users: res.data.users.map((u: any) => u.id),
-          tags: res.data.tags.map((t: any) => t.id),
-          parent: res.data.parent?.id,
+          type: res.data.type,
+          name: res.data.name,
+          surname: res.data.surname,
+          ais_id: res.data.ais_id,
+          email: res.data.email,
+          phone_number: res.data.phone_number,
         }
       })
       .finally(() => {

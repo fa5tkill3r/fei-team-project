@@ -11,7 +11,7 @@ const props = defineProps<{
 const formatDistance = useFormatDistance()
 const report = computed(() => props.report)
 const deleteLoading = ref(false)
-const editLoading = ref(false)
+// const editLoading = ref(false) // TODO: Implement edit functionality
 const edit = ref<boolean>(false)
 
 const emit = defineEmits<{
@@ -24,10 +24,10 @@ function deleteReport() {
   emit('delete', report.value.id!!)
 }
 
-function editComment() {
+//function editComment() { TODO: Implement edit functionality
   // editLoading.value = true
   // emit('editComment', { id: report.value.id, text: editText.value })
-}
+//}
 </script>
 
 <template v-if="report">

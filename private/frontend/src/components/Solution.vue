@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const solution = computed(() => props.solution)
 const deleteLoading = ref(false)
-const editLoading = ref(false)
+// const editLoading = ref(false) TODO: Implement edit functionality
 const edit = ref<boolean>(false)
 
 const emit = defineEmits<{
@@ -22,10 +22,11 @@ function deleteSolution() {
   emit('delete', solution.value.id!)
 }
 
-function editComment() {
+// TODO: Implement edit functionality
+//function editComment() {
   // editLoading.value = true
   // emit('editComment', { id: incidentCh.value.id, text: editText.value })
-}
+// }
 </script>
 
 <template v-if="incidentCh">
