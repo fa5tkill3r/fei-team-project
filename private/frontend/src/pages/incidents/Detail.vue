@@ -17,7 +17,7 @@
 
         <div>
           <a
-            :href="`http://localhost:8000/api/generate-pdf/${incident.id}`"
+            :href="`http://localhost:8090/api/generate-pdf/${incident.id}`"
             class="btn btn-sm btn-ghost btn-square"
           >
             <DocumentArrowDownIcon class="w-5 h-5" />

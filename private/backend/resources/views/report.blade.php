@@ -171,10 +171,10 @@
                     </div>
                     <div style="text-align: center">
                     ............................................<br>
-                        {{ $approver->titles_before }}
-                        {{ $approver->first_name }}
-                        {{ $approver->last_name }}
-                        {{ $approver->titles_after }}
+                        {{ $approver?->titles_before }}
+                        {{ $approver?->first_name }}
+                        {{ $approver?->last_name }}
+                        {{ $approver?->titles_after }}
                     </div>
 
                 </td>

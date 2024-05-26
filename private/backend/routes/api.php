@@ -578,4 +578,4 @@ Route::group([
  *
  * @endpoint /api/generate-pdf/{incidentId}
  */
-Route::get('generate-pdf/{incidentId}', IncidentReportPDFGenerator::class . '@generatePDF')->middleware('auth');
+Route::get('generate-pdf/{incidentId}', IncidentReportPDFGenerator::class . '@generatePDF');
