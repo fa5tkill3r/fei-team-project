@@ -97,6 +97,8 @@ export default {
       update: 'Update comment',
       edit: 'Edit',
       delete: 'Delete',
+      in_report: 'In report',
+      not_in_report: 'Not in report',
     },
     editing: 'Editing task {task}',
     new: 'New task',

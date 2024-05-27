@@ -14,6 +14,7 @@ class TaskCommentResource extends JsonResource
             'user' => UserResource::make($this->whenLoaded('user')),
             'comment' => $this->comment,
             'created_at' => $this->created_at,
+            'show_in_report' => $this->show_in_report,
         ];
     }
 }
