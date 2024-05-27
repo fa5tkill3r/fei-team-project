@@ -202,5 +202,6 @@ export default {
     solution_deadline: 'Solution deadline',
     responsible_person: 'Responsible person',
     responsible_person_placeholder: 'Name of responsible person',
+    approve: 'Approve incident',
   },
 }

@@ -15,9 +15,10 @@
           </h1>
         </div>
 
-        <div>
+        <div
+          v-if='incidentAdditionalInfo.incident_approved_by !== null'>
           <a
-            :href="`http://localhost:8090/api/generate-pdf/${incident.id}`"
+            @click="downloadIncident"
             class="btn btn-sm btn-ghost btn-square"
           >
             <DocumentArrowDownIcon class="w-5 h-5" />
@@ -172,6 +173,14 @@
         <button class="btn mt-1" @click="showInfoDialog = true">
           Add info
         </button>
+        <button
+          v-if="incident.task"
+          class="btn mt-1 btn-success"
+          @click="approveIncident"
+          :disabled='incidentAdditionalInfo.incident_approved_by !== null'
+        >
+          {{ $t('incidents.approve') }}
+        </button>
       </div>
     </div>
   </div>
@@ -217,6 +226,7 @@ const showSolutionDialog = ref(false)
 const showCreateTask = ref(false)
 const galleryVisible = ref(false)
 const galleryIndex = ref(0)
+const incidentAdditionalInfo = ref<any>(null)
 
 const reports = ref<IncidentChronologically[]>([])
 const solutions = ref<IncidentSolution[]>([])
@@ -231,6 +241,43 @@ function loadIncident() {
     })
     .finally(() => {
       loading.value = false
+    })
+}
+
+function approveIncident() {
+  closeLoading.value = true
+  auth.client
+    .put({ incident_approved_by: auth.user?.id }, `incident-info/${route.params.id}`)
+    .json()
+    .then(() => {
+      loadIncident()
+      loadIncidentDetail()
+    })
+    .finally(() => {
+      closeLoading.value = false
+    })
+}
+
+function downloadIncident() {
+  auth.client
+    .get(`generate-pdf/${route.params.id}`)
+    .blob()
+    .then((res: any) => {
+      const url = window.URL.createObjectURL(new Blob([res]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `incident.pdf`)
+      document.body.appendChild(link)
+      link.click()
+    })
+}
+
+function loadIncidentDetail() {
+  return auth.client
+    .get(`incident-info/${route.params.id}`)
+    .json()
+    .then((res: any) => {
+      incidentAdditionalInfo.value = res.data
     })
 }
 
@@ -277,6 +324,7 @@ watch(
 
 onMounted(() => {
   loadIncident()
+  loadIncidentDetail()
   loadIncidentReports()
   loadIncidentSolutions()
 })
